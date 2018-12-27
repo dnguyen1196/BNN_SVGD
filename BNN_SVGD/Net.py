@@ -29,3 +29,92 @@ class BasicNet(nn.Module):
             result = activation(layer_transform(result))
         return result
 
+
+"""
+LeNET
+
+Note that this architecture is specific to CIFAR-10 datasets
+
+"""
+class Cifar10LeNet(nn.Module):
+    def __init__(self):
+        super(Cifar10LeNet, self).__init__()
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.fc1   = nn.Linear(16*5*5, 120)
+        self.fc2   = nn.Linear(120, 84)
+        self.fc3   = nn.Linear(84, 10)
+
+    def forward(self, x):
+        out = F.relu(self.conv1(x))
+        out = F.max_pool2d(out, 2)
+        out = F.relu(self.conv2(out))
+        out = F.max_pool2d(out, 2)
+        out = out.view(out.size(0), -1)
+        out = F.relu(self.fc1(out))
+        out = F.relu(self.fc2(out))
+        out = self.fc3(out)
+        return out
+
+
+"""
+MnistNet
+"""
+class MnistCovNet(nn.Module):
+    def __init__(self):
+        super(MnistCovNet, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5, 1)
+        self.conv2 = nn.Conv2d(20, 50, 5, 1)
+        self.fc1 = nn.Linear(4*4*50, 500)
+        self.fc2 = nn.Linear(500, 10)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        x = F.max_pool2d(x, 2, 2)
+        x = F.relu(self.conv2(x))
+        x = F.max_pool2d(x, 2, 2)
+        x = x.view(-1, 4*4*50)
+        x = F.relu(self.fc1(x))
+        x = self.fc2(x)
+        return F.log_softmax(x, dim=1)
+
+
+# Convolutional neural network (two convolutional layers)
+class ConvNet(nn.Module):
+    def __init__(self, num_classes=10):
+        super(ConvNet, self).__init__()
+
+        # Original image is 28 x 28
+
+        self.layer1 = nn.Sequential(
+            nn.Conv2d(in_channels=1, out_channels=16, kernel_size=5, stride=1, padding=2), 
+            # Use 16 filters, which gives (28 x 28 x 16)
+            nn.BatchNorm2d(num_features=16),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2)) # Max pooling, then we get (14, 14, 16)
+
+
+        self.layer2 = nn.Sequential(
+            nn.Conv2d(in_channels=16, out_channels=32, kernel_size=5, stride=1, padding=2),
+            # This gets us (14, 14, 32)
+            nn.BatchNorm2d(num_features=32),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2)) # This gets us (7,7,32)
+
+        self.drop_out = nn.Dropout()
+
+        self.fc1 = nn.Linear(7 * 7 * 32, 512) 
+        # why 7 * 7 -> this is specific to MNIST dataset? 28 by 28  and there are 2 convo layer
+        # so the size gets reduced to just 7 x 7 and 32 channels so overall with 7**2 * 32
+        self.fc2 = nn.Linear(512, num_classes)
+
+        
+    def forward(self, x):
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out = out.reshape(out.size(0), -1) # Before feeding into the nn layer, squeeze
+        # out = self.drop_out(out)
+        out = self.fc1(out)
+        out = self.fc2(out)
+        return out
+

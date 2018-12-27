@@ -1,95 +1,86 @@
 import torch
 from torch.autograd import grad, backward
 from torch.nn import ModuleList
-from .Net import BasicNet
+from .Net import *
 from torch.autograd import Variable
 import torch.nn.functional as F
 import copy
 
 class BNN_SVGD(torch.nn.Module):
-    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32]):
-        super().__init__()
-        self.num_nn = num_networks
-        self.nn_arch = network_structure
-        self.nns = ModuleList()
-
-        # Initialize all the neural networks
-        for _ in range(num_networks):
-            zi = BasicNet(x_dim, y_dim, network_structure)
-            for i, layer in enumerate(zi.nn_params):
-                layer.weight.requires_grad_(True)
-                layer.bias.requires_grad_(True)
-
-            self.nns.append(zi)
-
-    def optimize(self, X_train, y_train):
+    def __init__(self):
         """
-        :param X_train:
-        :param y_train:
+        Args
+
+        x_dim : dimension of the input
+        y_dim : dimension of the output
+        num_networks : number of neural networks
+
+        ----
+        Returns
+
+        """
+        super().__init__()
+
+    def optimize_loss_step(self, X_train, y_train, max_iterations=1000, report=100):
+        """
+        X_train:
+        y_train:
+        max_iterations
 
         ---
-        :return:
 
-        Perform the following update
-        z_i <- z_i + lr * phi(z_i)
+        Use a computation trick where we define a batch loss function
+        whose derivative gives the update formula required for SVGD
 
-        where phi(z_i) = 1/n sum_z( k(z_i, z) * d/dz_i log p(z_i|X, Y) + d/dzi k(z_i, z))
-
-        -> Need the pair wise kernelized discrepancies
-        -> Need the derivative of the kernelized discrepancies
-        -> Need the derivative for each NN
         """
-        # Compute all the phi(zi)
-        max_iterations = 2000
-        eps = 0.1
+        optimizer  = optim.SGD(self.parameters(), lr=0.001, momentum=0.9, nesterov=True)
+        # optimizer = optim.Adagrad(self.parameters())
+
+        energies   = list()
+        start_time = time.time()
+
         for iteration in range(max_iterations):
-            self.do_one_iteration(X_train, y_train, eps)
-
-            if iteration in [0, 1, 10, 25, 50] or iteration % 100 == 0:
+            if iteration in [0, 10, 25, 50] or iteration % report == 0:
                 mse = self.evaluate(X_train, y_train)
-                print("iter: ", iteration, " - mse: ", mse)
+                print("iter: ", iteration, " - mse: ", mse.data.cpu().numpy(), " - time: ", time.time()-start_time)
 
-    def do_one_iteration(self, X_train, y_train, eps):
-        phi_zi_arr = list()
-        # Compute all the phi_zi
-        for i, zi in enumerate(self.nns):
-            phi_zi = self.phi_zi_compute(zi, X_train, y_train)
-            phi_zi_arr.append(phi_zi)
+            current_energies = self.energies_compute(X_train, y_train)
+            energies.append(current_energies)
 
-        # Update the zi
-        for i, zi in enumerate(self.nns):
-            update = self.nn_scale(phi_zi_arr[i], eps)
-            self.update_zi(zi, update)
+            optimizer.zero_grad()
+            loss = self.loss(X_train, y_train)
+            loss.backward()
+            optimizer.step()
 
-    def phi_zi_compute(self, zi, X, y):
+        # Returns the energy tracking
+        return energies
+
+    def loss(self, X, y):
         """
-        :param zi:
+
+        :param X:
+        :param y:
+        -----
         :return:
+
+        Use trick to implicitly let pytorch do the heavy work of gradient computatin and update
+
+        phi(zi) = 1/n  sum [ k(zi, zj) d/dzi log p(zi|X, y) + d/dzi k(zi, zj) ]
+
+        So we create a loss function that is
+        L(zi) = 1/n  sum [ k(zi, zj) log p(zi|X, y) + k(zi, zj) ]
+        And detach the gradient from the first k(zi, zj) term
         """
-        # Compute phi_zi
-        #
-        if self.num_nn == 1:
-            # TODO: MAP estimate when num_nn = 1
-            return
-        else:
-            phi_zi = None
-
-            for i in range(1, len(self.nns)):
-                z = self.nns[i]
-                kd    = self.pair_wise_kernel_discrepancy_compute(zi, z)
-                dlogp = self.derivative_log_posterior_compute(zi, X, y)
-                dkd   = self.derivative_kernel_discrepancy_compute(zi, z)
-                term1 = self.nn_scale(dlogp, kd)
-                if phi_zi is None:
-                    phi_zi = self.two_nns_add(term1, dkd)
-                    phi_zi = self.nn_scale(phi_zi, 1./self.num_nn)
-                else:
-                    update = self.two_nns_add(term1, dkd)
-                    update = self.nn_scale(update, 1./self.num_nn)
-                    phi_zi = self.two_nns_add(phi_zi, update)
-
-            return phi_zi
-
+        loss = 0.
+        for zi in self.nns:
+            for zj in self.nns:
+                log_ll = self.log_likelihood_compute(zj, X, y)
+                log_prior = self.log_prior_compute(zj)
+                kernel_term1 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
+                kernel_term2 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
+                kernel_term1.detach()  # Detach from gradient graph
+                loss += 1 / self.num_nn * (kernel_term1 * (log_prior + log_ll) + kernel_term2)
+        return -loss
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
         """
@@ -101,93 +92,38 @@ class BNN_SVGD(torch.nn.Module):
         The kernelized discrepancy between two neural networks
         z1 and z2 must have the same architecture
         """
-        sigma  = 1. # parameter of RBF kernel
         norm_diff = 0.
         for i in range(len(z1.nn_params)):
-            norm_diff += torch.sum(-(z1.nn_params[i].weight - z2.nn_params[i].weight)**2/(2*sigma))
-            norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias)**2/(2*sigma))
+            norm_diff += torch.sum(-(z1.nn_params[i].weight - z2.nn_params[i].weight) ** 2 / (2 * self.rbf_sigma))
+            norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma))
         kd = torch.exp(norm_diff)
         return kd
 
-    def derivative_kernel_discrepancy_compute(self, zi, z):
+    def energies_compute(self, X_train, y_train):
         """
-        Compute the derivative pf the kernelized discrepancy with respect to neural
-        network denoted as zi
-        :param zi:
-        :param z:
-        :return:
-
-        Calls function to compute pair wise kernel discrepancy
-        Then use ptorch autograd to compute gradient wrt zi
-        """
-        zi.zero_grad()
-        kd = self.pair_wise_kernel_discrepancy_compute(zi, z)
-        derivative_kd = grad(kd, zi.parameters(), allow_unused=True) # Compute the gradient of k(zi, z) wrt zi
-        return derivative_kd
-
-    def derivative_log_posterior_compute(self, zi, X, y):
-        """
-        Compute the derivative of the posterior with respect to neural network zi
-        :param zi:
-        :param X
-        :param y
-        ----
 
         :return:
 
-        p(z|X, y) ~ p(y|X, z)p(z)
-        lg p(z|X,y) ~ lg p(y|X,z) + lg p(z)
-        d/dz lg p(z|X,y) = d/dz lg p(y|X,z) + d/dz lg p(z)
+        Compute the energies of the BNNs
         """
-        zi.zero_grad()
-        # Compute the log likelihood and the
-        log_likelihood = self.log_likelihood_compute(zi, X, y)
-        derivative_lg_likelihood = grad(log_likelihood, zi.parameters())
+        energies = np.zeros((self.num_nn,))
+        for i, zi in enumerate(self.nns):
+            energies[i] = self.calc_potential_energy(zi, X_train, y_train)
+        return energies
 
-        # nn_params = list(zi.nn_params.parameters())
-        # log_prior = self.log_prior_compute_params(nn_params)
-        # derivative_lg_prior = grad(log_prior, nn_params)
-        log_prior = self.log_prior_compute(zi)
-        derivative_lg_prior = grad(log_prior, zi.parameters())
-
-        derivative_lg_posterior = self.two_nns_add(derivative_lg_prior, derivative_lg_prior)
-        return derivative_lg_posterior
-
-    def two_nns_add(self, z1, z2):
-        z = list()
-        for i in range(len(z1)):
-            res = z1[i] + z2[i]
-            z.append(res)
-        return z
-
-    def nn_scale(self, z, m):
-        for i in range(len(z)):
-            z[i] *= m
-        return z
-
-    def update_zi(self, zi, update):
-        for i in range(len(update)):
-            update_layer = update[i]
-            nn_layer = zi.nn_params[int(i/2)]
-            if i % 2 == 0:
-                nn_layer.weight.data.add_(update_layer)
-            else:
-                nn_layer.bias.data.add_(update_layer)
-
-    def log_prior_compute_params(self, nn_params):
+    def calc_potential_energy(self, bnn, X_train, y_train):
         """
-        Compute derivative of prior with respect to neural network zi
-        :param nn_params:
+
+        :param bnn:
         :return:
+        The potential energy of the system
+
+        Potential energy = -log(posterior) ~~ C * ( log p(y|z) + log p(z) )
         """
-        lp = 0.
-        sigma = 1
-        for i in range(len(nn_params)):
-            wi = Variable(zi.nn_params[i].weight.data)
-            bi = Variable(zi.nn_params[i].bias.data)
-            lp += -0.5 * torch.sum((nn_params[i].data**2))/sigma
-            lp += -0.5 * torch.sum((nn_params[i].data**2))/sigma
-        return lp
+        log_prior = self.log_prior_compute(bnn)
+        log_likelihood = self.log_likelihood_compute(bnn, X_train, y_train)
+        return -log_prior - log_likelihood
+
 
     def log_prior_compute(self, zi):
         """
@@ -198,11 +134,8 @@ class BNN_SVGD(torch.nn.Module):
         lp = 0.
         sigma = 1
         for i in range(len(zi.nn_params)):
-            # wi = zi.nn_params[i].weight
-            # print(wi.requires_grad)
-            # bi = zi.nn_params[i].bias
-            lp += -0.5 * torch.sum((zi.nn_params[i].weight**2))/sigma
-            lp += -0.5 * torch.sum((zi.nn_params[i].bias**2))/sigma
+            lp += -0.5 * torch.sum((zi.nn_params[i].weight ** 2)) / self.p_sigma
+            lp += -0.5 * torch.sum((zi.nn_params[i].bias ** 2)) / self.p_sigma
         return lp
 
     def log_likelihood_compute(self, zi, X, y):
@@ -213,11 +146,125 @@ class BNN_SVGD(torch.nn.Module):
         """
         sigma = 1.
         yhat = zi.forward(X)
-        ll = -0.5 * torch.sum((y - yhat)**2)/sigma
-        return  ll
+        ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma
+        return ll
 
     def evaluate(self, X_train, y_train):
-        y_hat = torch.ones(y_train.size())
+        y_hat = torch.zeros(y_train.size())
         for i, zi in enumerate(self.nns):
-            y_hat += zi.forward(X_train) * 1/self.num_nn
-        return F.mse_loss(y_hat, y_train)
+            y_hat += zi.forward(X_train) / self.num_nn
+        return torch.mean((y_hat - y_train) ** 2)
+
+    def predict(self, X_test):
+        ys_prediction = list()
+
+        for i in range(len(self.nns)):
+            zi = self.nns[i]
+            ys_prediction.append(zi.forward(X_test))
+
+        return ys_prediction
+
+
+class FC_SVGD(BNN_SVGD):
+    def __init__(x_dim, y_dim, num_networks=16, network_structure=[32]):
+        super(FC_SVGD, self).__init__()
+
+        self.num_nn = num_networks
+        self.nn_arch = network_structure
+        self.nns = ModuleList()
+
+        # Initialize all the neural networks
+        for _ in range(num_networks):
+            zi = BasicNet(x_dim, y_dim, network_structure)
+            # for i, layer in enumerate(zi.nn_params):
+            #     layer.weight.requires_grad_(True)
+            #     layer.bias.requires_grad_(True)
+
+            self.nns.append(zi)
+
+        self.ll_sigma = 1 ** 2
+        self.p_sigma = 1 ** 2
+        self.rbf_sigma = 1 ** 2
+
+
+class CovNet_SVGD(BNN_SVGD):
+    def __init__(self, image_set, num_networks=10):
+        """
+        TODO: make sure that this works on different image_set (CIFAR-10, MNIST)
+        """
+        super(CovNet_SVGD, self).__init__()
+        self.num_nn = num_networks
+        self.nns = ModuleList()
+        self.image_set = image_set
+
+        # Initialize all the neural networks
+        for _ in range(num_networks):
+            if image_set == "MNIST":
+                zi = MnistCovNet()
+            elif image_set == "CIFAR-10":
+                zi = Cifar10LeNet()
+            self.nns.append(zi)
+
+        self.ll_sigma = 1 ** 2
+        self.p_sigma = 1 ** 2
+        self.rbf_sigma = 1 ** 2
+
+
+    def pair_wise_kernel_discrepancy_compute(self, z1, z2):
+        """
+        Compute the pair wise kernel discepancy between z1 and z2
+        :param z1: a Basic Neural net
+        :param z2: a Basic Neural net
+        :return:
+
+        The kernelized discrepancy between two neural networks
+        z1 and z2 must have the same architecture
+        
+        MNIST net
+        self.fc1 = nn.Linear(4*4*50, 500)
+        self.fc2 = nn.Linear(500, 10)
+        """
+        norm_diff = 0.
+        # for i in range(len(z1.nn_params)):
+        # for i, layer in enumerate([z1.fc1, z1.fc2]):
+        #     norm_diff += torch.sum(-(layer.weight - z2.nn_params[i].weight) ** 2 / (2 * self.rbf_sigma))
+        #     norm_diff += torch.sum(-(layer.bias   - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma))
+        if self.image_set == "MNIST":
+            norm_diff += torch.sum(-(z1.fc1.weight - z2.fc1.weight) ** 2 / (2 * self.rbf_sigma))
+            norm_diff += torch.sum(-(z1.fc1.bias   - z2.fc1.bias) ** 2 / (2 * self.rbf_sigma))
+            norm_diff += torch.sum(-(z1.fc2.weight - z2.fc2.weight) ** 2 / (2 * self.rbf_sigma))
+            norm_diff += torch.sum(-(z1.fc2.bias   - z2.fc2.bias) ** 2 / (2 * self.rbf_sigma)) 
+
+        kd = torch.exp(norm_diff)
+        return kd
+
+
+    def log_prior_compute(self, bnn):
+        """
+        :param bnn:
+        :return:
+        
+        MNIST net
+        self.fc1 = nn.Linear(4*4*50, 500)
+        self.fc2 = nn.Linear(500, 10)
+        """
+        lp = 0.
+        nn_params = bnn.nn_params
+        if self.image_set == "MNIST":
+            for layer in [bnn.fc1, bnn.fc2]:
+                lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma
+                lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma
+                
+        return lp
+
+
+    def log_likelihood_compute(self, zi, X, y):
+        """
+        Compute the derivative of the log likelihood with respect to neural network zi
+        :param zi:
+        :return:
+        """
+        sigma = 1.
+        yhat = zi.forward(X)
+        ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma
+        return ll
