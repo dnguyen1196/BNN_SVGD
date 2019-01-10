@@ -21,6 +21,8 @@ from torchvision import datasets, transforms
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 best_acc = 0  # best test accuracy
 start_epoch = 0  # start from epoch 0 or last checkpoint epoch
+batch_size = 128
+num_classes = 10
 
 # Data
 print('==> Preparing data..')
@@ -31,14 +33,14 @@ train_loader = torch.utils.data.DataLoader(
                        transforms.ToTensor(),
                        transforms.Normalize((0.1307,), (0.3081,))
                    ])),
-    batch_size=128, shuffle=True)
+    batch_size=batch_size, shuffle=True)
 
 test_loader = torch.utils.data.DataLoader(
     datasets.MNIST('./data', train=False, transform=transforms.Compose([
                        transforms.ToTensor(),
                        transforms.Normalize((0.1307,), (0.3081,))
                    ])),
-    batch_size=128, shuffle=False)
+    batch_size=batch_size, shuffle=False)
 
 
 
@@ -60,19 +62,93 @@ def train(epoch, optimizer, model, train_loader, device):
 
         break
 
+num_networks = 10
+model = CovNet_SVGD(image_set="MNIST", num_networks=num_networks)
+# optimizer = optim.Adagrad(model.parameters(), lr=1)
+optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
-model = CovNet_SVGD(image_set="MNIST", num_networks=1)
-optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=False)
 
 
-# for batch_idx, (data, target) in enumerate(train_loader):
-#     X, y = data.to(device), target.to(device)
-#     preds = model.predict(X)
 
-#     print(preds)
-#     break
+count = 1
 
-# for epoch in range(start_epoch, start_epoch+200):
-#     train(epoch, optimizer, model, train_loader, device)
+def train(model, optimizer, train_loader, device):
+    total_loss = 0.
+    num_batches = 0
+    count = 0
+    correct = 0
+    total = 0
 
-#     break
+    for batch_idx, (data, target) in enumerate(train_loader):
+        X, y = data.to(device), target.to(device)
+
+        y_onehot = torch.FloatTensor(y.shape[0], num_classes)
+        y_onehot.zero_()
+        y_onehot.scatter_(1, y.view(-1,1), 1.)
+
+        # print(X.shape)
+        # print(y.shape)
+        optimizer.zero_grad()
+
+        loss = model.loss(X, y_onehot)
+        loss.backward()
+        outputs = model.predict_average(X)
+
+        optimizer.step()
+
+        total_loss += loss
+        num_batches += 1
+
+        _, predicted = outputs.max(1)
+        total += y.size(0)
+        correct += predicted.eq(y).sum().item()
+
+        count += 1
+        # if loss > 10000:
+        #     print(loss)
+
+    return total_loss/num_batches, correct/total
+
+
+def test(model, optimizer, train_loader, device):
+    total_loss = 0.
+    num_batches = 0
+    count = 0
+    correct = 0
+    total = 0
+
+    with torch.no_grad():
+        for batch_idx, (data, target) in enumerate(train_loader):
+            X, y = data.to(device), target.to(device)
+
+            y_onehot = torch.FloatTensor(y.shape[0], num_classes)
+            y_onehot.zero_()
+            y_onehot.scatter_(1, y.view(-1,1), 1.)
+
+            loss = model.loss(X, y_onehot)
+            outputs = model.predict_average(X)
+
+            total_loss += loss
+            num_batches += 1
+
+            _, predicted = outputs.max(1)
+            total += y.size(0)
+            correct += predicted.eq(y).sum().item()
+
+            count += 1
+            # if loss > 10000:
+            #     print(loss)
+
+    return total_loss/num_batches, correct/total
+
+
+avg_loss_test, accuracy_test = test(model, optimizer, test_loader, device)
+print("Init: test-avg-loss = {}, test-accuracy = {}"\
+        .format(avg_loss_test, accuracy_test))
+
+for epoch in range(200):
+    avg_loss_train, accuracy_train = train(model, optimizer, train_loader, device)
+    # break
+    avg_loss_test, accuracy_test = test(model, optimizer, test_loader, device)
+    print("epoch {}, train-avg-loss = {}, train-accuracy = {}, test-avg-loss = {}, test-accuracy = {}"\
+        .format(epoch, avg_loss_train, accuracy_train, avg_loss_test, accuracy_test))
