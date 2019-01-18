@@ -15,7 +15,10 @@ class MultiModalDistribution():
 			assert(np.shape(v) == (D,))
 
 		for c in covs: # make sure that all covariance matrices are D x D
-			assert(np.shape(c) == (D, D))
+			if D == 1:
+				assert(np.shape(c) == (1,))
+			else:
+				assert(np.shape(c) == (D, D))
 
 		assert(np.sum(ps) == 1.) # Assert that probabilities sum to 1.
 
@@ -33,27 +36,36 @@ class MultiModalDistribution():
 
 			m = self.means[idx]
 			S = self.covs[idx]
-			samples.append(np.random.multivariate_normal(m, S))
+			if self.D == 1:
+				samples.append(np.random.normal(m, S))
+			else:
+				samples.append(np.random.multivariate_normal(m, S))
 
 		return np.asarray(samples)
 
 
-def generate_data():
-	means = [np.asarray([0,0]), np.asarray([1,1])]
-	covs  = [np.asarray([[.1,0],[0,.1]]), np.asarray([[.1,0],[0,.1]])]
-	probs = np.asarray([0.8, 0.2])
+def generate_data(probs, means, covs):
+	probs = np.asarray(probs)
 	dist = MultiModalDistribution(means, covs, probs)
+	D = dist.D
 
-	N = 100
-
-	Xs = np.random.multivariate_normal(np.asarray([0,0]), np.asarray([[1,0],[0,1]]), size=N)
+	N = 1000
+	if D == 1:
+		# Xs = np.random.normal(0, 1, size=N)
+		Xs = np.linspace(-3, 3, N)
+	else:
+		Xs = np.random.multivariate_normal(np.asarray([0,0]), np.asarray([[1,0],[0,1]]), size=N)
+	
 	theta = dist.sample(N)
-
 	ys = np.zeros((N,))
 
 	for i in range(N):
-		x = Xs[i, :]
-		z = theta[i, :]
+		if D == 1:
+			x = Xs[i]
+			z = theta[i]
+		else:
+			x = Xs[i, :]
+			z = theta[i, :]
 		ys[i] = np.dot(x, z)
 
 	return Xs, ys, theta
@@ -78,38 +90,64 @@ class SyntheticLoader:
 	    	res = None
 	    	if self.it + self.batch_size < len(self.ys):
 	    		res = self.Xs[self.it : self.L, :], self.ys[self.it : self.L]
+	    		# res = self.Xs[self.it : self.L], self.ys[self.it : self.L]
 	    	else:
 	    		res = self.Xs[self.it : self.it + self.batch_size, :],  self.ys[self.it : self.it + self.batch_size]
+	    		# res = self.Xs[self.it : self.it + self.batch_size],  self.ys[self.it : self.it + self.batch_size]
 	    	self.it += self.batch_size
 	    	return res
 
+"""
+Generate synthetic data
+"""
 
-Xs, ys, zs = generate_data()
-
-N = np.size(Xs, axis=0)
-train_ratio = 0.8
-
-N_train = int(N * train_ratio)
-
-Xs_train = Xs[:N_train, :]
-ys_train = ys[:N_train]
-
-Xs_test = Xs[N_train : , :]
-ys_test = ys[N_train : ]
-
+probs = [0.6, 0.4]
+# means = [np.asarray([0,0]), np.asarray([1,1])]
+# covs  = [np.asarray([[.1,0],[0,.1]]), np.asarray([[.1,0],[0,.1]])]
+means = [np.asarray([0]), np.asarray([2])]
+covs  = [np.asarray([1]), np.asarray([1])]
+Xs, ys, zs = generate_data(probs, means, covs)
 
 """
 Initialize the model and the optimizer
 """
-num_networks = 2
-x_dim = 2
+num_networks = 15
+# x_dim = np.size(Xs, axis=0)
+x_dim = 1
 y_dim = 1
-model = FC_SVGD(2, 1, num_networks, network_structure=[16])
+network_structure = []
+model = FC_SVGD(x_dim, y_dim, num_networks, network_structure)
+
+
+"""
+Data preparation
+"""
+N = np.size(Xs, axis=0)
+train_ratio = 0.8
+N_train = int(N * train_ratio)
+# D = np.size(means[0], axis=0)
+D = x_dim
+
+if D == 1:
+	Xs_train = Xs[:N_train]
+	Xs_train = np.expand_dims(Xs_train, axis=1)
+else:
+	Xs_train = Xs[:N_train, :]
+ys_train = ys[:N_train]
+
+if D == 1:
+	Xs_test = Xs[N_train : ]
+	Xs_test = np.expand_dims(Xs_test, axis=1)
+else:
+	Xs_test = Xs[N_train : , :]
+ys_test = ys[N_train : ]
+
+
 
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 optimizer = optim.Adagrad(model.parameters(), lr=0.001)
 
-batch_size = 10
+batch_size = 128
 loader = SyntheticLoader(Xs_train, ys_train, batch_size)
 test_loader = SyntheticLoader(Xs_test, ys_test, batch_size)
 
@@ -144,10 +182,12 @@ def test(epoch, model, loader):
 
 	print("Epoch {} => loss = {}, rsme = {}".format(epoch, total_loss/batch, torch.sqrt(error)))
 
-n_epochs = 100
+n_epochs = 1000
 for epoch in range(n_epochs):
 	train(epoch, model, optimizer, loader)
-	if epoch % 10 == 0:
+	if epoch % 50 == 0:
 		test(epoch, model, test_loader)
 
+for nnid in range(num_networks):
+	print (model.nns[nnid].nn_params[0].weight)
 

@@ -1,0 +1,79 @@
+probs = [0.6, 0.4]
+# means = [np.asarray([0,0]), np.asarray([1,1])]
+# covs  = [np.asarray([[.1,0],[0,.1]]), np.asarray([[.1,0],[0,.1]])]
+means = [np.asarray([0]), np.asarray([1])]
+covs  = [np.asarray([.1]), np.asarray([.1])]
+Xs, ys, zs = generate_data(probs, means, covs)
+
+"""
+Initialize the model and the optimizer
+"""
+num_networks = 10
+# x_dim = np.size(Xs, axis=0)
+x_dim = 1
+y_dim = 1
+network_structure = []
+model = FC_SVGD(x_dim, y_dim, num_networks, network_structure)
+
+Epoch 0 => loss = 10242.3857421875, rsme = 11.978911399841309
+Epoch 50 => loss = 9055.0703125, rsme = 11.887247085571289
+Epoch 100 => loss = 8496.32421875, rsme = 11.857917785644531
+Epoch 150 => loss = 8095.42724609375, rsme = 11.849024772644043
+Epoch 200 => loss = 7784.8759765625, rsme = 11.84961986541748
+Epoch 250 => loss = 7531.453125, rsme = 11.845538139343262
+Epoch 300 => loss = 7315.72314453125, rsme = 11.845725059509277
+Epoch 350 => loss = 7118.748046875, rsme = 11.846240997314453
+Epoch 400 => loss = 6937.392578125, rsme = 11.845391273498535
+Epoch 450 => loss = 6774.361328125, rsme = 11.84689712524414
+Epoch 500 => loss = 6624.72216796875, rsme = 11.84153938293457
+Epoch 550 => loss = 6490.43994140625, rsme = 11.844099998474121
+Epoch 600 => loss = 6366.2958984375, rsme = 11.842886924743652
+Epoch 650 => loss = 6256.84228515625, rsme = 11.844066619873047
+Epoch 700 => loss = 6156.88525390625, rsme = 11.83651065826416
+Epoch 750 => loss = 6068.8056640625, rsme = 11.8335599899292
+Epoch 800 => loss = 5986.07861328125, rsme = 11.827644348144531
+Epoch 850 => loss = 5912.599609375, rsme = 11.825575828552246
+Epoch 900 => loss = 5842.91064453125, rsme = 11.816337585449219
+Epoch 950 => loss = 5780.69970703125, rsme = 11.810014724731445
+Epoch 1000 => loss = 5720.79931640625, rsme = 11.801509857177734
+Epoch 1050 => loss = 5667.3095703125, rsme = 11.797082901000977
+Epoch 1100 => loss = 5618.27783203125, rsme = 11.790674209594727
+Epoch 1150 => loss = 5575.66796875, rsme = 11.784460067749023
+Epoch 1200 => loss = 5540.06103515625, rsme = 11.77978229522705
+Epoch 1250 => loss = 5509.333984375, rsme = 11.774799346923828
+Epoch 1300 => loss = 5487.10107421875, rsme = 11.772819519042969
+Epoch 1350 => loss = 5467.970703125, rsme = 11.768511772155762
+Epoch 1400 => loss = 5455.9443359375, rsme = 11.766777038574219
+Epoch 1450 => loss = 5446.87548828125, rsme = 11.764387130737305
+Epoch 1500 => loss = 5441.57177734375, rsme = 11.76235294342041
+Epoch 1550 => loss = 5440.6845703125, rsme = 11.761439323425293
+Epoch 1600 => loss = 5439.49169921875, rsme = 11.759577751159668
+Epoch 1650 => loss = 5442.21923828125, rsme = 11.759337425231934
+Epoch 1700 => loss = 5444.22265625, rsme = 11.758404731750488
+Epoch 1750 => loss = 5446.79296875, rsme = 11.757786750793457
+Epoch 1800 => loss = 5450.63134765625, rsme = 11.757798194885254
+Epoch 1850 => loss = 5451.07861328125, rsme = 11.757187843322754
+Epoch 1900 => loss = 5452.8349609375, rsme = 11.75809383392334
+Epoch 1950 => loss = 5453.16162109375, rsme = 11.758663177490234
+Parameter containing:
+tensor([[0.0072]], requires_grad=True)
+Parameter containing:
+tensor([[-0.0683]], requires_grad=True)
+Parameter containing:
+tensor([[-0.0822]], requires_grad=True)
+Parameter containing:
+tensor([[0.0723]], requires_grad=True)
+Parameter containing:
+tensor([[-0.0115]], requires_grad=True)
+Parameter containing:
+tensor([[0.0214]], requires_grad=True)
+Parameter containing:
+tensor([[0.0074]], requires_grad=True)
+Parameter containing:
+tensor([[0.1021]], requires_grad=True)
+Parameter containing:
+tensor([[-0.1846]], requires_grad=True)
+Parameter containing:
+tensor([[0.0452]], requires_grad=True)
+
+

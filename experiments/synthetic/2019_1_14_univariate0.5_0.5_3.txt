@@ -1,0 +1,69 @@
+probs = [0.5, 0.5]
+# means = [np.asarray([0,0]), np.asarray([1,1])]
+# covs  = [np.asarray([[.1,0],[0,.1]]), np.asarray([[.1,0],[0,.1]])]
+means = [np.asarray([0]), np.asarray([2])]
+covs  = [np.asarray([.1]), np.asarray([.1])]
+Xs, ys, zs = generate_data(probs, means, covs)
+
+"""
+Initialize the model and the optimizer
+"""
+num_networks = 15
+# x_dim = np.size(Xs, axis=0)
+x_dim = 1
+y_dim = 1
+network_structure = []
+model = FC_SVGD(x_dim, y_dim, num_networks, network_structure)
+
+
+
+Epoch 0 => loss = 584123.9375, rsme = 26.380924224853516
+Epoch 50 => loss = 564482.4375, rsme = 26.37123680114746
+Epoch 100 => loss = 555344.625, rsme = 26.367448806762695
+Epoch 150 => loss = 548549.8125, rsme = 26.364933013916016
+Epoch 200 => loss = 542997.75, rsme = 26.36307144165039
+Epoch 250 => loss = 538254.0625, rsme = 26.361623764038086
+Epoch 300 => loss = 534092.125, rsme = 26.36046600341797
+Epoch 350 => loss = 530376.4375, rsme = 26.35952377319336
+Epoch 400 => loss = 527017.375, rsme = 26.358749389648438
+Epoch 450 => loss = 523952.40625, rsme = 26.358104705810547
+Epoch 500 => loss = 521135.375, rsme = 26.357572555541992
+Epoch 550 => loss = 518530.8125, rsme = 26.357133865356445
+Epoch 600 => loss = 516111.6875, rsme = 26.356769561767578
+Epoch 650 => loss = 513855.84375, rsme = 26.356470108032227
+Epoch 700 => loss = 511744.8125, rsme = 26.356224060058594
+Epoch 750 => loss = 509763.5625, rsme = 26.35603141784668
+Epoch 800 => loss = 507899.71875, rsme = 26.355876922607422
+Epoch 850 => loss = 506141.8125, rsme = 26.355758666992188
+Epoch 900 => loss = 504480.3125, rsme = 26.35567283630371
+Epoch 950 => loss = 502907.3125, rsme = 26.355615615844727
+Parameter containing:
+tensor([[-0.6298]], requires_grad=True)
+Parameter containing:
+tensor([[-0.4023]], requires_grad=True)
+Parameter containing:
+tensor([[-0.8567]], requires_grad=True)
+Parameter containing:
+tensor([[1.2150]], requires_grad=True)
+Parameter containing:
+tensor([[1.1966]], requires_grad=True)
+Parameter containing:
+tensor([[-0.9517]], requires_grad=True)
+Parameter containing:
+tensor([[-0.6080]], requires_grad=True)
+Parameter containing:
+tensor([[-1.0821]], requires_grad=True)
+Parameter containing:
+tensor([[1.1987]], requires_grad=True)
+Parameter containing:
+tensor([[0.6835]], requires_grad=True)
+Parameter containing:
+tensor([[1.0113]], requires_grad=True)
+Parameter containing:
+tensor([[0.1986]], requires_grad=True)
+Parameter containing:
+tensor([[-0.8053]], requires_grad=True)
+Parameter containing:
+tensor([[1.2597]], requires_grad=True)
+Parameter containing:
+tensor([[-0.0664]], requires_grad=True)
