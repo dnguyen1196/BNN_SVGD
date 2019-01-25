@@ -49,10 +49,9 @@ def generate_data(probs, means, covs):
 	dist = MultiModalDistribution(means, covs, probs)
 	D = dist.D
 
-	N = 1000
+	N = 100
 	if D == 1:
-		# Xs = np.random.normal(0, 1, size=N)
-		Xs = np.linspace(-3, 3, N)
+		Xs = np.linspace(1, 5, N)
 	else:
 		Xs = np.random.multivariate_normal(np.asarray([0,0]), np.asarray([[1,0],[0,1]]), size=N)
 	
@@ -101,18 +100,19 @@ class SyntheticLoader:
 Generate synthetic data
 """
 
-probs = [0.6, 0.4]
+probs = [0.5, 0.5]
+means = [np.asarray([-1]), np.asarray([1])]
+covs  = [np.asarray([0.1]), np.asarray([0.1])]
+
 # means = [np.asarray([0,0]), np.asarray([1,1])]
 # covs  = [np.asarray([[.1,0],[0,.1]]), np.asarray([[.1,0],[0,.1]])]
-means = [np.asarray([0]), np.asarray([2])]
-covs  = [np.asarray([1]), np.asarray([1])]
+
 Xs, ys, zs = generate_data(probs, means, covs)
 
 """
 Initialize the model and the optimizer
 """
-num_networks = 15
-# x_dim = np.size(Xs, axis=0)
+num_networks = 20
 x_dim = 1
 y_dim = 1
 network_structure = []
@@ -125,29 +125,32 @@ Data preparation
 N = np.size(Xs, axis=0)
 train_ratio = 0.8
 N_train = int(N * train_ratio)
-# D = np.size(means[0], axis=0)
 D = x_dim
 
+indices = np.arange(N)
+np.random.shuffle(indices)
+train_indices = indices[:N_train]
+test_indices  = indices[N_train:]
+
 if D == 1:
-	Xs_train = Xs[:N_train]
+	Xs_train = np.take(Xs, train_indices)
 	Xs_train = np.expand_dims(Xs_train, axis=1)
 else:
-	Xs_train = Xs[:N_train, :]
-ys_train = ys[:N_train]
+	Xs_train = np.take(Xs, train_indices, axis=0)
+ys_train = np.take(ys, train_indices)
 
 if D == 1:
-	Xs_test = Xs[N_train : ]
+	Xs_test = np.take(Xs, test_indices)
 	Xs_test = np.expand_dims(Xs_test, axis=1)
 else:
-	Xs_test = Xs[N_train : , :]
-ys_test = ys[N_train : ]
-
+	Xs_test = np.take(Xs, test_indices, axis=0)
+ys_test = np.take(ys, test_indices)
 
 
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-optimizer = optim.Adagrad(model.parameters(), lr=0.001)
+optimizer = optim.Adagrad(model.parameters(), lr=1)
 
-batch_size = 128
+batch_size = 10
 loader = SyntheticLoader(Xs_train, ys_train, batch_size)
 test_loader = SyntheticLoader(Xs_test, ys_test, batch_size)
 
@@ -165,7 +168,6 @@ def train(epoch, model, optimizer, loader):
 
 	# print ("epoch {} => avg-loss = {}".format(epoch, total_loss/batch))
 
-
 def test(epoch, model, loader):
 	total_loss = 0.
 	error = 0.
@@ -180,14 +182,18 @@ def test(epoch, model, loader):
 			preds = model.predict_average(data)
 			error += torch.sum((preds - target)**2)/ target.shape[0]
 
-	print("Epoch {} => loss = {}, rsme = {}".format(epoch, total_loss/batch, torch.sqrt(error)))
+	print("Epoch {} => SVGD loss = {}, rsme = {}".format(epoch, total_loss/(batch+1), torch.sqrt(error)))
 
-n_epochs = 1000
+n_epochs = 2000
 for epoch in range(n_epochs):
 	train(epoch, model, optimizer, loader)
-	if epoch % 50 == 0:
+	if epoch % 100 == 0:
 		test(epoch, model, test_loader)
 
 for nnid in range(num_networks):
-	print (model.nns[nnid].nn_params[0].weight)
+	weight = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
+	bias = ""
+	if model.bias:
+		bias   = model.nns[nnid].nn_params[0].bias.detach().numpy()[0]
+	print(weight, "$", bias)
 

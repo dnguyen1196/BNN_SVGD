@@ -75,12 +75,16 @@ class BNN_SVGD(torch.nn.Module):
         for zi in self.nns:
             for zj in self.nns:
                 log_ll = self.log_likelihood_compute(zj, X, y)
-
                 log_prior = self.log_prior_compute(zj)
                 kernel_term1 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
                 kernel_term2 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
+                # print(log_ll)
+                # print(log_prior)
+                # print(kernel_term1)
+                # print(kernel_term2)
                 kernel_term1.detach()  # Detach from gradient graph
                 loss += 1 / self.num_nn * (kernel_term1 * (log_prior + log_ll) + kernel_term2)
+
         return -loss
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
@@ -96,7 +100,9 @@ class BNN_SVGD(torch.nn.Module):
         norm_diff = 0.
         for i in range(len(z1.nn_params)):
             norm_diff += torch.sum(-(z1.nn_params[i].weight - z2.nn_params[i].weight) ** 2 / (2 * self.rbf_sigma))
-            norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma))
+
+            if self.bias:
+                norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma))
         kd = torch.exp(norm_diff)
         return kd
 
@@ -136,7 +142,8 @@ class BNN_SVGD(torch.nn.Module):
         sigma = 1
         for i in range(len(zi.nn_params)):
             lp += -0.5 * torch.sum((zi.nn_params[i].weight ** 2)) / self.p_sigma
-            lp += -0.5 * torch.sum((zi.nn_params[i].bias ** 2)) / self.p_sigma
+            if self.bias:
+                lp += -0.5 * torch.sum((zi.nn_params[i].bias ** 2)) / self.p_sigma
         return lp
 
     def log_likelihood_compute(self, zi, X, y):
@@ -185,14 +192,13 @@ class FC_SVGD(BNN_SVGD):
         self.y_dim = y_dim
 
         # Initialize all the neural networks
+
+        self.bias = False
         for _ in range(num_networks):
-            zi = BasicNet(x_dim, y_dim, network_structure)
-            # for i, layer in enumerate(zi.nn_params):
-            #     layer.weight.requires_grad_(True)
-            #     layer.bias.requires_grad_(True)
+            zi = BasicNet(x_dim, y_dim, network_structure, bias=self.bias)
             self.nns.append(zi)
 
-        self.ll_sigma = 1 ** 2
+        self.ll_sigma = 10 ** 2
         self.p_sigma = 1 ** 2
         self.rbf_sigma = 1 ** 2
 
@@ -238,9 +244,9 @@ class CovNet_SVGD(BNN_SVGD):
 
         if self.image_set == "MNIST":
             norm_diff += torch.sum(-(z1.fc1.weight - z2.fc1.weight) ** 2 / (2 * self.rbf_sigma))
-            norm_diff += torch.sum(-(z1.fc1.bias   - z2.fc1.bias) ** 2 / (2 * self.rbf_sigma))
             norm_diff += torch.sum(-(z1.fc2.weight - z2.fc2.weight) ** 2 / (2 * self.rbf_sigma))
-            norm_diff += torch.sum(-(z1.fc2.bias   - z2.fc2.bias) ** 2 / (2 * self.rbf_sigma)) 
+            norm_diff += torch.sum(-(z1.fc1.bias   - z2.fc1.bias) ** 2 / (2 * self.rbf_sigma))
+            norm_diff += torch.sum(-(z1.fc2.bias   - z2.fc2.bias) ** 2 / (2 * self.rbf_sigma))
 
         kd = torch.exp(norm_diff)
         return kd

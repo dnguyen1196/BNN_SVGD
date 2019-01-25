@@ -3,8 +3,9 @@ import torch.nn.functional as F
 from torch.nn import ModuleList
 
 class BasicNet(nn.Module):
-    def __init__(self, input_dim, output_dim, structure=[32]):
+    def __init__(self, input_dim, output_dim, structure=[32], bias=True):
         super(BasicNet, self).__init__()
+        self.bias = bias
         self.n_dims_data = input_dim
         nn_layer_size = (
             [input_dim] + structure + [output_dim]
@@ -15,8 +16,9 @@ class BasicNet(nn.Module):
         self.nn_params = nn.ModuleList()
         for layer_id, (n_in, n_out) in enumerate(zip(
                 nn_layer_size[:-1], nn_layer_size[1:])):
-            self.nn_params.append(nn.Linear(n_in, n_out))
-            self.activation_funcs.append(F.relu) # rectified linear activation
+            self.nn_params.append(nn.Linear(n_in, n_out, bias=bias))
+            # self.activation_funcs.append(F.relu) # rectified linear activation
+            self.activation_funcs.append(lambda a : a)
 
         # Last activation function is the identity
         self.activation_funcs[-1] = lambda a: a
