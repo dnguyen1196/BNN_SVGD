@@ -193,12 +193,12 @@ class FC_SVGD(BNN_SVGD):
 
         # Initialize all the neural networks
 
-        self.bias = False
+        self.bias = False # TODO: change this to True
         for _ in range(num_networks):
             zi = BasicNet(x_dim, y_dim, network_structure, bias=self.bias)
             self.nns.append(zi)
 
-        self.ll_sigma = 10 ** 2
+        self.ll_sigma = 1 ** 2
         self.p_sigma = 1 ** 2
         self.rbf_sigma = 1 ** 2
 

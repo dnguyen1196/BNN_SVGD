@@ -1,6 +1,8 @@
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import ModuleList
+from torch.distributions.normal import Normal
+import numpy as np
 
 class BasicNet(nn.Module):
     def __init__(self, input_dim, output_dim, structure=[32], bias=True):
@@ -14,11 +16,25 @@ class BasicNet(nn.Module):
         # Create the encoder, layer by layer
         self.activation_funcs = list() # Activation function
         self.nn_params = nn.ModuleList()
+
         for layer_id, (n_in, n_out) in enumerate(zip(
                 nn_layer_size[:-1], nn_layer_size[1:])):
-            self.nn_params.append(nn.Linear(n_in, n_out, bias=bias))
-            # self.activation_funcs.append(F.relu) # rectified linear activation
-            self.activation_funcs.append(lambda a : a)
+
+            hidden_layer = nn.Linear(n_in, n_out, bias=bias)
+            self.nn_params.append(hidden_layer)
+
+            probs = [0.5, 0.5]
+            mode = np.argmax(np.random.multinomial(1, probs, size=1))
+            if mode == 0:
+                dist = Normal(1, 0.1)
+            else:
+                dist = Normal(2, 0.1)
+
+            w = dist.sample_n(1)
+            hidden_layer.weight.data.fill_(w[0])
+
+            self.activation_funcs.append(F.relu) # rectified linear activation
+            # self.activation_funcs.append(lambda a : a)
 
         # Last activation function is the identity
         self.activation_funcs[-1] = lambda a: a

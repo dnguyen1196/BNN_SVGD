@@ -49,9 +49,10 @@ def generate_data(probs, means, covs):
 	dist = MultiModalDistribution(means, covs, probs)
 	D = dist.D
 
-	N = 100
+	N = 200
 	if D == 1:
-		Xs = np.linspace(1, 5, N)
+		# Xs = np.linspace(1, 5, N)
+		Xs = np.ones((N,))
 	else:
 		Xs = np.random.multivariate_normal(np.asarray([0,0]), np.asarray([[1,0],[0,1]]), size=N)
 	
@@ -89,10 +90,8 @@ class SyntheticLoader:
 	    	res = None
 	    	if self.it + self.batch_size < len(self.ys):
 	    		res = self.Xs[self.it : self.L, :], self.ys[self.it : self.L]
-	    		# res = self.Xs[self.it : self.L], self.ys[self.it : self.L]
 	    	else:
 	    		res = self.Xs[self.it : self.it + self.batch_size, :],  self.ys[self.it : self.it + self.batch_size]
-	    		# res = self.Xs[self.it : self.it + self.batch_size],  self.ys[self.it : self.it + self.batch_size]
 	    	self.it += self.batch_size
 	    	return res
 
@@ -101,7 +100,7 @@ Generate synthetic data
 """
 
 probs = [0.5, 0.5]
-means = [np.asarray([-1]), np.asarray([1])]
+means = [np.asarray([1]), np.asarray([2])]
 covs  = [np.asarray([0.1]), np.asarray([0.1])]
 
 # means = [np.asarray([0,0]), np.asarray([1,1])]
@@ -115,7 +114,7 @@ Initialize the model and the optimizer
 num_networks = 20
 x_dim = 1
 y_dim = 1
-network_structure = []
+network_structure = [32]
 model = FC_SVGD(x_dim, y_dim, num_networks, network_structure)
 
 
@@ -150,7 +149,7 @@ ys_test = np.take(ys, test_indices)
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 optimizer = optim.Adagrad(model.parameters(), lr=1)
 
-batch_size = 10
+batch_size = 32
 loader = SyntheticLoader(Xs_train, ys_train, batch_size)
 test_loader = SyntheticLoader(Xs_test, ys_test, batch_size)
 
@@ -184,7 +183,8 @@ def test(epoch, model, loader):
 
 	print("Epoch {} => SVGD loss = {}, rsme = {}".format(epoch, total_loss/(batch+1), torch.sqrt(error)))
 
-n_epochs = 2000
+n_epochs = 1000
+test(-1, model, test_loader)
 for epoch in range(n_epochs):
 	train(epoch, model, optimizer, loader)
 	if epoch % 100 == 0:
