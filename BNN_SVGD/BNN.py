@@ -6,62 +6,25 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 import copy
 
+"""
+Base SVGD class
+
+FC_SVGD and CovNet_SVGD (below) extend on this base SVGD class
+
+"""
 class BNN_SVGD(torch.nn.Module):
     def __init__(self):
         """
-        Args
-
-        x_dim : dimension of the input
-        y_dim : dimension of the output
-        num_networks : number of neural networks
-
-        ----
-        Returns
-
+        No arguments, child classes have constructors with arguments
         """
         super().__init__()
 
-    def optimize_loss_step(self, X_train, y_train, max_iterations=1000, report=100):
-        """
-        X_train:
-        y_train:
-        max_iterations
-
-        ---
-
-        Use a computation trick where we define a batch loss function
-        whose derivative gives the update formula required for SVGD
-
-        """
-        optimizer  = optim.SGD(self.parameters(), lr=0.001, momentum=0.9, nesterov=True)
-        # optimizer = optim.Adagrad(self.parameters())
-
-        energies   = list()
-        start_time = time.time()
-
-        for iteration in range(max_iterations):
-            if iteration in [0, 10, 25, 50] or iteration % report == 0:
-                mse = self.evaluate(X_train, y_train)
-                print("iter: ", iteration, " - mse: ", mse.data.cpu().numpy(), " - time: ", time.time()-start_time)
-
-            current_energies = self.energies_compute(X_train, y_train)
-            energies.append(current_energies)
-
-            optimizer.zero_grad()
-            loss = self.loss(X_train, y_train)
-            loss.backward()
-            optimizer.step()
-
-        # Returns the energy tracking
-        return energies
-
     def loss(self, X, y):
         """
-
-        :param X:
-        :param y:
+        :param X: training data
+        :param y: training labels
         -----
-        :return:
+        :return: SVGD batch loss
 
         Use trick to implicitly let pytorch do the heavy work of gradient computatin and update
 
@@ -78,10 +41,7 @@ class BNN_SVGD(torch.nn.Module):
                 log_prior = self.log_prior_compute(zj)
                 kernel_term1 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
                 kernel_term2 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
-                # print(log_ll)
-                # print(log_prior)
-                # print(kernel_term1)
-                # print(kernel_term2)
+
                 kernel_term1.detach()  # Detach from gradient graph
                 loss += 1 / self.num_nn * (kernel_term1 * (log_prior + log_ll) + kernel_term2)
 
@@ -90,8 +50,8 @@ class BNN_SVGD(torch.nn.Module):
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
         """
         Compute the pair wise kernel discepancy between z1 and z2
-        :param z1: a Basic Neural net
-        :param z2: a Basic Neural net
+        :param z1: a Neural net
+        :param z2: a Neural net
         :return:
 
         The kernelized discrepancy between two neural networks
@@ -108,10 +68,9 @@ class BNN_SVGD(torch.nn.Module):
 
     def energies_compute(self, X_train, y_train):
         """
-
         :return:
 
-        Compute the energies of the BNNs
+        Compute the energies of the BNNs, which is essentially negative log posterior
         """
         energies = np.zeros((self.num_nn,))
         for i, zi in enumerate(self.nns):
@@ -130,7 +89,6 @@ class BNN_SVGD(torch.nn.Module):
         log_prior = self.log_prior_compute(bnn)
         log_likelihood = self.log_likelihood_compute(bnn, X_train, y_train)
         return -log_prior - log_likelihood
-
 
     def log_prior_compute(self, zi):
         """
@@ -158,12 +116,25 @@ class BNN_SVGD(torch.nn.Module):
         return ll
 
     def evaluate(self, X_train, y_train):
+        """
+
+        :param X_train:
+        :param y_train:
+        :return:
+        Return the MSE given training data and labels
+        """
         y_hat = torch.zeros(y_train.size())
         for i, zi in enumerate(self.nns):
             y_hat += zi.forward(X_train) / self.num_nn
         return torch.mean((y_hat - y_train) ** 2)
 
     def predict(self, X_test):
+        """
+
+        :param X_test:
+        :return: prediction array, float array of size
+        (num_neural_networks,)
+        """
         ys_prediction = list()
 
         for i in range(len(self.nns)):
@@ -173,6 +144,12 @@ class BNN_SVGD(torch.nn.Module):
         return ys_prediction
 
     def predict_average(self, X_test):
+        """
+
+        :param X_test:
+        :return: Similar to predict but returns the
+        average of predictions from all neural networks
+        """
         ys_prediction = self.predict(X_test)
         y_pred = torch.zeros(ys_prediction[0].shape)
         for i, v in enumerate(ys_prediction):
@@ -181,6 +158,9 @@ class BNN_SVGD(torch.nn.Module):
         return y_pred
 
 
+"""
+SVGD class for fully connected neural networks
+"""
 class FC_SVGD(BNN_SVGD):
     def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32]):
         super(FC_SVGD, self).__init__()
@@ -192,17 +172,20 @@ class FC_SVGD(BNN_SVGD):
         self.y_dim = y_dim
 
         # Initialize all the neural networks
-
-        self.bias = False # TODO: change this to True
+        self.bias = False # NOTE: not using bias for now for experimentation
         for _ in range(num_networks):
-            zi = BasicNet(x_dim, y_dim, network_structure, bias=self.bias)
+            zi = SimpleNeuralNet(x_dim, y_dim, network_structure, bias=self.bias)
             self.nns.append(zi)
 
-        self.ll_sigma = 1 ** 2
-        self.p_sigma = 1 ** 2
-        self.rbf_sigma = 1 ** 2
+        # TODO: tuning parameters here
+        self.ll_sigma = 1
+        self.p_sigma = 1
+        self.rbf_sigma = 1
 
 
+"""
+SVGD class for convolution neural network
+"""
 class CovNet_SVGD(BNN_SVGD):
     def __init__(self, image_set, num_networks=10):
         """

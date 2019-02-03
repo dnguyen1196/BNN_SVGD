@@ -4,9 +4,48 @@ from torch.nn import ModuleList
 from torch.distributions.normal import Normal
 import numpy as np
 
-class BasicNet(nn.Module):
+
+"""
+Fully connected neural network
+"""
+class FullyConnectedNet(nn.Module):
     def __init__(self, input_dim, output_dim, structure=[32], bias=True):
-        super(BasicNet, self).__init__()
+        super(FullyConnectedNet, self).__init__()
+        self.bias = bias
+        self.n_dims_data = input_dim
+        nn_layer_size = (
+            [input_dim] + structure + [output_dim]
+        )
+        self.n_layers = len(nn_layer_size) - 1
+        # Create the encoder, layer by layer
+        self.activation_funcs = list() # Activation function
+        self.nn_params = nn.ModuleList()
+
+        for layer_id, (n_in, n_out) in enumerate(zip(
+                nn_layer_size[:-1], nn_layer_size[1:])):
+
+            hidden_layer = nn.Linear(n_in, n_out, bias=bias)
+            self.nn_params.append(hidden_layer)
+            self.activation_funcs.append(F.relu) # rectified linear activation
+
+        # Last activation function is the identity
+        self.activation_funcs[-1] = lambda a: a
+
+    def forward(self, x):
+        result = x
+        for ll in range(self.n_layers):
+            layer_transform = self.nn_params[ll]
+            activation = self.activation_funcs[ll]
+            result = activation(layer_transform(result))
+        return result
+
+
+"""
+Simple neural network to do experimentations
+"""
+class SimpleNeuralNet(nn.Module):
+    def __init__(self, input_dim, output_dim, structure=[32], bias=True):
+        super(SimpleNeuralNet, self).__init__()
         self.bias = bias
         self.n_dims_data = input_dim
         nn_layer_size = (
@@ -23,6 +62,7 @@ class BasicNet(nn.Module):
             hidden_layer = nn.Linear(n_in, n_out, bias=bias)
             self.nn_params.append(hidden_layer)
 
+            # Initialize the weights of the neural networks with the same bernoulli-gaussian distribution
             probs = [0.5, 0.5]
             mode = np.argmax(np.random.multinomial(1, probs, size=1))
             if mode == 0:
@@ -30,13 +70,12 @@ class BasicNet(nn.Module):
             else:
                 dist = Normal(2, 0.1)
 
-            w = dist.sample_n(1)
+            w = dist.sample((1,))
             hidden_layer.weight.data.fill_(w[0])
 
             self.activation_funcs.append(F.relu) # rectified linear activation
-            # self.activation_funcs.append(lambda a : a)
 
-        # Last activation function is the identity
+        # Last activation function is the identity function
         self.activation_funcs[-1] = lambda a: a
 
     def forward(self, x):
@@ -50,9 +89,7 @@ class BasicNet(nn.Module):
 
 """
 LeNET
-
 Note that this architecture is specific to CIFAR-10 datasets
-
 """
 class Cifar10LeNet(nn.Module):
     def __init__(self):
@@ -97,7 +134,9 @@ class MnistCovNet(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-# Convolutional neural network (two convolutional layers)
+"""
+Generic convolution neural network
+"""
 class ConvNet(nn.Module):
     def __init__(self, num_classes=10):
         super(ConvNet, self).__init__()
@@ -105,7 +144,7 @@ class ConvNet(nn.Module):
         # Original image is 28 x 28
 
         self.layer1 = nn.Sequential(
-            nn.Conv2d(in_channels=1, out_channels=16, kernel_size=5, stride=1, padding=2), 
+            nn.Conv2d(in_channels=1, out_channels=16, kernel_size=5, stride=1, padding=2),
             # Use 16 filters, which gives (28 x 28 x 16)
             nn.BatchNorm2d(num_features=16),
             nn.ReLU(),
@@ -121,12 +160,12 @@ class ConvNet(nn.Module):
 
         self.drop_out = nn.Dropout()
 
-        self.fc1 = nn.Linear(7 * 7 * 32, 512) 
+        self.fc1 = nn.Linear(7 * 7 * 32, 512)
         # why 7 * 7 -> this is specific to MNIST dataset? 28 by 28  and there are 2 convo layer
         # so the size gets reduced to just 7 x 7 and 32 channels so overall with 7**2 * 32
         self.fc2 = nn.Linear(512, num_classes)
 
-        
+
     def forward(self, x):
         out = self.layer1(x)
         out = self.layer2(out)

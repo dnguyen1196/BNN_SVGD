@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="238e19b0-6e46-4742-a957-1e9392fc21c7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/og_svgd_test.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/BNN.py" afterPath="$PROJECT_DIR$/BNN_SVGD/BNN.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/Net.py" afterPath="$PROJECT_DIR$/BNN_SVGD/Net.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SVGD/bayesian_nn.py" afterPath="$PROJECT_DIR$/SVGD/bayesian_nn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SVGD_BNN.ipynb" afterPath="$PROJECT_DIR$/SVGD_BNN.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README" afterPath="$PROJECT_DIR$/README" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/og_svgd_test.py" afterPath="$PROJECT_DIR$/og_svgd_test.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/synthetic.py" afterPath="$PROJECT_DIR$/synthetic.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/visualize.py" afterPath="$PROJECT_DIR$/visualize.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,12 +25,21 @@
       <file leaf-file-name="BNN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="199" column="0" lean-forward="true" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
+            <state relative-caret-position="841">
+              <caret line="181" column="24" lean-forward="true" selection-start-line="181" selection-start-column="24" selection-end-line="181" selection-end-column="24" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-                <element signature="e#224#5727#0" expanded="false" />
-                <element signature="e#6412#8829#0" expanded="false" />
+                <element signature="e#341#452#0" expanded="false" />
+                <element signature="e#488#1512#0" expanded="false" />
+                <element signature="e#1582#2233#0" expanded="false" />
+                <element signature="e#2293#2597#0" expanded="false" />
+                <element signature="e#2667#3007#0" expanded="false" />
+                <element signature="e#3054#3460#0" expanded="false" />
+                <element signature="e#3518#3785#0" expanded="false" />
+                <element signature="e#3837#4163#0" expanded="false" />
+                <element signature="e#4204#4512#0" expanded="false" />
+                <element signature="e#4561#4943#0" expanded="false" />
+                <element signature="e#5786#8203#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -41,7 +48,7 @@
       <file leaf-file-name="visualize.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visualize.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-78">
+            <state relative-caret-position="381">
               <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -50,27 +57,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="synthetic.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="synthetic.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/synthetic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-180">
-              <caret line="147" column="0" lean-forward="true" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
+            <state relative-caret-position="197">
+              <caret line="158" column="0" lean-forward="false" selection-start-line="158" selection-start-column="0" selection-end-line="168" selection-end-column="24" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
-                <element signature="e#3536#3859#0" expanded="false" />
+                <element signature="e#317#1123#0" expanded="false" />
+                <element signature="e#1207#1651#0" expanded="false" />
+                <element signature="e#1719#2357#0" expanded="false" />
+                <element signature="e#3941#4433#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="og_svgd_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/og_svgd_test.py">
+      <file leaf-file-name="README" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5705">
-              <caret line="13" column="17" lean-forward="false" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="493">
+              <caret line="29" column="67" lean-forward="false" selection-start-line="29" selection-start-column="67" selection-end-line="29" selection-end-column="67" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -78,14 +86,13 @@
       <file leaf-file-name="Net.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="33" column="46" lean-forward="false" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
+            <state relative-caret-position="382">
+              <caret line="45" column="21" lean-forward="false" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="21" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <element signature="e#1436#1665#0" expanded="false" />
-                <element signature="e#1780#2378#0" expanded="false" />
-                <element signature="e#2432#2956#0" expanded="false" />
-                <element signature="e#3044#4429#0" expanded="false" />
+                <element signature="e#3115#3713#0" expanded="false" />
+                <element signature="e#4364#5739#0" expanded="false" />
+                <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
               </folding>
             </state>
           </provider>
@@ -107,6 +114,8 @@
       <find>bias</find>
       <find>.bias</find>
       <find>p_sigma</find>
+      <find>sample</find>
+      <find>N0</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -124,19 +133,19 @@
         <option value="$PROJECT_DIR$/Stein-Variational-Gradient-Descent/python/svgd.py" />
         <option value="$PROJECT_DIR$/SVGD/__init__.py" />
         <option value="$PROJECT_DIR$/SVGD/multivariate_normal.py" />
-        <option value="$PROJECT_DIR$/README" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_2modes_0.6_0.4.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_2modes_0.5_0.5.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_2modes_0.5_bias.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_1modes.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_2modes.txt" />
-        <option value="$PROJECT_DIR$/BNN_SVGD/BNN.py" />
-        <option value="$PROJECT_DIR$/BNN_SVGD/Net.py" />
         <option value="$PROJECT_DIR$/visualize.py" />
-        <option value="$PROJECT_DIR$/synthetic.py" />
         <option value="$PROJECT_DIR$/SVGD/bayesian_nn.py" />
         <option value="$PROJECT_DIR$/og_svgd_test.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/Net.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/BNN.py" />
+        <option value="$PROJECT_DIR$/synthetic.py" />
+        <option value="$PROJECT_DIR$/README" />
       </list>
     </option>
   </component>
@@ -178,8 +187,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -272,7 +281,7 @@
     <frame x="82" y="24" width="1853" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25235197" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.255119" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -280,7 +289,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28039432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26067907" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -301,19 +310,110 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="25" />
+      <option name="time" value="26" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1887">
+          <caret line="117" column="52" lean-forward="false" selection-start-line="117" selection-start-column="31" selection-end-line="117" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#341#452#0" expanded="false" />
+            <element signature="e#488#1512#0" expanded="false" />
+            <element signature="e#1582#2233#0" expanded="false" />
+            <element signature="e#2293#2597#0" expanded="false" />
+            <element signature="e#2667#3007#0" expanded="false" />
+            <element signature="e#3054#3460#0" expanded="false" />
+            <element signature="e#3518#3785#0" expanded="false" />
+            <element signature="e#3837#4163#0" expanded="false" />
+            <element signature="e#4204#4512#0" expanded="false" />
+            <element signature="e#4561#4943#0" expanded="false" />
+            <element signature="e#5786#8203#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visualize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/synthetic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2737">
+          <caret line="184" column="25" lean-forward="false" selection-start-line="184" selection-start-column="19" selection-end-line="184" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#317#1123#0" expanded="false" />
+            <element signature="e#1207#1651#0" expanded="false" />
+            <element signature="e#1719#2357#0" expanded="false" />
+            <element signature="e#3941#4433#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SVGD/bayesian_nn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="45" column="47" lean-forward="false" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#11292#12301#0" expanded="false" />
+            <element signature="e#12354#12902#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#3115#3713#0" expanded="false" />
+            <element signature="e#4364#5739#0" expanded="false" />
+            <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/og_svgd_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="50" column="56" lean-forward="false" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#10634#11643#0" expanded="false" />
+            <element signature="e#11696#12244#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="731">
           <caret line="43" column="16" lean-forward="false" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#224#5727#0" expanded="false" />
-            <element signature="e#6412#8829#0" expanded="false" />
+            <element signature="e#341#452#0" expanded="false" />
+            <element signature="e#488#1512#0" expanded="false" />
+            <element signature="e#1582#2233#0" expanded="false" />
+            <element signature="e#2293#2597#0" expanded="false" />
+            <element signature="e#2667#3007#0" expanded="false" />
+            <element signature="e#3054#3460#0" expanded="false" />
+            <element signature="e#3518#3785#0" expanded="false" />
+            <element signature="e#3837#4163#0" expanded="false" />
+            <element signature="e#4204#4512#0" expanded="false" />
+            <element signature="e#4561#4943#0" expanded="false" />
+            <element signature="e#5786#8203#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -324,6 +424,9 @@
           <caret line="20" column="33" lean-forward="false" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#3115#3713#0" expanded="false" />
+            <element signature="e#4364#5739#0" expanded="false" />
+            <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
           </folding>
         </state>
       </provider>
@@ -340,9 +443,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#33#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -355,16 +455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SVGD/svgd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-177">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SVGD/multivariate_normal.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -372,14 +462,6 @@
           <folding>
             <element signature="e#0#18#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="32" lean-forward="false" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -417,7 +499,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
           <caret line="156" column="8" lean-forward="false" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -425,7 +506,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="449">
           <caret line="106" column="22" lean-forward="false" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -433,7 +513,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
           <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -441,9 +520,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#33#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -451,7 +527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -459,7 +534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="62" lean-forward="false" selection-start-line="15" selection-start-column="62" selection-end-line="15" selection-end-column="62" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -467,7 +541,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="423">
           <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -475,7 +548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -483,9 +555,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="582">
           <caret line="135" column="32" lean-forward="false" selection-start-line="135" selection-start-column="23" selection-end-line="135" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -493,7 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="471">
           <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -511,7 +579,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-42">
           <caret line="3" column="6" lean-forward="false" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -519,7 +586,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-204">
           <caret line="11" column="6" lean-forward="false" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -531,48 +597,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="33" column="46" lean-forward="false" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#1436#1665#0" expanded="false" />
-            <element signature="e#1780#2378#0" expanded="false" />
-            <element signature="e#2432#2956#0" expanded="false" />
-            <element signature="e#3044#4429#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SVGD_BNN.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
           <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SVGD/bayesian_nn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="149" column="11" lean-forward="true" selection-start-line="149" selection-start-column="11" selection-end-line="149" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#11292#12301#0" expanded="false" />
-            <element signature="e#12354#12902#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="199" column="0" lean-forward="true" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#224#5727#0" expanded="false" />
-            <element signature="e#6412#8829#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -584,9 +612,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SVGD/svgd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SVGD/bayesian_nn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="45" column="47" lean-forward="false" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#11292#12301#0" expanded="false" />
+            <element signature="e#12354#12902#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/og_svgd_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="50" column="56" lean-forward="false" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#10634#11643#0" expanded="false" />
+            <element signature="e#11696#12244#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="45" column="21" lean-forward="false" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#3115#3713#0" expanded="false" />
+            <element signature="e#4364#5739#0" expanded="false" />
+            <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/visualize.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-78">
+        <state relative-caret-position="381">
           <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
@@ -594,24 +667,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/og_svgd_test.py">
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5705">
-          <caret line="13" column="17" lean-forward="false" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="17" />
+        <state relative-caret-position="841">
+          <caret line="181" column="24" lean-forward="true" selection-start-line="181" selection-start-column="24" selection-end-line="181" selection-end-column="24" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#341#452#0" expanded="false" />
+            <element signature="e#488#1512#0" expanded="false" />
+            <element signature="e#1582#2233#0" expanded="false" />
+            <element signature="e#2293#2597#0" expanded="false" />
+            <element signature="e#2667#3007#0" expanded="false" />
+            <element signature="e#3054#3460#0" expanded="false" />
+            <element signature="e#3518#3785#0" expanded="false" />
+            <element signature="e#3837#4163#0" expanded="false" />
+            <element signature="e#4204#4512#0" expanded="false" />
+            <element signature="e#4561#4943#0" expanded="false" />
+            <element signature="e#5786#8203#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/synthetic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-180">
-          <caret line="147" column="0" lean-forward="true" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
+        <state relative-caret-position="197">
+          <caret line="158" column="0" lean-forward="false" selection-start-line="158" selection-start-column="0" selection-end-line="168" selection-end-column="24" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
-            <element signature="e#3536#3859#0" expanded="false" />
+            <element signature="e#317#1123#0" expanded="false" />
+            <element signature="e#1207#1651#0" expanded="false" />
+            <element signature="e#1719#2357#0" expanded="false" />
+            <element signature="e#3941#4433#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="67" lean-forward="false" selection-start-line="29" selection-start-column="67" selection-end-line="29" selection-end-column="67" />
+          <folding />
         </state>
       </provider>
     </entry>

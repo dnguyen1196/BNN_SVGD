@@ -6,8 +6,13 @@ from BNN_SVGD.BNN import *
 import torch.optim as optim
 import torch
 
-
-class MultiModalDistribution():
+"""
+BernoulliGaussian distribution class
+e.g
+>>> dist = BernoulliGaussian(means, covs, class_probabilities)
+>>> samples = dist.sample(N)
+"""
+class BernoulliGaussian():
 	def __init__(self, m, covs, ps):
 		D = np.size(m[0], axis=0)
 
@@ -44,12 +49,14 @@ class MultiModalDistribution():
 		return np.asarray(samples)
 
 
-def generate_data(probs, means, covs):
+"""
+Generate synthetic data
+"""
+def generate_data(probs, means, covs, N = 200):
 	probs = np.asarray(probs)
-	dist = MultiModalDistribution(means, covs, probs)
+	dist = BernoulliGaussian(means, covs, probs)
 	D = dist.D
 
-	N = 200
 	if D == 1:
 		# Xs = np.linspace(1, 5, N)
 		Xs = np.ones((N,))
@@ -71,7 +78,10 @@ def generate_data(probs, means, covs):
 	return Xs, ys, theta
 	
 
-class SyntheticLoader:
+"""
+Iterator class to do mini-batching
+"""
+class MiniBatch:
     def __init__(self, xs, ys, batch_size):
         self.Xs = xs
         self.ys = ys
@@ -95,32 +105,25 @@ class SyntheticLoader:
 	    	self.it += self.batch_size
 	    	return res
 
-"""
-Generate synthetic data
-"""
 
+
+# First generate data according to Bernoulli-Gaussian distribution
 probs = [0.5, 0.5]
 means = [np.asarray([1]), np.asarray([2])]
 covs  = [np.asarray([0.1]), np.asarray([0.1])]
+Xs, ys, zs = generate_data(probs, means, covs, N=200)
 
-# means = [np.asarray([0,0]), np.asarray([1,1])]
-# covs  = [np.asarray([[.1,0],[0,.1]]), np.asarray([[.1,0],[0,.1]])]
 
-Xs, ys, zs = generate_data(probs, means, covs)
-
-"""
-Initialize the model and the optimizer
-"""
+#Initialize the model and the optimizer
 num_networks = 20
 x_dim = 1
 y_dim = 1
-network_structure = [32]
+network_structure = [] # Hidden layer
 model = FC_SVGD(x_dim, y_dim, num_networks, network_structure)
+optimizer = optim.Adagrad(model.parameters(), lr=1)
 
 
-"""
-Data preparation
-"""
+# Data preparation to create test/train set
 N = np.size(Xs, axis=0)
 train_ratio = 0.8
 N_train = int(N * train_ratio)
@@ -146,13 +149,13 @@ else:
 ys_test = np.take(ys, test_indices)
 
 
-# optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-optimizer = optim.Adagrad(model.parameters(), lr=1)
-
+# Initialize Mini-batch
 batch_size = 32
-loader = SyntheticLoader(Xs_train, ys_train, batch_size)
-test_loader = SyntheticLoader(Xs_test, ys_test, batch_size)
+loader = MiniBatch(Xs_train, ys_train, batch_size)
+test_loader = MiniBatch(Xs_test, ys_test, batch_size)
 
+
+# train and test functions
 def train(epoch, model, optimizer, loader):
 	total_loss = 0.
 	for batch, (x_batch, y_batch) in enumerate(loader):
@@ -165,11 +168,10 @@ def train(epoch, model, optimizer, loader):
 		loss.backward()
 		optimizer.step()
 
-	# print ("epoch {} => avg-loss = {}".format(epoch, total_loss/batch))
-
 def test(epoch, model, loader):
 	total_loss = 0.
 	error = 0.
+	num_pt = 0
 	with torch.no_grad():
 		for batch, (x_batch, y_batch) in enumerate(loader):
 			data = torch.FloatTensor(x_batch)
@@ -179,9 +181,11 @@ def test(epoch, model, loader):
 			total_loss += loss
 
 			preds = model.predict_average(data)
-			error += torch.sum((preds - target)**2)/ target.shape[0]
+			error += torch.sum((preds - target)**2)
+			num_pt += target.shape[0]
 
-	print("Epoch {} => SVGD loss = {}, rsme = {}".format(epoch, total_loss/(batch+1), torch.sqrt(error)))
+	error = error/ num_pt
+	print("Epoch {} => SVGD loss = {}, rmse = {}".format(epoch, total_loss/(batch+1), torch.sqrt(error)))
 
 n_epochs = 1000
 test(-1, model, test_loader)
@@ -190,6 +194,7 @@ for epoch in range(n_epochs):
 	if epoch % 100 == 0:
 		test(epoch, model, test_loader)
 
+# Prints the weights of the neural networks
 for nnid in range(num_networks):
 	weight = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
 	bias = ""

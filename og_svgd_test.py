@@ -43,9 +43,11 @@ class svgd_bayesnn:
                  master_stepsize=1e-3, auto_corr=0.9):
         self.n_hidden = n_hidden
         self.d = X_train.shape[1]  # number of data, dimension
+
+        print("Dimension d:", self.d)
         self.M = M
 
-        num_vars = self.d * n_hidden + n_hidden + 2  # w1: d*n_hidden; b1: n_hidden; w2 = n_hidden; b2 = 1; 2 variances
+        num_vars = self.d * n_hidden + 1 + 2  # w1: d*n_hidden; b1: 1; 2 variances
         self.theta = np.zeros([self.M, num_vars])  # particles, will be initialized later
 
         '''
@@ -88,8 +90,7 @@ class svgd_bayesnn:
         # TODO: replace with log_prior_w
         log_posterior = (log_lik_data * N / X.shape[0] + log_prior_data + log_prior_w_1_layer)
 
-        dw_1, db_1, d_log_gamma, d_log_lambda = T.grad(log_posterior,
-                                                                   [w_1, b_1, log_gamma, log_lambda], disconnected_inputs="ignore")
+        dw_1, db_1, d_log_gamma, d_log_lambda = T.grad(log_posterior, [w_1, b_1, log_gamma, log_lambda], disconnected_inputs="ignore")
 
         # automatic gradient
         logp_gradient = theano.function(
@@ -117,9 +118,9 @@ class svgd_bayesnn:
             ridx = np.random.choice(range(X_train.shape[0]), \
                                     np.min([X_train.shape[0], 1000]), replace=False)
 
-            y_hat = self.nn_predict(np.take(X_train, ridx,axis=0), w1, b1)
+            y_hat = self.nn_predict(X_train[ridx, :], w1, b1)
 
-            loggamma = -np.log(np.mean(np.power(y_hat - np.take(y_train, ridx), 2)))
+            loggamma = -np.log(np.mean(np.power(y_hat - y_train[ridx], 2)))
             self.theta[i, :] = self.pack_weights(w1, b1, loggamma, loglambda)
 
         grad_theta = np.zeros([self.M, num_vars])  # gradient
@@ -189,8 +190,6 @@ class svgd_bayesnn:
     def init_weights(self, a0, b0):
         w1 = 1.0 / np.sqrt(self.d + 1) * np.random.randn(self.d, self.n_hidden)
         b1 = np.zeros((self.n_hidden,))
-        w2 = 1.0 / np.sqrt(self.n_hidden + 1) * np.random.randn(self.n_hidden)
-        b2 = 0.
         loggamma = np.log(np.random.gamma(a0, b0))
         loglambda = np.log(np.random.gamma(a0, b0))
         return (w1, b1, loggamma, loglambda)
@@ -360,6 +359,7 @@ if __name__ == '__main__':
     else:
         X_train = np.take(X_input, index_train, axis=0)
     y_train = np.take(y_input, index_train)
+    # y_train = np.expand_dims(y_train, axis=1)
 
     if D == 1:
         X_test = np.take(X_input, index_test)
@@ -367,6 +367,7 @@ if __name__ == '__main__':
     else:
         X_test = np.take(X_input, index_test, axis=0)
     y_test = np.take(y_input, index_test)
+    # y_test = np.expand_dims(y_test, axis=1)
 
 
     start = time.time()

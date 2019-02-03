@@ -1,3 +1,31 @@
 
-Ideas
-- Variable sized neural networks
+Synthetic experiment is implemented in synthetic.py
+
+Implementations for SVGD algorithm are in BNN_SVGD.BNN
+
+Implementations for the neural networks used in SVGD are in BNN_SVGD.Net
+
+
+Data generation:
+- BernoulliGaussian class (in synthetic.py)
+- MiniBatch iterator (also in synthetic.py)
+
+SVGD algorithm:
+- FC_SVGD (implemented in BNN_SVGD.BNN)
+Uses SimpleNeuralNet (implemented in BNN_SVGD.Net) which doesn't have a bias term
+Tuning parameters are the variance terms in the __init__ function of FC_SVGD
+
+
+Optimization is as follows:
+
+def train(epoch, model, optimizer, loader):
+	total_loss = 0.
+	for batch, (x_batch, y_batch) in enumerate(loader):
+		data = torch.FloatTensor(x_batch)
+		target = torch.FloatTensor(y_batch)
+
+		loss = model.loss(data, target) # >>> Compute SVGD loss
+		# print(loss)
+		total_loss += loss
+		loss.backward()   # Compute gradient and do SGD on the loss
+		optimizer.step()
