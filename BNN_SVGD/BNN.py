@@ -35,15 +35,23 @@ class BNN_SVGD(torch.nn.Module):
         And detach the gradient from the first k(zi, zj) term
         """
         loss = 0.
-        for zi in self.nns:
-            for zj in self.nns:
+        for i, zi in enumerate(self.nns):
+            # for zj in self.nns:
+            for j in range(0, len(self.nns)):
+                zj = self.nns[j]
+
                 log_ll = self.log_likelihood_compute(zj, X, y)
                 log_prior = self.log_prior_compute(zj)
                 kernel_term1 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
+                kernel_term1.detach()  # Detach from gradient graph
+
                 kernel_term2 = self.pair_wise_kernel_discrepancy_compute(zj, zi)
 
-                kernel_term1.detach()  # Detach from gradient graph
-                loss += 1 / self.num_nn * (kernel_term1 * (log_prior + log_ll) + kernel_term2)
+                loss += 1/(2 * self.num_nn) * kernel_term2
+                loss += 1 / self.num_nn * (kernel_term1 * (log_prior + log_ll))
+
+        # log_ll = self.log_likelihood_compute(self.nns[0], X, y)
+        # loss = log_ll
 
         return -loss
 
@@ -63,6 +71,7 @@ class BNN_SVGD(torch.nn.Module):
 
             if self.bias:
                 norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma))
+
         kd = torch.exp(norm_diff)
         return kd
 
@@ -112,7 +121,12 @@ class BNN_SVGD(torch.nn.Module):
         """
         sigma = 1.
         yhat = zi.forward(X)
-        ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma
+        # ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma
+
+        ll = -0.5 * torch.sum((y - torch.squeeze(yhat)) ** 2) / self.ll_sigma
+
+        # print(ll)
+        # print(ll2)
         return ll
 
     def evaluate(self, X_train, y_train):
@@ -172,9 +186,10 @@ class FC_SVGD(BNN_SVGD):
         self.y_dim = y_dim
 
         # Initialize all the neural networks
-        self.bias = False # NOTE: not using bias for now for experimentation
+        self.bias = False
         for _ in range(num_networks):
-            zi = SimpleNeuralNet(x_dim, y_dim, network_structure, bias=self.bias)
+            # zi = SimpleNeuralNet(x_dim, y_dim, network_structure)
+            zi = SingleWeightNeuralNet(x_dim, y_dim)
             self.nns.append(zi)
 
         # TODO: tuning parameters here

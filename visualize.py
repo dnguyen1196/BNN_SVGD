@@ -3,26 +3,26 @@ import re
 import numpy as np
 
 
-text = """[0.7887073] $ 
-[2.9651] $ 
-[1.3373252] $ 
-[1.9351485] $ 
-[-3.600162] $ 
-[2.1068032] $ 
-[1.7039715] $ 
-[0.5915569] $ 
-[2.811709] $ 
-[0.67247176] $ 
-[1.889285] $ 
-[5.1111817] $ 
-[1.5320947] $ 
-[1.9065022] $ 
-[0.82902914] $ 
-[2.8724341] $ 
-[1.4443517] $ 
-[2.4661376] $ 
-[1.6679454] $ 
-[2.317671] $ 
+text = """-12.332584 -0.095041424
+-0.083616145 -6.5055194
+11.510701 0.08563855
+-0.18394023 -5.375379
+-2.2417085 -0.641133
+-0.6946191 -1.5224769
+0.29379037 4.955253
+1.372003 0.5627461
+-0.1259807 -10.203814
+-0.32535356 -2.7515426
+-0.28805175 -3.918028
+-7.4598656 -0.11256498
+-4.0735197 -0.22213012
+0.5975713 0.664911
+0.3261268 2.4364712
+8.2039385 0.13236411
+-1.1201141 -0.74418235
+4.7340655 0.25268292
+5.8182116 0.19871303
+-4.8712835 -0.11543308
 """
 
 dim = 1
@@ -33,27 +33,16 @@ data_weight = []
 data_bias = []
 
 for line in text.split("\n"):
-    s = line.split("$")
-    if len(s) < 2:
-        break
-    weight = s[0]
-    bias = s[1]
-
-    result_weight = re.findall(r"[-+]?\d*\.\d+|\d+", weight)
-    result_bias   = re.findall(r"[-+]?\d*\.\d+|\d+", bias)
+    result_weight = re.findall(r"[-+]?\d*\.\d+|\d+", line)
 
     if result_weight:
         coords = [float(s) for s in result_weight]
-        biases = [float(s) for s in result_bias]
         data_weight.append(coords)
-        data_bias.append(biases)
+
 
 data_weight = np.asarray(data_weight)
-data_bias = np.asarray(data_bias)
+print(data_weight.shape)
 
 # print(data)
-plt.plot(data_weight, np.zeros_like(data_weight), 'x')
-plt.show()
-
-plt.plot(data_bias, np.zeros_like(data_bias), 'x')
+plt.scatter(data_weight[:,0], data_weight[:,1])
 plt.show()

@@ -2,12 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="238e19b0-6e46-4742-a957-1e9392fc21c7" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BNN_SVGD/HMC.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BNN_SVGD/MCMC.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/synthetic_2_test.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/BNN_SVGD/.BNN.py.swp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/covnet_test.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_13.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_13_singlemode.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_13_singlemode_univariate.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_14_univariate0.5_0.5.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_14_univariate0.5_0.5_2.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_14_univariate0.5_0.5_3.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_14_univariate0.6_0.4.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2019_1_16_univariate0.6_0.4.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_1_-1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_1_-1_10ll.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_1_-1_10psigma.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_1_-1_1ll.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_1_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_after1iter.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_after5epochs.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/2modes_init.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/uni_1modes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/uni_2modes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/uni_2modes_0.5_0.5.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/uni_2modes_0.5_bias.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/synthetic/uni_2modes_0.6_0.4.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/mnist_ref.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/BNN.py" afterPath="$PROJECT_DIR$/BNN_SVGD/BNN.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/Net.py" afterPath="$PROJECT_DIR$/BNN_SVGD/Net.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README" afterPath="$PROJECT_DIR$/README" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/og_svgd_test.py" afterPath="$PROJECT_DIR$/og_svgd_test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/synthetic.py" afterPath="$PROJECT_DIR$/synthetic.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/visualize.py" afterPath="$PROJECT_DIR$/visualize.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,34 +49,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BNN.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="841">
-              <caret line="181" column="24" lean-forward="true" selection-start-line="181" selection-start-column="24" selection-end-line="181" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-                <element signature="e#341#452#0" expanded="false" />
-                <element signature="e#488#1512#0" expanded="false" />
-                <element signature="e#1582#2233#0" expanded="false" />
-                <element signature="e#2293#2597#0" expanded="false" />
-                <element signature="e#2667#3007#0" expanded="false" />
-                <element signature="e#3054#3460#0" expanded="false" />
-                <element signature="e#3518#3785#0" expanded="false" />
-                <element signature="e#3837#4163#0" expanded="false" />
-                <element signature="e#4204#4512#0" expanded="false" />
-                <element signature="e#4561#4943#0" expanded="false" />
-                <element signature="e#5786#8203#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="visualize.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="visualize.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/visualize.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+            <state relative-caret-position="408">
+              <caret line="24" column="22" lean-forward="false" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -57,28 +61,52 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="synthetic.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/synthetic.py">
+      <file leaf-file-name="BNN.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="158" column="0" lean-forward="false" selection-start-line="158" selection-start-column="0" selection-end-line="168" selection-end-column="24" />
+            <state relative-caret-position="378">
+              <caret line="49" column="40" lean-forward="false" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
               <folding>
-                <element signature="e#0#38#0" expanded="true" />
-                <element signature="e#317#1123#0" expanded="false" />
-                <element signature="e#1207#1651#0" expanded="false" />
-                <element signature="e#1719#2357#0" expanded="false" />
-                <element signature="e#3941#4433#0" expanded="false" />
+                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#6130#8547#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README">
+      <file leaf-file-name="synthetic_2_test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/synthetic_2_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="29" column="67" lean-forward="false" selection-start-line="29" selection-start-column="67" selection-end-line="29" selection-end-column="67" />
-              <folding />
+            <state relative-caret-position="391">
+              <caret line="133" column="0" lean-forward="true" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+                <marker date="1549576481729" expanded="false" signature="334:1034" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HMC.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="455">
+              <caret line="272" column="0" lean-forward="false" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MCMC.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BNN_SVGD/MCMC.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="370">
+              <caret line="112" column="43" lean-forward="false" selection-start-line="112" selection-start-column="43" selection-end-line="112" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -86,13 +114,13 @@
       <file leaf-file-name="Net.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="45" column="21" lean-forward="false" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="21" />
+            <state relative-caret-position="276">
+              <caret line="102" column="47" lean-forward="false" selection-start-line="102" selection-start-column="47" selection-end-line="102" selection-end-column="47" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <element signature="e#3115#3713#0" expanded="false" />
-                <element signature="e#4364#5739#0" expanded="false" />
-                <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
+                <element signature="e#4017#4615#0" expanded="false" />
+                <element signature="e#5266#6641#0" expanded="false" />
+                <marker date="1549516026591" expanded="false" signature="4664:5190" ph="..." />
               </folding>
             </state>
           </provider>
@@ -116,6 +144,9 @@
       <find>p_sigma</find>
       <find>sample</find>
       <find>N0</find>
+      <find>x_tr</find>
+      <find>rbf</find>
+      <find>lasagn</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,9 +154,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/synthetic_2_test.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/synthetic.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/og_svgd_test.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/BNN_SVGD/Net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -139,13 +172,17 @@
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_2modes_0.5_bias.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_1modes.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/uni_2modes.txt" />
-        <option value="$PROJECT_DIR$/visualize.py" />
         <option value="$PROJECT_DIR$/SVGD/bayesian_nn.py" />
         <option value="$PROJECT_DIR$/og_svgd_test.py" />
-        <option value="$PROJECT_DIR$/BNN_SVGD/Net.py" />
-        <option value="$PROJECT_DIR$/BNN_SVGD/BNN.py" />
         <option value="$PROJECT_DIR$/synthetic.py" />
         <option value="$PROJECT_DIR$/README" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/Net.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/HMC.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/MCMC.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/BNN.py" />
+        <option value="$PROJECT_DIR$/synthetic_2_test.py" />
+        <option value="$PROJECT_DIR$/visualize.py" />
       </list>
     </option>
   </component>
@@ -182,6 +219,11 @@
             <path>
               <item name="SVGD" type="b2602c69:ProjectViewProjectNode" />
               <item name="SVGD" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SVGD" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SVGD" type="462c0819:PsiDirectoryNode" />
+              <item name="BNN_SVGD" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -279,7 +321,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="82" y="24" width="1853" height="1053" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.255119" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -289,7 +330,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26067907" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3253012" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -301,6 +342,27 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858709" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29682365" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.255119" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -321,17 +383,7 @@
           <caret line="117" column="52" lean-forward="false" selection-start-line="117" selection-start-column="31" selection-end-line="117" selection-end-column="52" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#341#452#0" expanded="false" />
-            <element signature="e#488#1512#0" expanded="false" />
-            <element signature="e#1582#2233#0" expanded="false" />
-            <element signature="e#2293#2597#0" expanded="false" />
-            <element signature="e#2667#3007#0" expanded="false" />
-            <element signature="e#3054#3460#0" expanded="false" />
-            <element signature="e#3518#3785#0" expanded="false" />
-            <element signature="e#3837#4163#0" expanded="false" />
-            <element signature="e#4204#4512#0" expanded="false" />
-            <element signature="e#4561#4943#0" expanded="false" />
-            <element signature="e#5786#8203#0" expanded="false" />
+            <element signature="e#6130#8547#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -365,7 +417,7 @@
         <state relative-caret-position="680">
           <caret line="45" column="47" lean-forward="false" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="47" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="false" />
             <element signature="e#11292#12301#0" expanded="false" />
             <element signature="e#12354#12902#0" expanded="false" />
           </folding>
@@ -378,9 +430,9 @@
           <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#3115#3713#0" expanded="false" />
-            <element signature="e#4364#5739#0" expanded="false" />
-            <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
+            <element signature="e#4017#4615#0" expanded="false" />
+            <element signature="e#5266#6641#0" expanded="false" />
+            <marker date="1549516026591" expanded="false" signature="4664:5190" ph="..." />
           </folding>
         </state>
       </provider>
@@ -403,17 +455,7 @@
           <caret line="43" column="16" lean-forward="false" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#341#452#0" expanded="false" />
-            <element signature="e#488#1512#0" expanded="false" />
-            <element signature="e#1582#2233#0" expanded="false" />
-            <element signature="e#2293#2597#0" expanded="false" />
-            <element signature="e#2667#3007#0" expanded="false" />
-            <element signature="e#3054#3460#0" expanded="false" />
-            <element signature="e#3518#3785#0" expanded="false" />
-            <element signature="e#3837#4163#0" expanded="false" />
-            <element signature="e#4204#4512#0" expanded="false" />
-            <element signature="e#4561#4943#0" expanded="false" />
-            <element signature="e#5786#8203#0" expanded="false" />
+            <element signature="e#6130#8547#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -424,9 +466,9 @@
           <caret line="20" column="33" lean-forward="false" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#3115#3713#0" expanded="false" />
-            <element signature="e#4364#5739#0" expanded="false" />
-            <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
+            <element signature="e#4017#4615#0" expanded="false" />
+            <element signature="e#5266#6641#0" expanded="false" />
+            <marker date="1549516026591" expanded="false" signature="4664:5190" ph="..." />
           </folding>
         </state>
       </provider>
@@ -443,6 +485,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -499,6 +542,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
           <caret line="156" column="8" lean-forward="false" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -506,6 +550,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="449">
           <caret line="106" column="22" lean-forward="false" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -513,13 +558,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
           <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -569,16 +608,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/torch/nn/parameter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-42">
-          <caret line="3" column="6" lean-forward="false" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -586,13 +616,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-204">
           <caret line="11" column="6" lean-forward="false" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/torch/nn/modules/linear.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="40" column="44" lean-forward="false" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -625,17 +648,78 @@
         <state relative-caret-position="527">
           <caret line="45" column="47" lean-forward="false" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="47" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="false" />
             <element signature="e#11292#12301#0" expanded="false" />
             <element signature="e#12354#12902#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/covnet_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-357">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/torch/nn/parameter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="6" lean-forward="false" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/torch/nn/modules/linear.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="40" column="31" lean-forward="false" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/numpy/random/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="101" column="7" lean-forward="false" selection-start-line="101" selection-start-column="7" selection-end-line="101" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="102" column="47" lean-forward="false" selection-start-line="102" selection-start-column="47" selection-end-line="102" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#4017#4615#0" expanded="false" />
+            <element signature="e#5266#6641#0" expanded="false" />
+            <marker date="1549516026591" expanded="false" signature="4664:5190" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/og_svgd_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="50" column="56" lean-forward="false" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
+        <state relative-caret-position="204">
+          <caret line="12" column="27" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="379" selection-end-column="0" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
             <element signature="e#10634#11643#0" expanded="false" />
@@ -644,54 +728,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="45" column="21" lean-forward="false" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#3115#3713#0" expanded="false" />
-            <element signature="e#4364#5739#0" expanded="false" />
-            <marker date="1549212620905" expanded="false" signature="3762:4288" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visualize.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="841">
-          <caret line="181" column="24" lean-forward="true" selection-start-line="181" selection-start-column="24" selection-end-line="181" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#341#452#0" expanded="false" />
-            <element signature="e#488#1512#0" expanded="false" />
-            <element signature="e#1582#2233#0" expanded="false" />
-            <element signature="e#2293#2597#0" expanded="false" />
-            <element signature="e#2667#3007#0" expanded="false" />
-            <element signature="e#3054#3460#0" expanded="false" />
-            <element signature="e#3518#3785#0" expanded="false" />
-            <element signature="e#3837#4163#0" expanded="false" />
-            <element signature="e#4204#4512#0" expanded="false" />
-            <element signature="e#4561#4943#0" expanded="false" />
-            <element signature="e#5786#8203#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/synthetic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="158" column="0" lean-forward="false" selection-start-line="158" selection-start-column="0" selection-end-line="168" selection-end-column="24" />
+        <state relative-caret-position="-620">
+          <caret line="82" column="3" lean-forward="false" selection-start-line="82" selection-start-column="3" selection-end-line="82" selection-end-column="3" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
             <element signature="e#317#1123#0" expanded="false" />
@@ -702,11 +742,91 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README">
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/lasagne/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="67" lean-forward="false" selection-start-line="29" selection-start-column="67" selection-end-line="29" selection-end-column="67" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/lasagne/layers/input.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="49" column="8" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/lasagne/layers/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="272" column="0" lean-forward="false" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/MCMC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="112" column="43" lean-forward="false" selection-start-line="112" selection-start-column="43" selection-end-line="112" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/BNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="49" column="40" lean-forward="false" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#6130#8547#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/synthetic_2_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="133" column="0" lean-forward="true" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+            <marker date="1549576481729" expanded="false" signature="334:1034" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visualize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="22" lean-forward="false" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
