@@ -2,9 +2,10 @@ from __future__ import absolute_import
 import numpy as np
 import sys
 import os
-from BNN_SVGD.BNN import *
+from BNN_SVGD.SVGD_BNN import *
 import torch.optim as optim
 import torch
+import matplotlib.pyplot as plt
 
 
 """
@@ -81,7 +82,7 @@ def train(epoch, model, optimizer):
     total_loss = 0.
     data = torch.FloatTensor(Xs_train)
     target = torch.FloatTensor(ys_train)
-
+    optimizer.zero_grad()
     loss = model.loss(data, target)
     # print(loss)
     total_loss += loss
@@ -108,9 +109,6 @@ def test(epoch, model):
     print("Epoch {} => SVGD loss = {}, rmse = {}".format(epoch, total_loss, torch.sqrt(error)))
 
 
-
-
-
 """
 
 Initialize the model and the optimizer
@@ -128,22 +126,59 @@ num_networks = 20
 x_dim = 1
 y_dim = 1
 network_structure = []  # Hidden layer
-model = FC_SVGD(x_dim, y_dim, num_networks, network_structure)
+
+
+n_epochs = 500
+
+# Prints the weights of the neural networks
+ll_sigmas = [0.01] #, 0.1, 1, 2]
+p_sigmas = [0.01] #, 0.1, 1, 2]
+rbf_sigmas = [0.01] # , 0.1, 1, 2]
+
+l = 1
+p = 1
+rbf = 1
+
+model = FC_SVGD(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
 optimizer = optim.Adagrad(model.parameters(), lr=1)
-# optimizer = optim.SGD(model.parameters(), lr=0.0001)
 
-
-n_epochs = 1000
-test(-1, model)
 for epoch in range(n_epochs):
     train(epoch, model, optimizer)
     if epoch % 100 == 0:
         test(epoch, model)
 
-# Prints the weights of the neural networks
 for nnid in range(num_networks):
     weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
     weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
 
-    print(weight1[0], weight2[0])
+    print(weight1, weight2)
 
+# Try all combinations
+# for l in ll_sigmas:
+#     for p in p_sigmas:
+#         for rbf in rbf_sigmas:
+#             model = FC_SVGD(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
+#             optimizer = optim.Adagrad(model.parameters(), lr=1)
+#
+#             for epoch in range(n_epochs):
+#                 train(epoch, model, optimizer)
+#                 if epoch % 100 == 0:
+#                     test(epoch, model)
+#
+#             weights_array = []
+#             for nnid in range(num_networks):
+#                 weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
+#                 weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
+#
+#                 weights_array.append([weight1[0], weight2[0]])
+#
+#             weights_array = np.asarray(weights_array)
+#
+#             title = "ll_sigma={},prior_sigma={},rbf_sigma={}.png".format(l, p, rbf)
+#
+#             filename = "experiments/synthetic/SVGD/" + title
+#             plt.scatter(weights_array[:, 0], weights_array[:, 1])
+#             plt.ylim((-15, 15))
+#             plt.xlim((-15, 15))
+#             plt.savefig(filename)
+#             plt.close()

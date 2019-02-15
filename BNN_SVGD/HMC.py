@@ -6,7 +6,6 @@ import copy
 import math
 import time
 
-# ag_np.random.seed(42)
 mean = 0
 variance = 1.0
 sigma = 0.1
@@ -93,19 +92,14 @@ def calc_potential_energy(cur_bnn_params):
     potential = 0
 
     for i in range(len(cur_bnn_params)):
-        for j in range(cur_bnn_params[i]['w'].shape[0]):
-            for k in range(cur_bnn_params[i]['w'].shape[1]):
-                potential += ag_np.log(1.0 / math.sqrt(2 * math.pi)) - 0.5 * ag_np.power(cur_bnn_params[i]['w'][j, k],
-                                                                                         2)
-        # for p in range(cur_bnn_params[i]['b'].shape[0]):
-        #     potential += ag_np.log(1.0 / math.sqrt(2 * math.pi)) - 0.5 * ag_np.power(cur_bnn_params[i]['b'][p], 2)
-
+        potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi)) - 0.5 * ag_np.power(cur_bnn_params[i]['w'],2))
+        # potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi)) - 0.5 * ag_np.power(cur_bnn_params[i]['b'], 2))
 
     y_pred = predict_y_given_x_with_NN(x=x_train_N, nn_param_list=cur_bnn_params)
-    y_pred = y_pred - y_train_N
+    # y_pred = y_pred - y_train_N
 
-    for i in range(y_pred.shape[0]):
-        potential += ag_np.log(1.0 / math.sqrt(2 * math.pi) / sigma) - 0.5 / (sigma * sigma) * ag_np.power(y_pred[i], 2)
+    potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi) / sigma) - 0.5 / (sigma * sigma) * ag_np.power(y_pred - y_train_N, 2))
+
     return -potential
 
 
@@ -115,11 +109,8 @@ grad_u = autograd.grad(calc_potential_energy)
 def calc_kinetic_energy(cur_momentum_vec):
     kinetic = 0
     for i in range(len(cur_momentum_vec)):
-        for j in range(cur_momentum_vec[i]['w'].shape[0]):
-            for k in range(cur_momentum_vec[i]['w'].shape[1]):
-                kinetic += ag_np.power(cur_momentum_vec[i]['w'][j, k], 2) / 2
-        # for p in range(cur_momentum_vec[i]['b'].shape[0]):
-        #     kinetic += ag_np.power(cur_momentum_vec[i]['b'][p], 2) / 2
+        kinetic += ag_np.sum(ag_np.power(cur_momentum_vec[i]['w'], 2))/2
+        # kinetic += ag_np.sum(ag_np.power(cur_momentum_vec[i]['b'], 2) / 2)
     return kinetic
 
 
@@ -159,6 +150,7 @@ def make_proposal_via_leapfrog_steps(
                 update(prop_momentum_vec, calc_grad_potential_energy(prop_bnn_params), step_size / 2.0, False))
 
     prop_momentum_vec = copy.deepcopy(update(prop_momentum_vec, prop_momentum_vec, 2.0, False))
+
     return prop_bnn_params, prop_momentum_vec
 
 
@@ -190,7 +182,7 @@ def run_HMC_sampler(
     """
     # Create random-number-generator with specific seed for reproducibility
     start_time_sec = time.time()
-    prng = np.random.RandomState(int(random_seed))
+    prng = np.random.RandomState() #int(random_seed))
 
     # Set initial bnn params
     cur_bnn_params = init_bnn_params
@@ -252,23 +244,27 @@ def run_HMC_sampler(
 def do_synthetic_experiment():
     arch = [1]
 
-    nn_params = make_nn_params_as_list_of_dicts(n_hiddens_per_layer_list=arch)
-
-    chain = [(25, 1e-2), (25, 0.005), (40, 1e-2)]
+    n_leapfrog_steps = 20
+    step_size = 0.001
     bnn_all_samples = []
+    n_hmc_iters = 100
 
-    bnn_samples, potential_list, dict_other = run_HMC_sampler(init_bnn_params=nn_params, n_hmc_iters=300,
-                                                              n_leapfrog_steps=20, step_size=0.001, random_seed=3100,
-                                                              calc_potential_energy=calc_potential_energy,
-                                                              calc_kinetic_energy=calc_kinetic_energy,
-                                                              calc_grad_potential_energy=grad_u)
+    for rand_start in range(10):
+        nn_params_0 = make_nn_params_as_list_of_dicts(n_hiddens_per_layer_list=arch)
 
-    num_samples = len(bnn_samples)
+        bnn_samples, potential_list, dict_other = run_HMC_sampler(init_bnn_params=nn_params_0, n_hmc_iters=n_hmc_iters,
+                                                                  n_leapfrog_steps=n_leapfrog_steps, step_size=step_size,
+                                                                  calc_potential_energy=calc_potential_energy,
+                                                                  calc_kinetic_energy=calc_kinetic_energy,
+                                                                  calc_grad_potential_energy=grad_u)
+
+        bnn_all_samples.extend(bnn_samples[int(len(bnn_samples)/2) : len(bnn_samples)])
 
     error = 0
     num = 0
-    for i in range(int(num_samples*0/10), num_samples):
-        nn = bnn_samples[i]
+    num_samples = len(bnn_all_samples)
+    for i in range(int(num_samples*1/2), num_samples):
+        nn = bnn_all_samples[i]
         print(nn[0]["w"], nn[1]["w"])
 
         num += 1

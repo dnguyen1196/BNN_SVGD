@@ -2,7 +2,7 @@ from __future__ import absolute_import
 import numpy as np
 import sys
 import os
-from BNN_SVGD.BNN import *
+from BNN_SVGD.SVGD_BNN import *
 import torch.optim as optim
 import torch
 
@@ -161,7 +161,7 @@ def train(epoch, model, optimizer, loader):
 	for batch, (x_batch, y_batch) in enumerate(loader):
 		data = torch.FloatTensor(x_batch)
 		target = torch.FloatTensor(y_batch)
-
+		optimizer.zero_grad()
 		loss = model.loss(data, target)
 		# print(loss)
 		total_loss += loss
