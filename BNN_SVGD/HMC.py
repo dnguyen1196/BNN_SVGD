@@ -13,7 +13,7 @@ sigma = 0.1
 N = 100
 eps = 1
 x_train_N = np.linspace(-3, 3, N)
-y_train_N = 1 * x_train_N + np.random.normal(0, 0.1, size=(N,))
+y_train_N = 1 * x_train_N + np.random.normal(0, 1, size=(N,))
 
 
 def relu(x):
@@ -51,15 +51,6 @@ def make_nn_params_as_list_of_dicts(
                 # b=bias_fill_func(mean, variance, (n_out,)),
             ))
     return nn_param_list
-
-
-def pretty_print_nn_param_list(nn_param_list_of_dict):
-    """ Create pretty display of the parameters at each layer
-    """
-    for ll, layer_dict in enumerate(nn_param_list_of_dict):
-        print("Layer %d" % ll)
-        print("  w | size %9s | %s" % (layer_dict['w'].shape, layer_dict['w'].flatten()))
-        print("  b | size %9s | %s" % (layer_dict['b'].shape, layer_dict['b'].flatten()))
 
 
 def predict_y_given_x_with_NN(x=None, nn_param_list=None, activation_func=ag_np.tanh):
@@ -245,11 +236,13 @@ def do_synthetic_experiment():
     arch = [1]
 
     n_leapfrog_steps = 20
-    step_size = 0.001
+    step_size = 0.005
     bnn_all_samples = []
     n_hmc_iters = 100
 
-    for rand_start in range(10):
+    n_random_restart = 20
+
+    for rand_start in range(n_random_restart):
         nn_params_0 = make_nn_params_as_list_of_dicts(n_hiddens_per_layer_list=arch)
 
         bnn_samples, potential_list, dict_other = run_HMC_sampler(init_bnn_params=nn_params_0, n_hmc_iters=n_hmc_iters,
@@ -261,13 +254,25 @@ def do_synthetic_experiment():
         bnn_all_samples.extend(bnn_samples[int(len(bnn_samples)/2) : len(bnn_samples)])
 
     error = 0
-    num = 0
     num_samples = len(bnn_all_samples)
-    for i in range(int(num_samples*1/2), num_samples):
+
+    distribution = []
+
+    for i in range(0, num_samples):
         nn = bnn_all_samples[i]
-        print(nn[0]["w"], nn[1]["w"])
+        w1, w2 = nn[0]["w"][0][0], nn[1]["w"][0][0]
+        distribution.append([w1, w2])
+    distribution = np.array(distribution)
+    plt.scatter(distribution[:, 0], distribution[:, 1])
 
-        num += 1
+    refx_neg = np.linspace(-10, -0.1, 19)
+    refx_pos = np.linspace(0.1, 10, 19)
+    refy_neg = 1. / refx_neg
+    refy_pos = 1. / refx_pos
 
+    plt.plot(refx_neg, refy_neg, "r")
+    plt.plot(refx_pos, refy_pos, "r")
+
+    plt.show()
 
 do_synthetic_experiment()

@@ -5,103 +5,11 @@ from .Net import *
 from torch.autograd import Variable
 import torch.nn.functional as F
 import torch.optim as optim
+from BNN_SVGD.HMC_BNN import HMC_sampler
 import time
 import copy
 from BNN_SVGD.SVGD_BNN import *
 import copy
-
-
-class HMC_sampler(nn.Module):
-    def __init__(self):
-        super(HMC_sampler, self).__init__()
-
-    def make_proposal_via_leapfrog_steps(self, cur_bnn, cur_momentum, n_leapfrog_steps=25, step_size=0.001,
-                                         calc_grad_potential_energy=None, update_params=None, update_momentum=None):
-        """
-
-        :param cur_bnn:
-        :param cur_momentum:
-        :param n_leapfrog_steps:
-        :param step_size:
-        :param calc_grad_potential_energy:
-        :param update_params:
-        :param update_momentum:
-        :return:
-        """
-        assert (calc_grad_potential_energy)
-        assert (update_params)
-        assert (update_momentum)
-
-        prop_bnn = copy.deepcopy(cur_bnn)
-        prop_momentum = cur_momentum
-
-        # prop_momentum_vec -= step_size * calc_grad_potential_energy(prop_bnn_params)/2.0
-        grad_potential = calc_grad_potential_energy(prop_bnn)
-        prop_momentum = update_momentum(prop_momentum, grad_potential, -step_size / 2.0)
-
-        # This will use the grad of potential energy (use provided function)
-        for step_id in range(n_leapfrog_steps):
-            # This will use the grad of kinetic energy (has simple closed form)
-
-            if step_id < (n_leapfrog_steps - 1):
-                prop_bnn = update_params(prop_bnn, prop_momentum, -step_size)
-                prop_momentum = update_momentum(prop_momentum, calc_grad_potential_energy(prop_bnn), -step_size)
-            else:
-                prop_bnn = update_params(prop_bnn, prop_momentum, step_size)
-                prop_momentum = update_momentum(prop_momentum, calc_grad_potential_energy(prop_bnn), -step_size / 2.0)
-
-        prop_momentum = update_momentum(prop_momentum, prop_momentum, -2.0) # Equivalent to flipping sign
-        return prop_bnn, prop_momentum
-
-    def sample_hmc(self, n_leapfrog_steps=15, step_size=0.0001, init_bnn=None, calc_potential_energy=None,
-                   calc_kinetic_energy=None,calc_grad_potential_energy=None, generate_rand_momentum=None, update_params=None, update_momentum=None):
-        """
-
-        :param n_leapfrog_steps:
-        :param step_size:
-        :param init_bnn:
-        :param calc_potential_energy:
-        :param calc_kinetic_energy:
-        :param calc_grad_potential_energy:
-        :param generate_rand_momentum:
-        :param update_params:
-        :param update_momentum:
-
-        :return:
-        """
-
-        # Make sure that these functions are not None
-        assert (calc_potential_energy)
-        assert (calc_kinetic_energy)
-        assert (calc_grad_potential_energy)
-        assert (init_bnn)
-        assert (generate_rand_momentum)
-        assert (update_params)
-        assert (update_momentum)
-
-        # Start by generating a random momentum
-        cur_momentum = generate_rand_momentum(init_bnn)
-        cur_potential = calc_potential_energy(init_bnn)
-        cur_kinetic = calc_kinetic_energy(cur_momentum)
-
-        # Create PROPOSED configuration
-        proposed_bnn, proposed_momentum = self.make_proposal_via_leapfrog_steps(
-            init_bnn, cur_momentum, n_leapfrog_steps=n_leapfrog_steps,step_size=step_size,
-            calc_grad_potential_energy=calc_grad_potential_energy, update_params=update_params, update_momentum=update_momentum)
-
-        proposed_potential = calc_potential_energy(proposed_bnn)
-        proposed_kinetic = calc_kinetic_energy(proposed_momentum)
-
-        accept_proba = np.minimum(1, np.exp( -proposed_potential.detach().numpy() - proposed_kinetic.detach().numpy()
-                                             + cur_kinetic.detach().numpy() + cur_potential.detach().numpy()))
-
-        # Draw random value from (0,1) to determine if we accept or not
-        if np.random.rand() < accept_proba:
-            # If here, we accepted the proposal
-            return  proposed_bnn
-
-        return init_bnn
-
 
 
 class SVGD_HMC_hybrid(BNN_SVGD):
