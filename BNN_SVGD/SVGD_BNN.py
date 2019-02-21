@@ -126,7 +126,7 @@ class BNN_SVGD(torch.nn.Module):
         yhat = zi.forward(X)
         # ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma
 
-        ll = -0.5 * torch.sum((y - torch.squeeze(yhat)) ** 2) / self.ll_sigma
+        ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma
 
         # print(ll)
         # print(ll2)

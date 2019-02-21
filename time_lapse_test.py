@@ -6,6 +6,8 @@ from BNN_SVGD.SVGD_BNN import *
 import torch.optim as optim
 import torch
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
 
 # np.random.seed(42)
 """
@@ -20,7 +22,6 @@ ys = 1 * Xs + np.random.normal(0, 1, size=(N,))
 """
 Iterator class to do mini-batching
 """
-
 class MiniBatch:
     def __init__(self, xs, ys, batch_size):
         self.Xs = xs
@@ -76,7 +77,6 @@ batch_size = 100
 loader = MiniBatch(Xs_train, ys_train, batch_size)
 test_loader = MiniBatch(Xs_test, ys_test, batch_size)
 
-
 # train and test functions
 def train(epoch, model, optimizer):
     total_loss = 0.
@@ -88,7 +88,6 @@ def train(epoch, model, optimizer):
     total_loss += loss
     loss.backward()
     optimizer.step()
-
 
 def test(epoch, model):
     total_loss = 0.
@@ -127,59 +126,59 @@ x_dim = 1
 y_dim = 1
 network_structure = []  # Hidden layer
 
-
 n_epochs = 500
-
-# Prints the weights of the neural networks
-ll_sigmas = [0.1] #, 0.1, 1, 2]
-p_sigmas = [0.1] #, 0.1, 1, 2]
-# rbf_sigmas = [0.01, 1, 2, 5, 10, 100, 200, 1000] # , 0.1, 1, 2]
-rbf_sigmas = [20, 25, 50, 75, 100, 200, 1000] # , 0.1, 1, 2]
 
 #
 l = .1
 p = .1
-rbf = 100
+rbf = .1
 
 model = FC_SVGD(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
 optimizer = optim.Adagrad(model.parameters(), lr=1)
 
-for epoch in range(n_epochs):
-    train(epoch, model, optimizer)
-    if epoch % 100 == 0:
-        test(epoch, model)
+#
+capture_frame       = [0, 1,2,5,10, 50, 100, 200, 350, 500]
+positions_over_time = []
 
-for nnid in range(num_networks):
-    weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
-    weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
-    print(weight1, weight2)
+for epoch in range(n_epochs+1):
+	train(epoch, model, optimizer)
+	# Keep track of the weights after each epoch
 
-# Try all combinations
-# for l in ll_sigmas:
-#     for p in p_sigmas:
-#         for rbf in rbf_sigmas:
-#             model = FC_SVGD(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-#             optimizer = optim.Adagrad(model.parameters(), lr=1)
-#
-#             for epoch in range(n_epochs):
-#                 train(epoch, model, optimizer)
-#                 if epoch % 100 == 0:
-#                     test(epoch, model)
-#
-#             weights_array = []
-#             for nnid in range(num_networks):
-#                 weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
-#                 weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
-#
-#                 weights_array.append([weight1[0], weight2[0]])
-#
-#             weights_array = np.asarray(weights_array)
-#
-#             title = "ll_sigma={},prior_sigma={},rbf_sigma={}.png".format(l, p, rbf)
-#
-#             filename = "experiments/synthetic/SVGD/" + title
-#             plt.scatter(weights_array[:, 0], weights_array[:, 1])
-#             plt.ylim((-15, 15))
-#             plt.xlim((-15, 15))
-#             plt.savefig(filename)
-#             plt.close()
+	if epoch in capture_frame:
+		position = []
+
+		for nnid in range(num_networks):
+			weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
+			weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
+			position.append([weight1[0], weight2[0]])
+
+		positions_over_time.append(position)
+
+	if epoch % 100 == 0:
+		test(epoch, model)
+
+positions_over_time = np.array(positions_over_time)
+
+# Initialize the figure
+fig, ax = plt.subplots()
+fig.set_tight_layout(True)
+
+def update(i):
+	plt.clf()
+	label = 'Epoch {0}'.format(capture_frame[i])
+	# Update the line and the axes (with a new xlabel). Return a tuple of
+	# "artists" that have to be redrawn for this frame.
+	position = positions_over_time[i]
+	plt.scatter(position[:, 0], position[:, 1])
+	plt.ylim(-15, 15)
+	plt.xlim(-15, 15)
+
+	plt.xlabel(label)
+	# return ax
+
+
+# FuncAnimation will call the 'update' function for each frame; here
+# animating over 10 frames, with an interval of 200ms between frames.
+anim = FuncAnimation(fig, update, frames=np.arange(0, len(capture_frame)), interval=500)
+anim.save('position-over-time-svgd.gif', dpi=80, writer='imagemagick')
+plt.show()

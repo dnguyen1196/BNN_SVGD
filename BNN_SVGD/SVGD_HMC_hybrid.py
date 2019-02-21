@@ -5,7 +5,7 @@ from .Net import *
 from torch.autograd import Variable
 import torch.nn.functional as F
 import torch.optim as optim
-
+import time
 import copy
 from BNN_SVGD.SVGD_BNN import *
 import copy
@@ -53,7 +53,7 @@ class HMC_sampler(nn.Module):
         prop_momentum = update_momentum(prop_momentum, prop_momentum, -2.0) # Equivalent to flipping sign
         return prop_bnn, prop_momentum
 
-    def sample_hmc(self, n_leapfrog_steps=25, step_size=0.001, init_bnn=None, calc_potential_energy=None,
+    def sample_hmc(self, n_leapfrog_steps=15, step_size=0.0001, init_bnn=None, calc_potential_energy=None,
                    calc_kinetic_energy=None,calc_grad_potential_energy=None, generate_rand_momentum=None, update_params=None, update_momentum=None):
         """
 
@@ -120,12 +120,15 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             zi = SingleWeightNeuralNet(x_dim, y_dim)
             self.nns.append(zi)
 
-    def fit(self, X, y, num_iterations=1000, svgd_iteration=10, hmc_iteration=20):
+    def fit(self, train_loader, num_iterations=1000, svgd_iteration=10, hmc_iteration=20):
         optimizer = optim.Adagrad(self.parameters(), lr=1)
         svgd = True
         count = 0
         iteration = 0
         hmc_sampler = HMC_sampler()
+        start = time.time()
+
+        positions_over_time = []
 
 
         def calc_prior(bnn):
@@ -186,8 +189,12 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                     layer.weight.data = layer.weight.data + d_bnn[i * 2 + 1] * stepsize
             return bnn
 
-        while iteration < num_iterations:
+        while iteration + 1 < num_iterations:
             optimizer.zero_grad()
+
+            X_batch, y_batch = next(train_loader)
+            X = torch.FloatTensor(X_batch)
+            y = torch.FloatTensor(y_batch)
 
             if svgd:
                 # run svgd
@@ -198,19 +205,28 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             else:
                 # Run HMC sampler
                 for i, zi in enumerate(self.nns):
-                    self.nns[i] = hmc_sampler.sample_hmc(n_leapfrog_steps=10, step_size=0.000001, init_bnn=zi,
+                    self.nns[i] = hmc_sampler.sample_hmc(init_bnn=zi,
                                                          calc_potential_energy=calc_potential_energy,
                                                          calc_kinetic_energy=calc_kinetic_energy,
                                                          calc_grad_potential_energy=calc_grad_potential_energy,
                                                          generate_rand_momentum=generate_rand_momentum,
                                                          update_params=update_params, update_momentum=update_momentum)
 
+            # Keeping track of the positions over time, also make sure to be clear
+            # if the current position is during svgd or hmc iteration
+            curr_position = []
+            for nnid in range(len(self.nns)):
+                weight1 = self.nns[nnid].nn_params[0].weight.detach().numpy()[0]
+                weight2 = self.nns[nnid].nn_params[1].weight.detach().numpy()[0]
+                curr_position.append([weight1[0], weight2[0]])
+            positions_over_time.append((curr_position, svgd))
 
             if iteration % 50 == 0:
                 preds = self.predict_average(X)
-                error = torch.mean((preds - torch.squeeze(y)) ** 2)
+                error = torch.mean((torch.squeeze(preds) - torch.squeeze(y)) ** 2)
                 svgd_loss_batch = self.loss(X, y)
-                print("iteration: ", iteration, " MSE: ", error.detach().numpy(), " svgd-loss: ", svgd_loss_batch.detach().numpy())
+                print("iteration: ", iteration, " time: ",time.time() - start ,
+                      " MSE: ", error.detach().numpy(), " svgd-loss: ", svgd_loss_batch.detach().numpy())
 
             count += 1
             if (count % svgd_iteration == 0 and svgd) or (count % hmc_iteration == 0 and not svgd):
@@ -219,7 +235,6 @@ class SVGD_HMC_hybrid(BNN_SVGD):
 
             iteration += 1
 
-
-
+        return positions_over_time
 
 
