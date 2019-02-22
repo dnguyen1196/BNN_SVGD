@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="238e19b0-6e46-4742-a957-1e9392fc21c7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hmc_test.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/svgd_test.ipynb" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/hybrid_test.py" afterPath="$PROJECT_DIR$/hmc_svgd_hybrid_test.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mnist_test.py" afterPath="$PROJECT_DIR$/mnist_svgd_test.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/synthetic_2_test.py" afterPath="$PROJECT_DIR$/svgd_synthetic_test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/HMC.py" afterPath="$PROJECT_DIR$/BNN_SVGD/HMC.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" afterPath="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py" afterPath="$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hmc_test.py" afterPath="$PROJECT_DIR$/hmc_test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hmc_test.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="hmc_test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hmc_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-90">
-              <caret line="27" column="5" lean-forward="false" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+            <state relative-caret-position="129">
+              <caret line="36" column="69" lean-forward="false" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -71,18 +65,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HMC_BNN.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HMC_BNN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="74">
-              <caret line="129" column="51" lean-forward="false" selection-start-line="129" selection-start-column="51" selection-end-line="129" selection-end-column="51" />
+            <state relative-caret-position="-1316">
+              <caret line="50" column="60" lean-forward="false" selection-start-line="50" selection-start-column="60" selection-end-line="50" selection-end-column="60" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <element signature="e#417#1905#0" expanded="false" />
-                <element signature="e#4756#5018#0" expanded="false" />
-                <element signature="e#5440#5499#0" expanded="false" />
-                <element signature="e#6384#6482#0" expanded="false" />
-                <element signature="e#6545#6914#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -91,8 +80,8 @@
       <file leaf-file-name="HMC.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5">
-              <caret line="222" column="0" lean-forward="true" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+            <state relative-caret-position="207">
+              <caret line="126" column="8" lean-forward="false" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="8" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -176,8 +165,8 @@
         <option value="$PROJECT_DIR$/hybrid_test.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/HMC.py" />
-        <option value="$PROJECT_DIR$/hmc_test.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" />
+        <option value="$PROJECT_DIR$/hmc_test.py" />
       </list>
     </option>
   </component>
@@ -362,7 +351,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858709" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33077765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2584885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.257886" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -536,6 +525,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -745,20 +735,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hmc_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-90">
-          <caret line="27" column="5" lean-forward="false" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5">
-          <caret line="222" column="0" lean-forward="true" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+        <state relative-caret-position="207">
+          <caret line="126" column="8" lean-forward="false" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="8" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -767,15 +747,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
-          <caret line="129" column="51" lean-forward="false" selection-start-line="129" selection-start-column="51" selection-end-line="129" selection-end-column="51" />
+        <state relative-caret-position="-1316">
+          <caret line="50" column="60" lean-forward="false" selection-start-line="50" selection-start-column="60" selection-end-line="50" selection-end-column="60" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#417#1905#0" expanded="false" />
-            <element signature="e#4756#5018#0" expanded="false" />
-            <element signature="e#5440#5499#0" expanded="false" />
-            <element signature="e#6384#6482#0" expanded="false" />
-            <element signature="e#6545#6914#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hmc_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="36" column="69" lean-forward="false" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

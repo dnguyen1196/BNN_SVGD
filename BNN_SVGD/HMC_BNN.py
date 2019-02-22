@@ -8,7 +8,7 @@ class HMC_sampler(nn.Module):
     def __init__(self):
         super(HMC_sampler, self).__init__()
 
-    def make_proposal_via_leapfrog_steps(self, cur_bnn, cur_momentum, n_leapfrog_steps=25, step_size=1e-7,
+    def make_proposal_via_leapfrog_steps(self, cur_bnn, cur_momentum, n_leapfrog_steps, step_size,
                                          calc_grad_potential_energy=None, update_params=None, update_momentum=None):
         """
 
@@ -30,6 +30,8 @@ class HMC_sampler(nn.Module):
 
         # prop_momentum_vec -= step_size * calc_grad_potential_energy(prop_bnn_params)/2.0
         grad_potential = calc_grad_potential_energy(prop_bnn)
+
+        # Take a half step
         prop_momentum = update_momentum(prop_momentum, grad_potential, -step_size / 2.0)
 
         # This will use the grad of potential energy (use provided function)
@@ -37,16 +39,16 @@ class HMC_sampler(nn.Module):
             # This will use the grad of kinetic energy (has simple closed form)
 
             if step_id < (n_leapfrog_steps - 1):
-                prop_bnn = update_params(prop_bnn, prop_momentum, -step_size)
+                prop_bnn = update_params(prop_bnn, prop_momentum, step_size)
                 prop_momentum = update_momentum(prop_momentum, calc_grad_potential_energy(prop_bnn), -step_size)
             else:
                 prop_bnn = update_params(prop_bnn, prop_momentum, step_size)
                 prop_momentum = update_momentum(prop_momentum, calc_grad_potential_energy(prop_bnn), -step_size / 2.0)
 
-        prop_momentum = update_momentum(prop_momentum, prop_momentum, -2.0) # Equivalent to flipping sign
+        prop_momentum = update_momentum(prop_momentum, prop_momentum, -2.0) # flipping the sign of momentum
         return prop_bnn, prop_momentum
 
-    def sample_hmc(self, n_leapfrog_steps=40, step_size=1e-7, init_bnn=None, calc_potential_energy=None,
+    def sample_hmc(self, n_leapfrog_steps=20, step_size=1e-7, init_bnn=None, calc_potential_energy=None,
                    calc_kinetic_energy=None,calc_grad_potential_energy=None, generate_rand_momentum=None, update_params=None, update_momentum=None):
         """
 
@@ -136,6 +138,9 @@ class HMC_BNN(BNN_SVGD):
             return log_prior + log_likelihood
 
         def calc_kinetic_energy(momentum):
+            # kinetic = 0.
+            # for m in momentum:
+                # kinetic += torch.sum(m**2)
             kinetic = torch.sum(momentum**2)
             return kinetic
 
@@ -148,6 +153,7 @@ class HMC_BNN(BNN_SVGD):
                 grad.append(layer.weight.grad)
                 if bnn.bias:
                     grad.append(layer.bias.grad)
+            optimizer.zero_grad()
             return grad
 
         def generate_rand_momentum(bnn):

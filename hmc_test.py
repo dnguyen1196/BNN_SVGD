@@ -34,7 +34,7 @@ rbf = 1
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=100)
 
 model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-sampled_bnn = model.fit(train_loader=train_loader, num_iterations=100)
+sampled_bnn = model.fit(train_loader=train_loader, num_iterations=500)
 
 distribution = []
 

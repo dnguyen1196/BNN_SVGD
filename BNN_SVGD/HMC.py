@@ -145,6 +145,11 @@ def make_proposal_via_leapfrog_steps(
     return prop_bnn_params, prop_momentum_vec
 
 
+def compute_mse(bnn_params):
+    yhat = predict_y_given_x_with_NN(x_train_N, bnn_params)
+    return np.mean(yhat**2)
+
+
 def run_HMC_sampler(
         init_bnn_params=None,
         n_hmc_iters=10,
@@ -240,7 +245,7 @@ def do_synthetic_experiment():
     bnn_all_samples = []
     n_hmc_iters = 100
 
-    n_random_restart = 20
+    n_random_restart = 10
 
     for rand_start in range(n_random_restart):
         nn_params_0 = make_nn_params_as_list_of_dicts(n_hiddens_per_layer_list=arch)
@@ -257,11 +262,15 @@ def do_synthetic_experiment():
     num_samples = len(bnn_all_samples)
 
     distribution = []
-
-    for i in range(0, num_samples):
+    mse_arr      = []
+    for i in range(int(num_samples/2), num_samples):
         nn = bnn_all_samples[i]
+        mse_arr.append(compute_mse(bnn_params=nn))
+
         w1, w2 = nn[0]["w"][0][0], nn[1]["w"][0][0]
         distribution.append([w1, w2])
+
+    print("Average mse: ", np.mean(mse_arr))
     distribution = np.array(distribution)
     plt.scatter(distribution[:, 0], distribution[:, 1])
 
