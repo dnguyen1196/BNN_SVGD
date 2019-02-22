@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="238e19b0-6e46-4742-a957-1e9392fc21c7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/HMC.py" afterPath="$PROJECT_DIR$/BNN_SVGD/HMC.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/BNN_SVGD/HMC.py" afterPath="$PROJECT_DIR$/BNN_SVGD/HMC_autograd.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" afterPath="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/MCMC.py" afterPath="$PROJECT_DIR$/BNN_SVGD/MCMC.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hmc_test.py" afterPath="$PROJECT_DIR$/hmc_test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,7 +45,7 @@
       <file leaf-file-name="visualize_weights.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visualize_weights.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
+            <state relative-caret-position="316">
               <caret line="50" column="9" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="55" selection-end-column="33" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -53,13 +54,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hmc_test.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="hmc_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hmc_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="36" column="69" lean-forward="false" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
+            <state relative-caret-position="384">
+              <caret line="58" column="33" lean-forward="true" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HMC_autograd.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_autograd.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4624">
+              <caret line="272" column="4" lean-forward="false" selection-start-line="272" selection-start-column="4" selection-end-line="272" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MCMC.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BNN_SVGD/MCMC.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="452">
+              <caret line="105" column="67" lean-forward="false" selection-start-line="105" selection-start-column="67" selection-end-line="105" selection-end-column="67" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,22 +93,10 @@
       <file leaf-file-name="HMC_BNN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1316">
-              <caret line="50" column="60" lean-forward="false" selection-start-line="50" selection-start-column="60" selection-end-line="50" selection-end-column="60" />
+            <state relative-caret-position="3502">
+              <caret line="206" column="35" lean-forward="true" selection-start-line="206" selection-start-column="35" selection-end-line="206" selection-end-column="35" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HMC.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="126" column="8" lean-forward="false" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -134,7 +147,7 @@
     <setting file="file://$PROJECT_DIR$/time_lapse_test.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/BNN_SVGD/Net.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/BNN_SVGD/HMC_autograd.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -152,7 +165,6 @@
         <option value="$PROJECT_DIR$/og_svgd_test.py" />
         <option value="$PROJECT_DIR$/README" />
         <option value="$PROJECT_DIR$/BNN_SVGD/Net.py" />
-        <option value="$PROJECT_DIR$/BNN_SVGD/MCMC.py" />
         <option value="$PROJECT_DIR$/visualize.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/BNN.py" />
         <option value="$PROJECT_DIR$/visualize_grids.py" />
@@ -167,6 +179,7 @@
         <option value="$PROJECT_DIR$/BNN_SVGD/HMC.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" />
         <option value="$PROJECT_DIR$/hmc_test.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/MCMC.py" />
       </list>
     </option>
   </component>
@@ -345,13 +358,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="325" y="290" width="1853" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858709" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2584885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3143483" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.257886" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -580,16 +594,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/MCMC.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="914">
-          <caret line="108" column="40" lean-forward="false" selection-start-line="108" selection-start-column="40" selection-end-line="108" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#12#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -714,16 +718,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/visualize_weights.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="50" column="9" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="55" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/time_lapse_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -735,32 +729,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC.py">
+    <entry file="file://$PROJECT_DIR$/visualize_weights.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="126" column="8" lean-forward="false" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="8" />
+        <state relative-caret-position="316">
+          <caret line="50" column="9" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="55" selection-end-column="33" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1316">
-          <caret line="50" column="60" lean-forward="false" selection-start-line="50" selection-start-column="60" selection-end-line="50" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hmc_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="36" column="69" lean-forward="false" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
+        <state relative-caret-position="384">
+          <caret line="58" column="33" lean-forward="true" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3502">
+          <caret line="206" column="35" lean-forward="true" selection-start-line="206" selection-start-column="35" selection-end-line="206" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_autograd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4624">
+          <caret line="272" column="4" lean-forward="false" selection-start-line="272" selection-start-column="4" selection-end-line="272" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/MCMC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="105" column="67" lean-forward="false" selection-start-line="105" selection-start-column="67" selection-end-line="105" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>

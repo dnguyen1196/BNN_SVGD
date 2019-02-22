@@ -138,9 +138,6 @@ class HMC_BNN(BNN_SVGD):
             return log_prior + log_likelihood
 
         def calc_kinetic_energy(momentum):
-            # kinetic = 0.
-            # for m in momentum:
-                # kinetic += torch.sum(m**2)
             kinetic = torch.sum(momentum**2)
             return kinetic
 
@@ -150,9 +147,9 @@ class HMC_BNN(BNN_SVGD):
             potential.backward()
             grad = []
             for i, layer in enumerate(bnn.nn_params):
-                grad.append(layer.weight.grad)
+                grad.append(layer.weight.grad.data)
                 if bnn.bias:
-                    grad.append(layer.bias.grad)
+                    grad.append(layer.bias.grad.data)
             optimizer.zero_grad()
             return grad
 

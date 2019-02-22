@@ -37,13 +37,17 @@ model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
 sampled_bnn = model.fit(train_loader=train_loader, num_iterations=500)
 
 distribution = []
+mse_arr = []
 
 for bnn in sampled_bnn:
+    yhat = bnn.forward(data)
+    mse_arr.append(torch.mean((yhat-target)**2).detach().numpy())
     weight1 = bnn.nn_params[0].weight.detach().numpy()[0][0]
     weight2 = bnn.nn_params[1].weight.detach().numpy()[0][0]
     distribution.append([weight1, weight2])
 
 distribution = np.array(distribution)
+print("Average mse: ", np.mean(mse_arr))
 
 # Plot the "correct" distribution
 refx_neg = np.linspace(-10, -0.1, 19)

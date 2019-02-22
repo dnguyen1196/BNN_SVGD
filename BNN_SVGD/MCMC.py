@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from torch.autograd import grad, backward
 from torch.nn import ModuleList
-from Net import *
+from .Net import *
 from torch.autograd import Variable
 import torch.nn.functional as F
 import copy
@@ -103,7 +103,7 @@ def do_experiment():
         sample = samples[i]
 
         yhat = sample.forward(X)
-        error += torch.mean((yhat - y)**2)
+        error += torch.mean((torch.squeeze(yhat) - torch.squeeze(y))**2)
 
         w1 = sample.nn_params[0].weight.data
         w2 = sample.nn_params[1].weight.data
