@@ -4,16 +4,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import copy
 import math
+from matplotlib.animation import FuncAnimation
+
 import time
 
 mean = 0
 variance = 1.0
-sigma = 0.1
+ll_sigma = 1
+p_sigma  = 1
 
 N = 100
 eps = 1
 x_train_N = np.linspace(-3, 3, N)
-y_train_N = 1 * x_train_N + np.random.normal(0, 1, size=(N,))
+y_train_N = x_train_N + np.random.normal(0, 1, size=(N,))
 
 
 def relu(x):
@@ -53,7 +56,7 @@ def make_nn_params_as_list_of_dicts(
     return nn_param_list
 
 
-def predict_y_given_x_with_NN(x=None, nn_param_list=None, activation_func=ag_np.tanh):
+def predict_y_given_x_with_NN(x=None, nn_param_list=None, activation_func=lambda x : x):
     """ Predict y value given x value via feed-forward neural net
 
     Args
@@ -82,14 +85,15 @@ def predict_y_given_x_with_NN(x=None, nn_param_list=None, activation_func=ag_np.
 def calc_potential_energy(cur_bnn_params):
     potential = 0
 
+    # Compute the log prior
     for i in range(len(cur_bnn_params)):
-        potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi)) - 0.5 * ag_np.power(cur_bnn_params[i]['w'],2))
+        potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi) / p_sigma) - 0.5 * ag_np.power(cur_bnn_params[i]['w'],2)) / p_sigma**2
         # potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi)) - 0.5 * ag_np.power(cur_bnn_params[i]['b'], 2))
 
     y_pred = predict_y_given_x_with_NN(x=x_train_N, nn_param_list=cur_bnn_params)
     # y_pred = y_pred - y_train_N
 
-    potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi) / sigma) - 0.5 / (sigma * sigma) * ag_np.power(y_pred - y_train_N, 2))
+    potential += ag_np.sum(ag_np.log(1.0 / math.sqrt(2 * math.pi) / ll_sigma) - 0.5 / (ll_sigma * ll_sigma) * ag_np.power(y_pred - y_train_N, 2))
 
     return -potential
 
@@ -147,7 +151,7 @@ def make_proposal_via_leapfrog_steps(
 
 def compute_mse(bnn_params):
     yhat = predict_y_given_x_with_NN(x_train_N, bnn_params)
-    return np.mean(yhat**2)
+    return np.mean((yhat-y_train_N)**2)
 
 
 def run_HMC_sampler(
@@ -235,35 +239,13 @@ def run_HMC_sampler(
     )
 
 
-
-
-def do_synthetic_experiment():
-    arch = [1]
-
-    n_leapfrog_steps = 20
-    step_size = 0.005
-    bnn_all_samples = []
-    n_hmc_iters = 100
-
-    n_random_restart = 10
-
-    for rand_start in range(n_random_restart):
-        nn_params_0 = make_nn_params_as_list_of_dicts(n_hiddens_per_layer_list=arch)
-
-        bnn_samples, potential_list, dict_other = run_HMC_sampler(init_bnn_params=nn_params_0, n_hmc_iters=n_hmc_iters,
-                                                                  n_leapfrog_steps=n_leapfrog_steps, step_size=step_size,
-                                                                  calc_potential_energy=calc_potential_energy,
-                                                                  calc_kinetic_energy=calc_kinetic_energy,
-                                                                  calc_grad_potential_energy=grad_u)
-
-        bnn_all_samples.extend(bnn_samples[int(len(bnn_samples)/2) : len(bnn_samples)])
-
+def plot_weight_distribution(bnn_all_samples):
     error = 0
     num_samples = len(bnn_all_samples)
 
     distribution = []
     mse_arr      = []
-    for i in range(int(num_samples/2), num_samples):
+    for i in range(0, num_samples):
         nn = bnn_all_samples[i]
         mse_arr.append(compute_mse(bnn_params=nn))
 
@@ -283,5 +265,55 @@ def do_synthetic_experiment():
     plt.plot(refx_pos, refy_pos, "r")
 
     plt.show()
+
+
+def track_position_over_time(bnn_all_samples):
+    # Initialize the figure
+    fig, ax = plt.subplots()
+    fig.set_tight_layout(True)
+
+    def update(i):
+        plt.clf()
+        label = 'Sample num {0}'.format(i)
+        # Update the line and the axes (with a new xlabel). Return a tuple of
+        # "artists" that have to be redrawn for this frame.
+        nn = bnn_all_samples[i]
+
+        w1, w2 = nn[0]["w"][0][0], nn[1]["w"][0][0]
+        plt.scatter(w1, w2)
+        plt.ylim(-10, 10)
+        plt.xlim(-10, 10)
+        plt.xlabel(label)
+
+    # FuncAnimation will call the 'update' function for each frame; here
+    # animating over 10 frames, with an interval of 200ms between frames.
+    anim = FuncAnimation(fig, update, frames=np.arange(0, len(bnn_all_samples)), interval=500)
+    # anim.save('position-over-time-svgd.gif', dpi=80, writer='imagemagick')
+    plt.show()
+
+
+def do_synthetic_experiment():
+    arch = [1]
+
+    n_leapfrog_steps = 200
+    step_size = 0.005
+    bnn_all_samples = []
+    n_hmc_iters = 200
+
+    n_random_restart = 1 # Number of chains
+
+    for rand_start in range(n_random_restart):
+        nn_params_0 = make_nn_params_as_list_of_dicts(n_hiddens_per_layer_list=arch)
+
+        bnn_samples, potential_list, dict_other = run_HMC_sampler(init_bnn_params=nn_params_0, n_hmc_iters=n_hmc_iters,
+                                                                  n_leapfrog_steps=n_leapfrog_steps, step_size=step_size,
+                                                                  calc_potential_energy=calc_potential_energy,
+                                                                  calc_kinetic_energy=calc_kinetic_energy,
+                                                                  calc_grad_potential_energy=grad_u)
+
+        bnn_all_samples.extend(bnn_samples)
+
+    track_position_over_time(bnn_all_samples)
+    plot_weight_distribution(bnn_all_samples)
 
 do_synthetic_experiment()

@@ -38,38 +38,33 @@ class SVGD_HMC_hybrid(BNN_SVGD):
 
         positions_over_time = []
 
-
-        def calc_prior(bnn):
-            log_prior = 0.
-            for i, layer in enumerate(bnn.nn_params):
-                log_prior += -0.5 * layer.weight**2 / self.p_sigma
-                if bnn.bias:
-                    log_prior += -0.5 * layer.bias**2 / self.p_sigma
-            return log_prior
-
-        def calc_likelihood(bnn):
+        def calc_likelihood(bnn, X, y):
             yhat = bnn.forward(X)
-            ll = -0.5 * torch.sum((y - torch.squeeze(yhat)) ** 2) / self.ll_sigma
+            ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
             return ll
 
-        def calc_potential_energy(bnn):
-            log_prior = calc_prior(bnn)
-            log_likelihood = calc_likelihood(bnn)
-            return log_prior + log_likelihood
+        def calc_potential_energy(bnn, X, y):
+            log_prior = 0.
+            for i, layer in enumerate(bnn.nn_params):
+                log_prior += -0.5 * torch.sum(layer.weight**2 / self.p_sigma**2)
+                if bnn.bias:
+                    log_prior += -0.5* torch.sum(layer.bias**2 / self.p_sigma**2)
+
+            log_ll = calc_likelihood(bnn, X, y)
+            potential = -log_prior - log_ll
+            return potential
 
         def calc_kinetic_energy(momentum):
             kinetic = torch.sum(momentum**2)
             return kinetic
 
-        def calc_grad_potential_energy(bnn):
-            optimizer.zero_grad()
-            potential = calc_potential_energy(bnn)
-            potential.backward()
+        def calc_grad_potential_energy(bnn, X, y):
+            potential = calc_potential_energy(bnn, X, y)
+            # Compute the gradient with respect to the parameters
             grad = []
-            for i, layer in enumerate(bnn.nn_params):
-                grad.append(layer.weight.grad)
-                if bnn.bias:
-                    grad.append(layer.bias.grad)
+            grad_nn = torch.autograd.grad(outputs=potential, inputs=bnn.parameters(), retain_graph=True)
+            for i, layer in enumerate(grad_nn):
+                grad.append(layer)
             return grad
 
         def generate_rand_momentum(bnn):
@@ -97,6 +92,9 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                     layer.weight.data = layer.weight.data + d_bnn[i * 2 + 1] * stepsize
             return bnn
 
+        n_leapfrog_steps = 100
+        step_size = 0.001
+
         while iteration + 1 < num_iterations:
             optimizer.zero_grad()
 
@@ -113,12 +111,19 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             else:
                 # Run HMC sampler
                 for i, zi in enumerate(self.nns):
-                    self.nns[i] = hmc_sampler.sample_hmc(init_bnn=zi,
-                                                         calc_potential_energy=calc_potential_energy,
-                                                         calc_kinetic_energy=calc_kinetic_energy,
-                                                         calc_grad_potential_energy=calc_grad_potential_energy,
-                                                         generate_rand_momentum=generate_rand_momentum,
-                                                         update_params=update_params, update_momentum=update_momentum)
+                    prop_bnn, accepted = hmc_sampler.sample_hmc(init_bnn=zi, n_leapfrog_steps=n_leapfrog_steps,
+                                                                step_size=step_size,
+                                                                calc_potential_energy=calc_potential_energy,
+                                                                calc_kinetic_energy=calc_kinetic_energy,
+                                                                calc_grad_potential_energy=calc_grad_potential_energy,
+                                                                generate_rand_momentum=generate_rand_momentum,
+                                                                update_params=update_params,
+                                                                update_momentum=update_momentum,
+                                                                X_batch=X, y_batch=y)
+
+                    # TODO: should we always update to the new proposed bnn?
+                    if accepted:
+                        self.nns[i] = prop_bnn
 
             # Keeping track of the positions over time, also make sure to be clear
             # if the current position is during svgd or hmc iteration

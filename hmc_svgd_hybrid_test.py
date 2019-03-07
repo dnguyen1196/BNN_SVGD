@@ -30,7 +30,6 @@ p = 1
 rbf = 1
 
 # Fit
-
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=100)
 
 model = SVGD_HMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)

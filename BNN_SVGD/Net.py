@@ -98,8 +98,16 @@ class SingleWeightNeuralNet(nn.Module):
         self.nn_params = nn.ModuleList()
         self.n_layers  = 2
 
+        # if np.random.rand() < 0.5:
+        #     fill = 0.5
+        # else:
+        #     fill = 0.5
+
         for i in range(self.n_layers): # Just 1 hidden layer
             hidden_layer = nn.Linear(in_features=1, out_features=1, bias=bias)
+
+            # hidden_layer.weight.data.fill_(fill)
+
             self.nn_params.append(hidden_layer)
             self.activation_funcs.append(lambda a: a)
 
