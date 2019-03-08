@@ -30,10 +30,11 @@ p = 1
 rbf = 1
 
 # Fit
-train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=100)
+batch_size = 10
+train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = SVGD_HMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-positions_over_time = model.fit(train_loader=train_loader, num_iterations=500, svgd_iteration=10, hmc_iteration=20)
+positions_over_time = model.fit(train_loader=train_loader, num_iterations=200, svgd_iteration=10, hmc_iteration=10)
 
 
 # for nnid in range(num_networks):

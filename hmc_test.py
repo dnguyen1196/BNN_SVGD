@@ -23,7 +23,7 @@ target = torch.FloatTensor(ys)
 # Initialize the model
 x_dim = 1
 y_dim = 1
-num_networks = 10
+num_networks = 20
 network_structure = []
 
 l = 1 #0.3162
@@ -31,8 +31,8 @@ p = 1
 rbf = 1
 
 # Fit
-
-train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=100)
+batch_size = 10
+train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
 sampled_bnn, energies_list = model.fit(train_loader=train_loader, num_iterations=100)

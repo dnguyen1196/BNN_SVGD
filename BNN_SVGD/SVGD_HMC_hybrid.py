@@ -30,9 +30,10 @@ class SVGD_HMC_hybrid(BNN_SVGD):
 
     def fit(self, train_loader, num_iterations=1000, svgd_iteration=10, hmc_iteration=20):
         optimizer = optim.Adagrad(self.parameters(), lr=1)
+
         svgd = True
-        count = 0
-        iteration = 0
+        count = 1
+        iteration = 1
         hmc_sampler = HMC_sampler()
         start = time.time()
 
@@ -95,7 +96,7 @@ class SVGD_HMC_hybrid(BNN_SVGD):
         n_leapfrog_steps = 100
         step_size = 0.001
 
-        while iteration + 1 < num_iterations:
+        while iteration < num_iterations + 1:
             optimizer.zero_grad()
 
             X_batch, y_batch = next(train_loader)
@@ -134,18 +135,25 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                 curr_position.append([weight1[0], weight2[0]])
             positions_over_time.append((curr_position, svgd))
 
-            if iteration % 50 == 0:
+            # Occasionally report on svgd-loss and mean squared error
+            if iteration % 50 == 0 or iteration in [1]:
                 preds = self.predict_average(X)
                 error = torch.mean((torch.squeeze(preds) - torch.squeeze(y)) ** 2)
                 svgd_loss_batch = self.loss(X, y)
                 print("iteration: ", iteration, " time: ",time.time() - start ,
                       " MSE: ", error.detach().numpy(), " svgd-loss: ", svgd_loss_batch.detach().numpy())
 
-            count += 1
+            # Switch between svgd update and hmc update
             if (count % svgd_iteration == 0 and svgd) or (count % hmc_iteration == 0 and not svgd):
                 svgd = not svgd
-                count = 0
+                # NOTE: is the reason why during hybrid optimization, svgd updates make little progress? Yes, seems like
+                # it because if I leave this line (meaning it resets every time i switch back to svgd, then
+                # svgd updates moves now
+                if svgd:
+                    optimizer = optim.Adagrad(self.parameters(), lr=1)
+                count = 1
 
+            count += 1
             iteration += 1
 
         return positions_over_time
