@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from utils.MiniBatch import MiniBatch, CyclicMiniBatch
 from matplotlib.animation import FuncAnimation
 
+plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
+
 np.random.seed(42)
 
 # Generate data
@@ -30,7 +32,7 @@ p = 1
 rbf = 1
 
 # Fit
-batch_size = 10
+batch_size = 100
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = SVGD_HMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
@@ -71,5 +73,5 @@ def update(i):
 # FuncAnimation will call the 'update' function for each frame; here
 # animating over 10 frames, with an interval of 200ms between frames.
 anim = FuncAnimation(fig, update, frames=np.arange(0, len(positions_over_time)), interval=100)
-anim.save('position-over-time-hybrid.gif', dpi=80, writer='imagemagick')
+# anim.save('position-over-time-hybrid.gif', dpi=80, writer='imagemagick')
 plt.show()

@@ -29,7 +29,8 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             self.nns.append(zi)
 
     def fit(self, train_loader, num_iterations=1000, svgd_iteration=10, hmc_iteration=20):
-        optimizer = optim.Adagrad(self.parameters(), lr=1)
+        svgd_optimizer = optim.SGD(self.parameters(), lr=0.001)
+        hmc_optimizer = optim.SGD(self.parameters(), lr=0.001)
 
         svgd = True
         count = 1
@@ -97,7 +98,6 @@ class SVGD_HMC_hybrid(BNN_SVGD):
         step_size = 0.001
 
         while iteration < num_iterations + 1:
-            optimizer.zero_grad()
 
             X_batch, y_batch = next(train_loader)
             X = torch.FloatTensor(X_batch)
@@ -105,12 +105,15 @@ class SVGD_HMC_hybrid(BNN_SVGD):
 
             if svgd:
                 # run svgd
+                svgd_optimizer.zero_grad()
                 svgd_loss_batch = self.loss(X, y)
                 svgd_loss_batch.backward()
-                optimizer.step()
+                svgd_optimizer.step()
 
             else:
                 # Run HMC sampler
+                hmc_optimizer.zero_grad()
+
                 for i, zi in enumerate(self.nns):
                     prop_bnn, accepted = hmc_sampler.sample_hmc(init_bnn=zi, n_leapfrog_steps=n_leapfrog_steps,
                                                                 step_size=step_size,
@@ -151,6 +154,7 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                 # svgd updates moves now
                 if svgd:
                     optimizer = optim.Adagrad(self.parameters(), lr=1)
+
                 count = 1
 
             count += 1
