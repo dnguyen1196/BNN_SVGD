@@ -31,7 +31,7 @@ p = 1
 rbf = 1
 
 # Fit
-batch_size = 10
+batch_size = 100
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l, p, rbf)

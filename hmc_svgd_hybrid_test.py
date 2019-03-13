@@ -32,11 +32,11 @@ p = 1
 rbf = 1
 
 # Fit
-batch_size = 100
+batch_size = 10
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = SVGD_HMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-positions_over_time = model.fit(train_loader=train_loader, num_iterations=200, svgd_iteration=10, hmc_iteration=10)
+positions_over_time = model.fit(train_loader=train_loader, num_iterations=300, svgd_iteration=10, hmc_iteration=10)
 
 
 # for nnid in range(num_networks):
@@ -73,5 +73,5 @@ def update(i):
 # FuncAnimation will call the 'update' function for each frame; here
 # animating over 10 frames, with an interval of 200ms between frames.
 anim = FuncAnimation(fig, update, frames=np.arange(0, len(positions_over_time)), interval=100)
-# anim.save('position-over-time-hybrid.gif', dpi=80, writer='imagemagick')
+anim.save('position-over-time-hybrid.gif', dpi=80, writer='imagemagick')
 plt.show()

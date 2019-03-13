@@ -188,7 +188,7 @@ class HMC_BNN(BNN_SVGD):
         energies_list = []
         acceptances = 0
 
-        n_leapfrog_steps = 100
+        n_leapfrog_steps = 25
         step_size = 0.001
 
         for iteration in range(num_iterations+1):

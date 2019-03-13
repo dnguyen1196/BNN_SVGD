@@ -28,9 +28,11 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             zi = SingleWeightNeuralNet(x_dim, y_dim)
             self.nns.append(zi)
 
-    def fit(self, train_loader, num_iterations=1000, svgd_iteration=10, hmc_iteration=20):
-        svgd_optimizer = optim.SGD(self.parameters(), lr=0.001)
-        hmc_optimizer = optim.SGD(self.parameters(), lr=0.001)
+    def fit(self, train_loader, num_iterations=1000, svgd_iteration=20, hmc_iteration=20):
+        # svgd_optimizer = optim.Adagrad(self.parameters(), lr=1)
+        svgd_optimizer = optim.SGD(self.parameters(), lr=0.01)
+
+        hmc_optimizer = optim.SGD(self.parameters(), lr=1)
 
         svgd = True
         count = 1
@@ -94,7 +96,7 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                     layer.weight.data = layer.weight.data + d_bnn[i * 2 + 1] * stepsize
             return bnn
 
-        n_leapfrog_steps = 100
+        n_leapfrog_steps = 25
         step_size = 0.001
 
         while iteration < num_iterations + 1:
@@ -129,6 +131,8 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                     if accepted:
                         self.nns[i] = prop_bnn
 
+                hmc_optimizer.zero_grad()
+
             # Keeping track of the positions over time, also make sure to be clear
             # if the current position is during svgd or hmc iteration
             curr_position = []
@@ -149,11 +153,11 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             # Switch between svgd update and hmc update
             if (count % svgd_iteration == 0 and svgd) or (count % hmc_iteration == 0 and not svgd):
                 svgd = not svgd
-                # NOTE: is the reason why during hybrid optimization, svgd updates make little progress? Yes, seems like
-                # it because if I leave this line (meaning it resets every time i switch back to svgd, then
-                # svgd updates moves now
-                if svgd:
-                    optimizer = optim.Adagrad(self.parameters(), lr=1)
+                # # NOTE: is the reason why during hybrid optimization, svgd updates make little progress? Yes, seems like
+                # # it because if I leave this line (meaning it resets every time i switch back to svgd, then
+                # # svgd updates moves now
+                # if svgd:
+                #     optimizer = optim.Adagrad(self.parameters(), lr=1)
 
                 count = 1
 
