@@ -36,14 +36,30 @@ batch_size = 10
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = SVGD_HMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-positions_over_time = model.fit(train_loader=train_loader, num_iterations=300, svgd_iteration=10, hmc_iteration=10)
+positions_over_time = model.fit(train_loader=train_loader, num_iterations=200, svgd_iteration=30, hmc_iteration=200)
 
+grad_norms = model.avg_grad_norms
 
-# for nnid in range(num_networks):
-#     weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
-#     weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
-#     print(weight1, weight2)
+iterations = [grad[1] for grad in grad_norms]
+avg_norms  = [grad[0] for grad in grad_norms]
 
+pieces = []
+prev = 0
+cur_piece = []
+
+for i, iter_num in enumerate(iterations):
+    if iter_num == prev + 1:
+        cur_piece.append((iter_num, avg_norms[i]))
+    else:
+        pieces.append(cur_piece)
+        cur_piece = []
+    pieces.append(cur_piece)
+    prev = iter_num
+
+for i, piece in enumerate(pieces):
+    plt.plot([x[0] for x in piece], [x[1] for x in piece])
+
+plt.show()
 
 # Initialize the figure
 fig, ax = plt.subplots()
@@ -58,20 +74,13 @@ def update(i):
     ypos = position[:, 1]
 
     label = 'Epoch {0}'.format(i)
-    # Update the line and the axes (with a new xlabel). Return a tuple of
-    # "artists" that have to be redrawn for this frame.
     color = "b" if svgd else "r"
-    if svgd:
-        plt.scatter(xpos, ypos, c="b")
-    else:
-        plt.scatter(xpos, ypos, c="r")
+    plt.scatter(xpos, ypos, c=color)
 
     plt.ylim(-15, 15)
     plt.xlim(-15, 15)
     plt.xlabel(label)
 
-# FuncAnimation will call the 'update' function for each frame; here
-# animating over 10 frames, with an interval of 200ms between frames.
 anim = FuncAnimation(fig, update, frames=np.arange(0, len(positions_over_time)), interval=100)
 anim.save('position-over-time-hybrid.gif', dpi=80, writer='imagemagick')
 plt.show()

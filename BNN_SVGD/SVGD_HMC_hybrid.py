@@ -29,9 +29,8 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             self.nns.append(zi)
 
     def fit(self, train_loader, num_iterations=1000, svgd_iteration=20, hmc_iteration=20):
-        # svgd_optimizer = optim.Adagrad(self.parameters(), lr=1)
-        svgd_optimizer = optim.SGD(self.parameters(), lr=0.01)
-
+        svgd_optimizer = optim.Adagrad(self.parameters(), lr=1)
+        # svgd_optimizer = optim.SGD(self.parameters(), lr=0.01) # Note the lr for different batch size
         hmc_optimizer = optim.SGD(self.parameters(), lr=1)
 
         svgd = True
@@ -98,6 +97,9 @@ class SVGD_HMC_hybrid(BNN_SVGD):
 
         n_leapfrog_steps = 25
         step_size = 0.001
+        self.avg_grad_norms = []
+        self.min_grad_norms  = []
+        self.max_grad_norms  = []
 
         while iteration < num_iterations + 1:
 
@@ -110,6 +112,24 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                 svgd_optimizer.zero_grad()
                 svgd_loss_batch = self.loss(X, y)
                 svgd_loss_batch.backward()
+
+                # TODO: record the norm of the gradient
+                norm_sum = 0.
+                min_norm = 99999
+                max_norm = 0
+                num = 0
+                for i, nn in enumerate(self.nns):
+                    for j, w in enumerate(nn.nn_params):
+                        num += 1
+                        norm = torch.sum(w.weight.grad.data**2)
+                        norm_sum += norm.numpy()
+                        min_norm = min(min_norm, norm.numpy())
+                        max_norm = max(max_norm, norm.numpy())
+
+                self.avg_grad_norms.append((norm_sum / num, iteration))
+                self.min_grad_norms.append((min_norm, iteration))
+                self.max_grad_norms.append((max_norm, iteration))
+
                 svgd_optimizer.step()
 
             else:
@@ -153,11 +173,8 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             # Switch between svgd update and hmc update
             if (count % svgd_iteration == 0 and svgd) or (count % hmc_iteration == 0 and not svgd):
                 svgd = not svgd
-                # # NOTE: is the reason why during hybrid optimization, svgd updates make little progress? Yes, seems like
-                # # it because if I leave this line (meaning it resets every time i switch back to svgd, then
-                # # svgd updates moves now
-                # if svgd:
-                #     optimizer = optim.Adagrad(self.parameters(), lr=1)
+                if svgd:
+                    svgd_optimizer = optim.SGD(self.parameters(), lr=0.01)
 
                 count = 1
 
