@@ -7,20 +7,19 @@ import math
 
 class HMC_sampler(nn.Module):
     def __init__(self):
-        super(HMC_sampler, self).__init__()
+        return
 
     def make_proposal_via_leapfrog_steps(self, cur_bnn, cur_momentum, n_leapfrog_steps, step_size,
                                          calc_grad_potential_energy=None, update_params=None, update_momentum=None,
                                          X_batch=None, y_batch=None):
         """
-
-        :param cur_bnn:
-        :param cur_momentum:
-        :param n_leapfrog_steps:
-        :param step_size:
-        :param calc_grad_potential_energy:
-        :param update_params:
-        :param update_momentum:
+        :param cur_bnn: current neural network
+        :param cur_momentum: current momentum (same structure as the neural network)
+        :param n_leapfrog_steps: number of leap frog steps
+        :param step_size: step size
+        :param calc_grad_potential_energy: function to compute the gradient of the potential energy
+        :param update_params: function to do update params
+        :param update_momentum: function to update momentum
         :return:
         """
         assert (calc_grad_potential_energy)
@@ -56,7 +55,6 @@ class HMC_sampler(nn.Module):
                    calc_kinetic_energy=None,calc_grad_potential_energy=None, generate_rand_momentum=None,
                    update_params=None, update_momentum=None, X_batch=None, y_batch=None):
         """
-
         :param n_leapfrog_steps:
         :param step_size:
         :param init_bnn:
@@ -86,7 +84,7 @@ class HMC_sampler(nn.Module):
         cur_potential = calc_potential_energy(init_bnn, X_batch, y_batch)
         cur_kinetic = calc_kinetic_energy(cur_momentum)
 
-        # Create PROPOSED configuration
+        # Create proposed configuration
         proposed_bnn, proposed_momentum = self.make_proposal_via_leapfrog_steps(
             cur_bnn=init_bnn, cur_momentum=cur_momentum, n_leapfrog_steps=n_leapfrog_steps,step_size=step_size,
             calc_grad_potential_energy=calc_grad_potential_energy, update_params=update_params, update_momentum=update_momentum,
@@ -105,9 +103,18 @@ class HMC_sampler(nn.Module):
         return proposed_bnn, False
 
 
-class HMC_BNN(BNN_SVGD):
+class HMC_BNN(torch.nn.Module):
     def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
-        super(HMC_BNN, self).__init__(ll_sigma, p_sigma, rbf_sigma)
+        """
+        :param x_dim:
+        :param y_dim:
+        :param num_networks:
+        :param network_structure:
+        :param ll_sigma:
+        :param p_sigma:
+        :param rbf_sigma:
+        """
+        super(HMC_BNN, self).__init__()
 
         self.num_nn = num_networks
         self.nn_arch = network_structure
@@ -116,7 +123,6 @@ class HMC_BNN(BNN_SVGD):
         self.y_dim = y_dim
 
         # Initialize all the neural networks
-        self.bias = False
         for _ in range(num_networks):
             zi = SingleWeightNeuralNet(x_dim, y_dim)
             self.nns.append(zi)
@@ -128,20 +134,16 @@ class HMC_BNN(BNN_SVGD):
 
         def calc_likelihood(bnn, X, y):
             yhat = bnn.forward(X)
-            # const_term = math.log(1.0 / math.sqrt(2 * math.pi) / self.ll_sigma) * yhat.shape[0]
             ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
-                                # + math.log(1.0 / math.sqrt(2 * math.pi) / self.ll_sigma))
-            return ll # + const_term
+            return ll
 
         def calc_potential_energy(bnn, X, y):
             log_prior = 0.
             for i, layer in enumerate(bnn.nn_params):
-                log_prior += -0.5 * torch.sum(layer.weight**2 / self.p_sigma**2) #+ math.log(1.0 / math.sqrt(2 * math.pi) / self.p_sigma))
+                log_prior += -0.5 * torch.sum(layer.weight**2 / self.p_sigma**2)
                 if bnn.bias:
-                    log_prior += -0.5* torch.sum(layer.bias**2 / self.p_sigma**2) \
-                                 + math.log(1.0 / math.sqrt(2 * math.pi) / self.p_sigma) * layer.bias.shape[0]
+                    log_prior += -0.5* torch.sum(layer.bias**2 / self.p_sigma**2)
 
-            # log_prior = calc_prior(bnn)
             log_ll = calc_likelihood(bnn, X, y)
             potential = -log_prior - log_ll
             return potential
@@ -187,7 +189,6 @@ class HMC_BNN(BNN_SVGD):
         sampled_bnn = []
         energies_list = []
         acceptances = 0
-
         n_leapfrog_steps = 25
         step_size = 0.001
 
@@ -211,17 +212,10 @@ class HMC_BNN(BNN_SVGD):
 
                 if accepted:
                     sampled_bnn.append(prop_bnn)
-                    self.nns[i] = prop_bnn
                     energies_list.append(calc_potential_energy(prop_bnn, X, y))
                     acceptances += 1
-                else:
-                    self.nns[i] = prop_bnn
 
-            # Keeping track of the positions over time, also make sure to be clear
-            # if the current position is during svgd or hmc iteration
-            if iteration % 50 == 0:
-                print("iteration: ", iteration, " time: ",time.time()-start, \
-                      "accept rate: ", float(acceptances)/((iteration+1)*self.num_nn))
+                self.nns[i] = prop_bnn
 
         return sampled_bnn, energies_list
 

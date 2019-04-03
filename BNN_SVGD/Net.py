@@ -98,16 +98,8 @@ class SingleWeightNeuralNet(nn.Module):
         self.nn_params = nn.ModuleList()
         self.n_layers  = 2
 
-        # if np.random.rand() < 0.5:
-        #     fill = 0.5
-        # else:
-        #     fill = 0.5
-
         for i in range(self.n_layers): # Just 1 hidden layer
             hidden_layer = nn.Linear(in_features=1, out_features=1, bias=bias)
-
-            # hidden_layer.weight.data.fill_(fill)
-
             self.nn_params.append(hidden_layer)
             self.activation_funcs.append(lambda a: a)
 
@@ -176,14 +168,12 @@ class ConvNet(nn.Module):
         super(ConvNet, self).__init__()
 
         # Original image is 28 x 28
-
         self.layer1 = nn.Sequential(
             nn.Conv2d(in_channels=1, out_channels=16, kernel_size=5, stride=1, padding=2),
             # Use 16 filters, which gives (28 x 28 x 16)
             nn.BatchNorm2d(num_features=16),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2)) # Max pooling, then we get (14, 14, 16)
-
 
         self.layer2 = nn.Sequential(
             nn.Conv2d(in_channels=16, out_channels=32, kernel_size=5, stride=1, padding=2),
@@ -195,8 +185,6 @@ class ConvNet(nn.Module):
         self.drop_out = nn.Dropout()
 
         self.fc1 = nn.Linear(7 * 7 * 32, 512)
-        # why 7 * 7 -> this is specific to MNIST dataset? 28 by 28  and there are 2 convo layer
-        # so the size gets reduced to just 7 x 7 and 32 channels so overall with 7**2 * 32
         self.fc2 = nn.Linear(512, num_classes)
 
 

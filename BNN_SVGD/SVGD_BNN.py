@@ -15,7 +15,10 @@ FC_SVGD and CovNet_SVGD (below) extend on this base SVGD class
 class BNN_SVGD(torch.nn.Module):
     def __init__(self, ll_sigma=1, p_sigma=1, rbf_sigma=1):
         """
-        No arguments, child classes have constructors with arguments
+
+        :param ll_sigma:
+        :param p_sigma:
+        :param rbf_sigma:
         """
         super().__init__()
         self.ll_sigma = ll_sigma
@@ -53,17 +56,15 @@ class BNN_SVGD(torch.nn.Module):
                 loss += 1/(2 * self.num_nn) * kernel_term2
                 loss += 1 / self.num_nn * (kernel_term1 * (log_prior + log_ll))
 
-        # log_ll = self.log_likelihood_compute(self.nns[0], X, y)
-        # loss = log_ll
-
         return -loss
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
         """
-        Compute the pair wise kernel discepancy between z1 and z2
         :param z1: a Neural net
         :param z2: a Neural net
         :return:
+
+        Compute the pair wise kernel discepancy between z1 and z2
 
         The kernelized discrepancy between two neural networks
         z1 and z2 must have the same architecture
@@ -80,6 +81,8 @@ class BNN_SVGD(torch.nn.Module):
 
     def energies_compute(self, X_train, y_train):
         """
+        :param X_train:
+        :param y_train:
         :return:
 
         Compute the energies of the BNNs, which is essentially negative log posterior
@@ -93,7 +96,10 @@ class BNN_SVGD(torch.nn.Module):
         """
 
         :param bnn:
+        :param X_train:
+        :param y_train:
         :return:
+
         The potential energy of the system
 
         Potential energy = -log(posterior) ~~ C * ( log p(y|z) + log p(z) )
@@ -105,7 +111,7 @@ class BNN_SVGD(torch.nn.Module):
     def log_prior_compute(self, zi):
         """
         Compute derivative of prior with respect to neural network zi
-        :param zi:
+        :param zi: a neural network
         :return:
         """
         lp = 0.
@@ -124,21 +130,15 @@ class BNN_SVGD(torch.nn.Module):
         """
         sigma = 1.
         yhat = zi.forward(X)
-        # ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma
-
         ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma
-
-        # print(ll)
-        # print(ll2)
         return ll
 
     def evaluate(self, X_train, y_train):
         """
-
         :param X_train:
         :param y_train:
         :return:
-        Return the MSE given training data and labels
+        Return the current MSE given training data and labels
         """
         y_hat = torch.zeros(y_train.size())
         for i, zi in enumerate(self.nns):
@@ -147,7 +147,6 @@ class BNN_SVGD(torch.nn.Module):
 
     def predict(self, X_test):
         """
-
         :param X_test:
         :return: prediction array, float array of size
         (num_neural_networks,)
@@ -162,7 +161,6 @@ class BNN_SVGD(torch.nn.Module):
 
     def predict_average(self, X_test):
         """
-
         :param X_test:
         :return: Similar to predict but returns the
         average of predictions from all neural networks
@@ -172,7 +170,7 @@ class BNN_SVGD(torch.nn.Module):
         for i, v in enumerate(ys_prediction):
             y_pred += v
         y_pred = y_pred / len(ys_prediction)
-        return y_pred
+        return torch.squeeze(y_pred)
 
 
 """
@@ -180,6 +178,16 @@ SVGD class for fully connected neural networks
 """
 class FC_SVGD(BNN_SVGD):
     def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
+        """
+
+        :param x_dim: dimension of input
+        :param y_dim: dimension of output
+        :param num_networks: number of neural networks
+        :param network_structure: hidden layer structure
+        :param ll_sigma:
+        :param p_sigma:
+        :param rbf_sigma:
+        """
         super(FC_SVGD, self).__init__(ll_sigma, p_sigma, rbf_sigma)
 
         self.num_nn = num_networks
@@ -189,10 +197,8 @@ class FC_SVGD(BNN_SVGD):
         self.y_dim = y_dim
 
         # Initialize all the neural networks
-        self.bias = False
         for _ in range(num_networks):
-            # zi = SimpleNeuralNet(x_dim, y_dim, network_structure)
-            zi = SingleWeightNeuralNet(x_dim, y_dim)
+            zi = FullyConnectedNet(x_dim, y_dim, network_structure)
             self.nns.append(zi)
 
 
@@ -203,7 +209,9 @@ SVGD class for convolution neural network
 class CovNet_SVGD(BNN_SVGD):
     def __init__(self, image_set, num_networks=10):
         """
-        TODO: make sure that this works on different image_set (CIFAR-10, MNIST)
+
+        :param image_set:
+        :param num_networks:
         """
         super(CovNet_SVGD, self).__init__()
         self.num_nn = num_networks

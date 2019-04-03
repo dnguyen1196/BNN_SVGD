@@ -136,8 +136,6 @@ def test(model, optimizer, train_loader, device):
             correct += predicted.eq(y).sum().item()
 
             count += 1
-            # if loss > 10000:
-            #     print(loss)
 
     return total_loss/num_batches, correct/total
 

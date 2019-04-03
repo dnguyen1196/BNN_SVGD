@@ -14,6 +14,16 @@ import copy
 
 class SVGD_HMC_hybrid(BNN_SVGD):
     def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
+        """
+
+        :param x_dim: dimension of input
+        :param y_dim: dimension of output
+        :param num_networks: number of neural networks (or particles)
+        :param network_structure: hidden layer structure
+        :param ll_sigma: standard deviation of likelihood term
+        :param p_sigma:  standard deviation of prior term
+        :param rbf_sigma: rbf length scale
+        """
         super(SVGD_HMC_hybrid, self).__init__(ll_sigma, p_sigma, rbf_sigma)
 
         self.num_nn = num_networks
@@ -23,22 +33,29 @@ class SVGD_HMC_hybrid(BNN_SVGD):
         self.y_dim = y_dim
 
         # Initialize all the neural networks
-        self.bias = False
         for _ in range(num_networks):
-            zi = SingleWeightNeuralNet(x_dim, y_dim)
+            zi = FullyConnectedNet(x_dim, y_dim, network_structure)
             self.nns.append(zi)
 
     def fit(self, train_loader, num_iterations=1000, svgd_iteration=20, hmc_iteration=20):
+        """
+        :param train_loader: an iterable, streaming data in batches
+        :param num_iterations: number of total iterations
+        :param svgd_iteration: number of svgd iterations per svgd turn
+        :param hmc_iteration:  number of hmc iterations per hmc turn
+        :return:
+        """
+
+        # Start with adagrad
         svgd_optimizer = optim.Adagrad(self.parameters(), lr=1)
-        # svgd_optimizer = optim.SGD(self.parameters(), lr=0.01) # Note the lr for different batch size
         hmc_optimizer = optim.SGD(self.parameters(), lr=1)
 
-        svgd = True
+        svgd = True # start with svgd
         count = 1
         iteration = 1
         hmc_sampler = HMC_sampler()
-        start = time.time()
 
+        start = time.time()
         positions_over_time = []
 
         def calc_likelihood(bnn, X, y):
@@ -95,14 +112,12 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                     layer.weight.data = layer.weight.data + d_bnn[i * 2 + 1] * stepsize
             return bnn
 
+        # Parameters for HMC
         n_leapfrog_steps = 25
         step_size = 0.001
-        self.avg_grad_norms = []
-        self.min_grad_norms  = []
-        self.max_grad_norms  = []
 
         while iteration < num_iterations + 1:
-
+            # Get the next batch
             X_batch, y_batch = next(train_loader)
             X = torch.FloatTensor(X_batch)
             y = torch.FloatTensor(y_batch)
@@ -112,31 +127,13 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                 svgd_optimizer.zero_grad()
                 svgd_loss_batch = self.loss(X, y)
                 svgd_loss_batch.backward()
-
-                # TODO: record the norm of the gradient
-                norm_sum = 0.
-                min_norm = 99999
-                max_norm = 0
-                num = 0
-                for i, nn in enumerate(self.nns):
-                    for j, w in enumerate(nn.nn_params):
-                        num += 1
-                        norm = torch.sum(w.weight.grad.data**2)
-                        norm_sum += norm.numpy()
-                        min_norm = min(min_norm, norm.numpy())
-                        max_norm = max(max_norm, norm.numpy())
-
-                self.avg_grad_norms.append((norm_sum / num, iteration))
-                self.min_grad_norms.append((min_norm, iteration))
-                self.max_grad_norms.append((max_norm, iteration))
-
                 svgd_optimizer.step()
 
             else:
                 # Run HMC sampler
                 hmc_optimizer.zero_grad()
-
                 for i, zi in enumerate(self.nns):
+                    # Run 1 iteration of hmc on each chain
                     prop_bnn, accepted = hmc_sampler.sample_hmc(init_bnn=zi, n_leapfrog_steps=n_leapfrog_steps,
                                                                 step_size=step_size,
                                                                 calc_potential_energy=calc_potential_energy,
@@ -146,21 +143,9 @@ class SVGD_HMC_hybrid(BNN_SVGD):
                                                                 update_params=update_params,
                                                                 update_momentum=update_momentum,
                                                                 X_batch=X, y_batch=y)
-
-                    # TODO: should we always update to the new proposed bnn?
                     if accepted:
                         self.nns[i] = prop_bnn
 
-                hmc_optimizer.zero_grad()
-
-            # Keeping track of the positions over time, also make sure to be clear
-            # if the current position is during svgd or hmc iteration
-            curr_position = []
-            for nnid in range(len(self.nns)):
-                weight1 = self.nns[nnid].nn_params[0].weight.detach().numpy()[0]
-                weight2 = self.nns[nnid].nn_params[1].weight.detach().numpy()[0]
-                curr_position.append([weight1[0], weight2[0]])
-            positions_over_time.append((curr_position, svgd))
 
             # Occasionally report on svgd-loss and mean squared error
             if iteration % 50 == 0 or iteration in [1]:
@@ -173,14 +158,10 @@ class SVGD_HMC_hybrid(BNN_SVGD):
             # Switch between svgd update and hmc update
             if (count % svgd_iteration == 0 and svgd) or (count % hmc_iteration == 0 and not svgd):
                 svgd = not svgd
+                # Reset svgd optimizer
                 if svgd:
                     svgd_optimizer = optim.SGD(self.parameters(), lr=0.01)
-
                 count = 1
 
             count += 1
             iteration += 1
-
-        return positions_over_time
-
-
