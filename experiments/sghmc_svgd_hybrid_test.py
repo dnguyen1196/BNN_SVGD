@@ -11,7 +11,7 @@ plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 np.random.seed(42)
 
 # Generate data
-N = 100
+N = 50
 eps = 1
 Xs = np.linspace(-3, 3, N)
 ys = 1 * Xs + np.random.normal(0, 1, size=(N,))
@@ -33,11 +33,11 @@ p = 1
 rbf = 1
 
 # Fit
-batch_size = 100
+batch_size = 10
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-positions_over_time = model.fit(train_loader=train_loader, num_iterations=100, svgd_iteration=200, hmc_iteration=10)
+positions_over_time = model.fit(train_loader=train_loader, num_iterations=100, svgd_iteration=20, hmc_iteration=10)
 
 
 # Initialize the figure
@@ -65,7 +65,6 @@ anim.save('position-over-time-hybrid.gif', dpi=80, writer='imagemagick')
 plt.show()
 
 
-
 # Get the final particle positions and estimate KL(true posterior | KDE)
 particle_positions = []
 for nnid in range(len(model.nns)):
@@ -74,6 +73,6 @@ for nnid in range(len(model.nns)):
     particle_positions.append([weight1[0], weight2[0]])
 particle_positions = np.array(particle_positions)
 
-kl = estimate_kl_divergence_discrete_true_posterior(particle_positions)
+kl = estimate_kl_divergence_discrete_true_posterior(particle_positions, Xs, ys)
 
 print("KL(estimated true posterior | KDE(hybrid)) = ", kl)

@@ -45,7 +45,7 @@ sampled_bnn = model.fit(train_loader=train_loader, num_iterations=100, n_leapfro
 
 distribution = plot_weight_distribution(sampled_bnn, data, target)
 
-kl = estimate_kl_divergence_discrete_true_posterior(distribution)
+kl = estimate_kl_divergence_discrete_true_posterior(distribution, Xs, ys)
 
 
 print("KL(estimated true posterior | KDE(stochastic HMC)) = ", kl)

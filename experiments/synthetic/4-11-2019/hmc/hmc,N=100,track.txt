@@ -1,0 +1,2 @@
+Average mse:  0.93066657
+KL(estimated true posterior | KDE(hmc full batch)) = 1.5569818929433386

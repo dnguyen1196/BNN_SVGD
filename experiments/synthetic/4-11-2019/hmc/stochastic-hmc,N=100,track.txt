@@ -1,0 +1,2 @@
+Average mse:  0.8988042
+KL(estimated true posterior | KDE(stochastic HMC)) =  3.175499349745945

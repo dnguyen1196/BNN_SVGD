@@ -39,7 +39,7 @@ test_loader = torch.utils.data.DataLoader(
 
 num_networks = 1
 model = CovNet_SVGD(image_set="MNIST", num_networks=num_networks)
-optimizer = optim.Adagrad(model.parameters(), lr=1)
+optimizer = optim.SGD(model.parameters(), lr=0.001)
 
 count = 1
 

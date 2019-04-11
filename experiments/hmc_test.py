@@ -39,7 +39,7 @@ batch_size = 100
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-sampled_bnn, energies_list = model.fit(train_loader=train_loader, num_iterations=50)
+sampled_bnn, energies_list = model.fit(train_loader=train_loader, num_iterations=100)
 
 def plot_energies(energies_list):
     energies_numpy = [energy.detach().numpy() for energy in energies_list]
@@ -50,6 +50,6 @@ plot_energies(energies_list)
 
 distribution = plot_weight_distribution(sampled_bnn, data, target)
 
-kl = estimate_kl_divergence_discrete_true_posterior(distribution)
+kl = estimate_kl_divergence_discrete_true_posterior(distribution, Xs, ys)
 
 print("KL(estimated true posterior | KDE(hmc full batch)) =", kl)

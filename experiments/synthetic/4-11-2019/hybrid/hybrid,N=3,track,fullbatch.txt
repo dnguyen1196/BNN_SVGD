@@ -1,0 +1,5 @@
+iteration:  0  time:  0.4222838878631592  MSE:  2.605732  svgd batch loss:  98.98375
+iteration:  1  time:  0.8405776023864746  MSE:  3.5137208  svgd batch loss:  48.2274
+iteration:  50  time:  12.246145963668823  MSE:  0.23699969  svgd batch loss:  7.4867163
+iteration:  100  time:  23.495318174362183  MSE:  0.2405834  svgd batch loss:  7.548556
+KL(estimated true posterior | KDE(hybrid)) =  0.910940610203778
