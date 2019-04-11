@@ -71,10 +71,10 @@ class BNN_SVGD(torch.nn.Module):
         """
         norm_diff = 0.
         for i in range(len(z1.nn_params)):
-            norm_diff += torch.sum(-(z1.nn_params[i].weight - z2.nn_params[i].weight) ** 2 / (2 * self.rbf_sigma))
+            norm_diff += torch.sum(-(z1.nn_params[i].weight - z2.nn_params[i].weight) ** 2 / (2 * self.rbf_sigma**2))
 
             if self.bias:
-                norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma))
+                norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma**2))
 
         kd = torch.exp(norm_diff)
         return kd
@@ -117,9 +117,9 @@ class BNN_SVGD(torch.nn.Module):
         lp = 0.
         sigma = 1
         for i in range(len(zi.nn_params)):
-            lp += -0.5 * torch.sum((zi.nn_params[i].weight ** 2)) / self.p_sigma
+            lp += -0.5 * torch.sum((zi.nn_params[i].weight ** 2)) / self.p_sigma**2
             if self.bias:
-                lp += -0.5 * torch.sum((zi.nn_params[i].bias ** 2)) / self.p_sigma
+                lp += -0.5 * torch.sum((zi.nn_params[i].bias ** 2)) / self.p_sigma**2
         return lp
 
     def log_likelihood_compute(self, zi, X, y):
@@ -130,7 +130,7 @@ class BNN_SVGD(torch.nn.Module):
         """
         sigma = 1.
         yhat = zi.forward(X)
-        ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma
+        ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
         return ll
 
     def evaluate(self, X_train, y_train):
@@ -155,7 +155,7 @@ class BNN_SVGD(torch.nn.Module):
 
         for i in range(len(self.nns)):
             zi = self.nns[i]
-            ys_prediction.append(zi.forward(X_test))
+            ys_prediction.append(torch.squeeze(zi.forward(X_test)))
 
         return ys_prediction
 
@@ -170,7 +170,7 @@ class BNN_SVGD(torch.nn.Module):
         for i, v in enumerate(ys_prediction):
             y_pred += v
         y_pred = y_pred / len(ys_prediction)
-        return torch.squeeze(y_pred)
+        return y_pred
 
 
 """
@@ -218,6 +218,8 @@ class CovNet_SVGD(BNN_SVGD):
         self.nns = ModuleList()
         self.image_set = image_set
 
+        self.bias = True
+
         # Initialize all the neural networks
         for _ in range(num_networks):
             if image_set == "MNIST":
@@ -226,9 +228,9 @@ class CovNet_SVGD(BNN_SVGD):
                 zi = Cifar10LeNet()
             self.nns.append(zi)
 
-        self.ll_sigma = 1 ** 2
-        self.p_sigma = 10 ** 2
-        self.rbf_sigma = 1 ** 2
+        self.ll_sigma  = 1
+        self.p_sigma   = 1
+        self.rbf_sigma = 1
 
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
@@ -248,10 +250,17 @@ class CovNet_SVGD(BNN_SVGD):
         norm_diff = 0.
 
         if self.image_set == "MNIST":
-            norm_diff += torch.sum(-(z1.fc1.weight - z2.fc1.weight) ** 2 / (2 * self.rbf_sigma))
-            norm_diff += torch.sum(-(z1.fc2.weight - z2.fc2.weight) ** 2 / (2 * self.rbf_sigma))
-            norm_diff += torch.sum(-(z1.fc1.bias   - z2.fc1.bias) ** 2 / (2 * self.rbf_sigma))
-            norm_diff += torch.sum(-(z1.fc2.bias   - z2.fc2.bias) ** 2 / (2 * self.rbf_sigma))
+            norm_diff += torch.sum(-(z1.fc1.weight - z2.fc1.weight) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc2.weight - z2.fc2.weight) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc1.bias   - z2.fc1.bias) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc2.bias   - z2.fc2.bias) ** 2 / (2 * self.rbf_sigma**2))
+        elif self.image_set == "CIFAR-10":
+            norm_diff += torch.sum(-(z1.fc1.weight - z2.fc1.weight) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc1.bias   - z2.fc1.bias) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc2.weight - z2.fc2.weight) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc2.bias   - z2.fc2.bias) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc3.weight - z2.fc3.weight) ** 2 / (2 * self.rbf_sigma**2))
+            norm_diff += torch.sum(-(z1.fc3.bias   - z2.fc3.bias) ** 2 / (2 * self.rbf_sigma**2))
 
         kd = torch.exp(norm_diff)
         return kd
@@ -269,8 +278,8 @@ class CovNet_SVGD(BNN_SVGD):
         lp = 0.
         if self.image_set == "MNIST":
             for layer in [bnn.fc1, bnn.fc2]:
-                lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma
-                lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma
+                lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma**2
+                lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma**2
 
         return lp
 
@@ -284,5 +293,5 @@ class CovNet_SVGD(BNN_SVGD):
         sigma = 1.
         yhat = zi.forward(X)
 
-        ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma
+        ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma**2
         return ll

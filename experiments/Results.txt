@@ -1,0 +1,41 @@
+N = 100
+
+
+>>> Hybrid minibatch
+positions_over_time = model.fit(train_loader=train_loader, num_iterations=200, svgd_iteration=20, hmc_iteration=10)
+iteration:  0  time:  0.46133852005004883  MSE:  5.190048  svgd batch loss:  438.06473
+iteration:  1  time:  0.8853800296783447  MSE:  2.259599  svgd batch loss:  136.26817
+iteration:  50  time:  12.175189971923828  MSE:  0.47134256  svgd batch loss:  16.25225
+iteration:  100  time:  23.387200355529785  MSE:  0.47720963  svgd batch loss:  16.663898
+iteration:  150  time:  34.19554924964905  MSE:  0.4764618  svgd batch loss:  16.787216
+iteration:  200  time:  44.96504092216492  MSE:  0.47942704  svgd batch loss:  17.217573
+KL(estimated true posterior | KDE(hybrid)) =  1.7629990131423938
+KL(estimated true posterior | KDE(hybrid)) =  1.8239166390058847 (a different run)
+
+>>> Stochastic SVGD
+positions_over_time = model.fit(train_loader=train_loader, num_iterations=200, svgd_iteration=200, hmc_iteration=10)
+iteration:  0  time:  0.4135138988494873  MSE:  5.2966924  svgd batch loss:  561.524
+iteration:  1  time:  0.8240985870361328  MSE:  3.250771  svgd batch loss:  177.45146
+iteration:  50  time:  13.650241613388062  MSE:  0.47037917  svgd batch loss:  16.209986
+iteration:  100  time:  26.73025131225586  MSE:  0.47172636  svgd batch loss:  15.111555
+iteration:  150  time:  39.8007709980011  MSE:  0.47627673  svgd batch loss:  15.169198
+iteration:  200  time:  52.76087045669556  MSE:  0.4772169  svgd batch loss:  14.741966
+KL(estimated true posterior | KDE(Stochastic SVGD)) =  2.3399050490925615
+
+
+>>> Full batch SVGD
+iteration:  0  time:  0.40870022773742676  MSE:  1.8462485  svgd batch loss:  1129.4648
+iteration:  1  time:  0.8093595504760742  MSE:  1.52293  svgd batch loss:  709.7227
+iteration:  50  time:  13.511443138122559  MSE:  0.8261447  svgd batch loss:  129.6691
+iteration:  100  time:  26.503512382507324  MSE:  0.8258003  svgd batch loss:  103.29146
+KL(estimated true posterior | KDE(SVGD full batch)) =  2.47268092728762
+
+
+>>> Stochastic HMC
+model = SG_HMC_BNN(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
+sampled_bnn = model.fit(train_loader=train_loader, num_iterations=100, n_leapfrog_steps=20, step_size=0.001, momentum=0.99)
+KL(estimated true posterior | KDE(stochastic HMC)) =  3.240843729256734
+KL(estimated true posterior | KDE(stochastic HMC)) =  3.141250664428461
+
+>>> HMC full batch
+KL(estimated true posterior | KDE(hmc full batch)) = 1.7041801813185196

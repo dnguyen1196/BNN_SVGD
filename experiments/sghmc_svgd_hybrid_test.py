@@ -1,9 +1,10 @@
 import numpy as np
-from BNN_SVGD.SVGD_HMC_hybrid import SVGD_naiveHMC_hybrid
+from BNN_SVGD.SVGD_HMC_hybrid import SVGD_SGHMC_hybrid
 import torch
 import matplotlib.pyplot as plt
 from utils.MiniBatch import MiniBatch, CyclicMiniBatch
 from matplotlib.animation import FuncAnimation
+from utils.probability import estimate_kl_divergence_discrete_true_posterior
 
 plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 
@@ -32,34 +33,12 @@ p = 1
 rbf = 1
 
 # Fit
-batch_size = 10
+batch_size = 100
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
-model = SVGD_naiveHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
-positions_over_time = model.fit(train_loader=train_loader, num_iterations=200, svgd_iteration=30, hmc_iteration=200)
+model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
+positions_over_time = model.fit(train_loader=train_loader, num_iterations=100, svgd_iteration=200, hmc_iteration=10)
 
-# grad_norms = model.avg_grad_norms
-#
-# iterations = [grad[1] for grad in grad_norms]
-# avg_norms  = [grad[0] for grad in grad_norms]
-#
-# pieces = []
-# prev = 0
-# cur_piece = []
-#
-# for i, iter_num in enumerate(iterations):
-#     if iter_num == prev + 1:
-#         cur_piece.append((iter_num, avg_norms[i]))
-#     else:
-#         pieces.append(cur_piece)
-#         cur_piece = []
-#     pieces.append(cur_piece)
-#     prev = iter_num
-#
-# for i, piece in enumerate(pieces):
-#     plt.plot([x[0] for x in piece], [x[1] for x in piece])
-#
-# plt.show()
 
 # Initialize the figure
 fig, ax = plt.subplots()
@@ -84,3 +63,17 @@ def update(i):
 anim = FuncAnimation(fig, update, frames=np.arange(0, len(positions_over_time)), interval=100)
 anim.save('position-over-time-hybrid.gif', dpi=80, writer='imagemagick')
 plt.show()
+
+
+
+# Get the final particle positions and estimate KL(true posterior | KDE)
+particle_positions = []
+for nnid in range(len(model.nns)):
+    weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
+    weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
+    particle_positions.append([weight1[0], weight2[0]])
+particle_positions = np.array(particle_positions)
+
+kl = estimate_kl_divergence_discrete_true_posterior(particle_positions)
+
+print("KL(estimated true posterior | KDE(hybrid)) = ", kl)

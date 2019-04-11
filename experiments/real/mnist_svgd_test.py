@@ -1,28 +1,21 @@
 from __future__ import print_function
 
-import torch
-import torch.nn as nn
+
 import torch.optim as optim
-import torch.nn.functional as F
-import torch.backends.cudnn as cudnn
-
-import torchvision
-import os
-import argparse
-
-from BNN_SVGD.BNN import *
-from torch.autograd import Variable
-import numpy as np
+from BNN_SVGD.SVGD_BNN import CovNet_SVGD
 import torch
 
 from torchvision import datasets, transforms
 
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-best_acc = 0  # best test accuracy
+# device = 'cuda' if torch.cuda.is_available() else 'cpu'
+device = 'cpu'
+best_acc = 0  # best evaluate_test_set accuracy
 start_epoch = 0  # start from epoch 0 or last checkpoint epoch
 batch_size = 128
 num_classes = 10
+log_interval = 100
+num_epochs   = 200
 
 # Data
 print('==> Preparing data..')
@@ -44,35 +37,13 @@ test_loader = torch.utils.data.DataLoader(
 
 
 
-def train(epoch, optimizer, model, train_loader, device):
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.to(device), target.to(device)
-
-
-        optimizer.zero_grad()
-        loss = model.loss(output, target)
-        loss.backward()
-        optimizer.step()
-
-        if batch_idx % args.log_interval == 0:
-            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                epoch, batch_idx * len(data), len(train_loader.dataset),
-                100. * batch_idx / len(train_loader), loss.item()))
-
-
-        break
-
-num_networks = 10
+num_networks = 1
 model = CovNet_SVGD(image_set="MNIST", num_networks=num_networks)
-# optimizer = optim.Adagrad(model.parameters(), lr=1)
-optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-
-
-
+optimizer = optim.Adagrad(model.parameters(), lr=1)
 
 count = 1
 
-def train(model, optimizer, train_loader, device):
+def train_model(model, optimizer, train_loader, device):
     total_loss = 0.
     num_batches = 0
     count = 0
@@ -92,8 +63,8 @@ def train(model, optimizer, train_loader, device):
 
         loss = model.loss(X, y_onehot)
         loss.backward()
-        outputs = model.predict_average(X)
 
+        outputs = model.predict_average(X)
         optimizer.step()
 
         total_loss += loss
@@ -110,7 +81,7 @@ def train(model, optimizer, train_loader, device):
     return total_loss/num_batches, correct/total
 
 
-def test(model, optimizer, train_loader, device):
+def evaluate_test_set(model, train_loader, device):
     total_loss = 0.
     num_batches = 0
     count = 0
@@ -140,13 +111,12 @@ def test(model, optimizer, train_loader, device):
     return total_loss/num_batches, correct/total
 
 
-avg_loss_test, accuracy_test = test(model, optimizer, test_loader, device)
-print("Init: test-avg-loss = {}, test-accuracy = {}"\
+avg_loss_test, accuracy_test = evaluate_test_set(model, test_loader, device)
+print("Init: evaluate_test_set-avg-loss = {}, evaluate_test_set-accuracy = {}"\
         .format(avg_loss_test, accuracy_test))
 
-for epoch in range(200):
-    avg_loss_train, accuracy_train = train(model, optimizer, train_loader, device)
-    # break
-    avg_loss_test, accuracy_test = test(model, optimizer, test_loader, device)
-    print("epoch {}, train-avg-loss = {}, train-accuracy = {}, test-avg-loss = {}, test-accuracy = {}"\
+for epoch in range(num_epochs):
+    avg_loss_train, accuracy_train = train_model(model, optimizer, train_loader, device)
+    avg_loss_test, accuracy_test = evaluate_test_set(model, test_loader, device)
+    print("epoch {}, train_model-avg-loss = {}, train_model-accuracy = {}, evaluate_test_set-avg-loss = {}, evaluate_test_set-accuracy = {}"\
         .format(epoch, avg_loss_train, accuracy_train, avg_loss_test, accuracy_test))

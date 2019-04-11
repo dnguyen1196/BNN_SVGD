@@ -103,6 +103,11 @@ class HMC_sampler(nn.Module):
         return proposed_bnn, False
 
 
+"""
+
+Hamiltonian Monte Carlo
+
+"""
 class HMC_BNN(torch.nn.Module):
     def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
         """
@@ -122,8 +127,14 @@ class HMC_BNN(torch.nn.Module):
         self.x_dim = x_dim
         self.y_dim = y_dim
 
+        self.ll_sigma = ll_sigma
+        self.p_sigma = p_sigma
+        self.rbf_sigma = rbf_sigma
+
         # Initialize all the neural networks
         for _ in range(num_networks):
+
+            # Note use SingleWeightNeuralNet for experimentation purpose only
             zi = SingleWeightNeuralNet(x_dim, y_dim)
             self.nns.append(zi)
 
@@ -190,7 +201,7 @@ class HMC_BNN(torch.nn.Module):
         energies_list = []
         acceptances = 0
         n_leapfrog_steps = 25
-        step_size = 0.001
+        step_size = 0.01
 
         for iteration in range(num_iterations+1):
             optimizer.zero_grad()
@@ -217,6 +228,86 @@ class HMC_BNN(torch.nn.Module):
 
                 self.nns[i] = prop_bnn
 
+                # self.nns[i] = prop_bnn
+
         return sampled_bnn, energies_list
 
 
+
+"""
+
+Stochastic gradient Hamiltonian Monte Carlo
+
+"""
+class SG_HMC_BNN(HMC_BNN):
+    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
+        """
+        :param x_dim:
+        :param y_dim:
+        :param num_networks:
+        :param network_structure:
+        :param ll_sigma:
+        :param p_sigma:
+        :param rbf_sigma:
+        """
+        super(SG_HMC_BNN, self).__init__(x_dim, y_dim, num_networks, network_structure, ll_sigma, p_sigma, rbf_sigma)
+
+    def leap_frog_step_sgd(self, zi, n_leapfrog_steps, step_size, X, y, momentum=0.99):
+        """
+
+        :param init_bnn:
+        :param n_leapfrog_steps:
+        :param step_size:
+        :param X:
+        :param y:
+        :return:
+        """
+        def calc_likelihood(bnn, X, y):
+            yhat = bnn.forward(X)
+            ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
+            return ll
+
+        def calc_potential_energy(bnn, X, y):
+            log_prior = 0.
+            for i, layer in enumerate(bnn.nn_params):
+                log_prior += -0.5 * torch.sum(layer.weight**2 / self.p_sigma**2)
+                if bnn.bias:
+                    log_prior += -0.5* torch.sum(layer.bias**2 / self.p_sigma**2)
+
+            log_ll = calc_likelihood(bnn, X, y)
+            potential = -log_prior - log_ll
+            return potential
+
+        # Use SGD with momentum
+        optimizer = optim.SGD(zi.parameters(), lr=step_size, momentum=momentum)
+
+        for i in range(n_leapfrog_steps):
+            energy = calc_potential_energy(zi, X, y)
+            energy.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+
+        return copy.deepcopy(zi)
+
+    def fit(self, train_loader, num_iterations=1000, n_leapfrog_steps=25, step_size=0.001, momentum=0.99):
+        """
+        :param train_loader:
+        :param num_iterations:
+        :return:
+        """
+        sampled_bnn = []
+
+        for iteration in range(num_iterations+1):
+            X_batch, y_batch = next(train_loader)
+            X = torch.FloatTensor(X_batch)
+            y = torch.FloatTensor(y_batch)
+
+            # Run HMC sampler, running multiple chains at the same time
+            for i, zi in enumerate(self.nns):
+                prop_bnn = self.leap_frog_step_sgd(zi=zi, n_leapfrog_steps=n_leapfrog_steps,
+                                         step_size=step_size, X=X, y=y, momentum=momentum)
+
+                sampled_bnn.append(prop_bnn)
+                self.nns[i] = prop_bnn
+
+        return sampled_bnn
