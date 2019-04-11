@@ -3,45 +3,73 @@ from __future__ import print_function
 import dill as pickle
 import torch.optim as optim
 from BNN_SVGD.SVGD_BNN import CovNet_SVGD
+import os
 import torch
+import argparse
 
 from torchvision import datasets, transforms
 
+parser = argparse.ArgumentParser(description="Stochastic SVGD test")
 
-# device = 'cuda' if torch.cuda.is_available() else 'cpu'
+parser.add_argument('--batch_size', type=int, help='Batch size', default=128)
+parser.add_argument('--num_epochs', type=int, help='Number of epochs', default=50)
+parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=20)
+parser.add_argument('--dataset', type=str, help='Dataset', choices=['MNIST', 'CIFAR-10'], default='CIFAR-10')
+parser.add_argument('--outdir', type=str, help='Output directory', default='./')
+
+args = parser.parse_args()
+
 device = 'cpu'
 best_acc = 0  # best evaluate_test_set accuracy
 start_epoch = 0  # start from epoch 0 or last checkpoint epoch
-batch_size = 128
+batch_size = args.batch_size
 num_classes = 10
-log_interval = 100
-num_epochs   = 0
+num_epochs   = args.num_epochs
+num_networks = args.num_nns
+dataset = args.dataset
+outdir = args.outdir
 
 # Data
 print('==> Preparing data..')
 
-train_loader = torch.utils.data.DataLoader(
-    datasets.CIFAR10('./data', train=True, download=True,
-                   transform=transforms.Compose([
-                       transforms.ToTensor(),
-                       transforms.Normalize((0.1307,), (0.3081,))
-                   ])),
-    batch_size=batch_size, shuffle=True)
+if dataset == 'CIFAR-10':
+    train_loader = torch.utils.data.DataLoader(
+        datasets.CIFAR10('./data', train=True, download=True,
+                       transform=transforms.Compose([
+                           transforms.ToTensor(),
+                           transforms.Normalize((0.1307,), (0.3081,))
+                       ])),
+        batch_size=batch_size, shuffle=True)
 
-test_loader = torch.utils.data.DataLoader(
-    datasets.CIFAR10('./data', train=False, transform=transforms.Compose([
-                       transforms.ToTensor(),
-                       transforms.Normalize((0.1307,), (0.3081,))
-                   ])),
-    batch_size=batch_size, shuffle=False)
+    test_loader = torch.utils.data.DataLoader(
+        datasets.CIFAR10('./data', train=False, transform=transforms.Compose([
+                           transforms.ToTensor(),
+                           transforms.Normalize((0.1307,), (0.3081,))
+                       ])),
+        batch_size=batch_size, shuffle=False)
+
+else:
+    train_loader = torch.utils.data.DataLoader(
+        datasets.MNIST('./data', train=True, download=True,
+                       transform=transforms.Compose([
+                           transforms.ToTensor(),
+                           transforms.Normalize((0.1307,), (0.3081,))
+                       ])),
+        batch_size=batch_size, shuffle=True)
+
+    test_loader = torch.utils.data.DataLoader(
+        datasets.MNIST('./data', train=False, transform=transforms.Compose([
+                           transforms.ToTensor(),
+                           transforms.Normalize((0.1307,), (0.3081,))
+                       ])),
+        batch_size=batch_size, shuffle=False)
 
 
 
-num_networks = 1
-model = CovNet_SVGD(image_set="CIFAR-10", num_networks=num_networks)
+
+model = CovNet_SVGD(image_set=dataset, num_networks=num_networks)
 
 optimizer = optim.SGD(model.parameters(), lr=0.001)
-# # optimizer = optim.Adagrad(model.parameters(), lr=1)
 
 count = 1
 
@@ -114,7 +142,7 @@ def evaluate_test_set(model, train_loader, device):
 
 
 avg_loss_test, accuracy_test = evaluate_test_set(model, test_loader, device)
-print("Init: evaluate_test_set-avg-loss = {}, evaluate_test_set-accuracy = {}".format(avg_loss_test, accuracy_test))
+print("Init: test set avg batch loss = {}, test set accuracy = {}".format(avg_loss_test, accuracy_test))
 
 for epoch in range(num_epochs):
     avg_loss_train, accuracy_train = train_model(model, optimizer, train_loader, device)
@@ -123,7 +151,8 @@ for epoch in range(num_epochs):
         .format(epoch, avg_loss_train, accuracy_train, avg_loss_test, accuracy_test))
 
 
-model_file = "cifar-10-model.pkl"
+model_file = "data_{}-epochs_{}-numnns_{}-model.pkl".format(dataset, num_epochs, num_networks)
+save_dir   = os.path.join(outdir, model_file)
 
-with open(model_file, "wb") as f:
+with open(save_dir, "wb") as f:
     pickle.dump(model, f)
