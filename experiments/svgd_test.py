@@ -89,11 +89,13 @@ for num_networks in [10, 20, 50, 80, 100]:
 
         jsd_array.append(jsd)
 
-    print("With C = {} neural networks, N = {}, rbf = {}, h = {}, average jsd = {}, std-jsd = {}".format(num_networks, N, rbf, h, np.mean(jsd_array), np.std(jsd_array)))
+    print("With C = {} neural networks, N = {}, rbf = {}, h = {}, average jsd = {}, std-jsd = {}".format\
+              (num_networks, N, rbf, h, np.mean(jsd_array), np.std(jsd_array)))
 
     # Producing gifs that track the particles' motion
     fig, ax = plt.subplots()
     fig.set_tight_layout(True)
     anim = FuncAnimation(fig, update, frames=np.arange(0, len(positions_over_time)), interval=100)
-    anim.save('SVGD_N={}_C={}_rbf={}_particles_jsd={}_h={}.gif'.format(N, num_networks, rbf, np.mean(jsd_array), h), dpi=80, writer='imagemagick')
+    anim.save('SVGD_N={}_C={}_rbf={}_particles_jsd={}_h={}.gif'.format\
+                  (N, num_networks, rbf, np.mean(jsd_array), h), dpi=80, writer='imagemagick')
     # plt.show()

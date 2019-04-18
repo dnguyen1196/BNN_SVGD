@@ -6,7 +6,7 @@ from matplotlib.animation import FuncAnimation
 import seaborn as sns
 from matplotlib import colors, ticker
 
-def plot_weight_distribution(sampled_bnn, data, target):
+def plot_weight_distribution(sampled_bnn, data, target, filename=None, show=True):
     distribution = []
     mse_arr = []
 
@@ -29,11 +29,15 @@ def plot_weight_distribution(sampled_bnn, data, target):
     refy_neg = 1. / refx_neg
     refy_pos = 1. / refx_pos
 
+
     plt.plot(refx_neg, refy_neg, "r")
     plt.plot(refx_pos, refy_pos, "r")
-
     plt.scatter(distribution[:, 0], distribution[:, 1])
-    plt.show()
+
+    if filename:
+        plt.savefig(filename)
+    if show:
+        plt.show()
 
     return distribution
 

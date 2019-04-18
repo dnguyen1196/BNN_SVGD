@@ -139,7 +139,8 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
         count = 1
         iteration = 1
         start = time.time()
-        positions_over_time = []
+        self.positions_over_time = []
+        self.hmc_sampled_bnn     = []
 
         # Parameters for HMC
         n_leapfrog_steps = 10
@@ -161,9 +162,10 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
                     prop_bnn, accepted = self.sample_stochastic_hmc(zi, X, y)
                     if accepted:
                         self.nns[i] = prop_bnn
+                        self.hmc_sampled_bnn.append(prop_bnn)
 
             # Occasionally report on svgd-loss and mean squared error
-            if iteration % 50 == 0 or iteration in [1]:
+            if iteration % 100 == 0 or iteration in [1]:
                 preds = self.predict_average(X)
                 error = torch.mean((torch.squeeze(preds) - torch.squeeze(y)) ** 2)
                 print("iteration: ", iteration, " time: ",time.time() - start ,
@@ -175,7 +177,7 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
                 weight1 = self.nns[nnid].nn_params[0].weight.detach().numpy()[0]
                 weight2 = self.nns[nnid].nn_params[1].weight.detach().numpy()[0]
                 curr_position.append([weight1[0], weight2[0]])
-            positions_over_time.append((curr_position, svgd))
+            self.positions_over_time.append((curr_position, svgd))
 
             # Switch between svgd update and hmc update
             if (count % svgd_iteration == 0 and svgd) or (count % hmc_iteration == 0 and not svgd):
@@ -184,9 +186,6 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
 
             count += 1
             iteration += 1
-
-        return positions_over_time
-
 
 """
 SVGD-SG_HMC hybrid
