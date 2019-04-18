@@ -2,15 +2,14 @@ import torch
 from torch.autograd import grad, backward
 from torch.nn import ModuleList
 from .Net import *
+import torch.optim as optim
 from torch.autograd import Variable
 import torch.nn.functional as F
 import copy
 
 """
 Base SVGD class
-
 FC_SVGD and CovNet_SVGD (below) extend on this base SVGD class
-
 """
 class BNN_SVGD(torch.nn.Module):
     def __init__(self, ll_sigma=1, p_sigma=1, rbf_sigma=1):
@@ -57,6 +56,141 @@ class BNN_SVGD(torch.nn.Module):
                 loss += 1 / self.num_nn * (kernel_term1 * (log_prior + log_ll))
 
         return -loss
+
+    def step(self, X, y, step_size=0.1):
+        """
+
+        :param X:
+        :param y:
+        :param step_size:
+        :return:
+        """
+        self.svgd_optimizer.zero_grad()
+        for i, zi in enumerate(self.nns):
+            log_ll = -self.log_likelihood_compute(zi, X, y)
+            log_prior = -self.log_prior_compute(zi)
+            log_post  = log_ll + log_prior
+            log_post.backward()
+            # log_ll.backward()
+            # y_pred = torch.squeeze(zi.forward(X))
+            # mse = torch.sum((y_pred - torch.squeeze(y))**2)
+            # mse.backward()
+
+        self.svgd_optimizer.step()
+
+    def step_svgd(self, X, y, step_size=0.1):
+        """
+
+        :param X:
+        :param y:
+        :param step_size:
+
+        Perform one step of svgd update
+        :return:
+        """
+        N = len(self.nns) # Number of particles
+        # Compute all the discrepancies and the derivative of the discrepancy with respect
+        # to the particles
+        discrepancy_matrix = torch.zeros(N,N)
+        gradient_discrepancy_matrix = [[None for _ in range(N)] for _ in range(N)]
+
+        for i in range(N):
+            for j in range(i, N):
+                self.svgd_optimizer.zero_grad()
+
+                zi = self.nns[i]
+                zj = self.nns[j]
+                kd = self.pair_wise_kernel_discrepancy_compute(zi, zj)
+
+                kd.backward()
+
+                discrepancy_matrix[i, j] = kd.detach()
+                discrepancy_matrix[j, i] = kd.detach()
+
+                gradient_discrepancy_matrix[i][j] = self.copy_gradient(zj)
+                gradient_discrepancy_matrix[j][i] = self.copy_gradient(zi)
+
+        # Compute the derivative of log posterior of all the neural networks
+        derivative_log_posterior = [None for _ in range(N)]
+        self.svgd_optimizer.zero_grad()
+
+        for i in range(N):
+            z = self.nns[i]
+            log_lik       = self.log_likelihood_compute(z, X, y)
+            log_prior     = self.log_prior_compute(z)
+            log_posterior = log_lik + log_prior
+            log_posterior.backward()
+            grad_z        = self.copy_gradient(z)
+            derivative_log_posterior[i] = grad_z
+
+        self.svgd_optimizer.zero_grad()
+        # Apply svgd update
+        for i in range(N):
+            self.nns[i] = self.apply_svgd_update(i, discrepancy_matrix, gradient_discrepancy_matrix, \
+                                                 derivative_log_posterior, step_size)
+
+    def apply_svgd_update(self, i, discrepancy_matrix, gradient_discrepancy_matrix, derivative_log_posterior, step_size):
+        """
+
+        :param i:
+        :param discrepancy_matrix:
+        :param gradient_discrepancy_matrix:
+        :param derivative_log_posterior:
+
+        :return:
+        """
+        zi = self.nns[i] # Updating zi
+        N = len(self.nns)
+
+        for j in range(N): # Loop through all particles O(N^2)
+
+            kd = discrepancy_matrix[i, j]                     # kernel discrepancy k(zi, zj)
+            dlog_post = derivative_log_posterior[j]           # Derivative of log posterior with respect to zj
+            derivative_kd = gradient_discrepancy_matrix[i][j] # Derivative of kd(zi, zj) with respect to zj
+
+            # Apply update: zi = zi + eps * phi(zi)
+            self.apply_phi(zi, kd, dlog_post, derivative_kd, step_size)
+
+        return zi
+
+    def apply_phi(self, zi, kd, dlog_post, derivative_kd, step_size):
+        """
+
+        :param zi:
+        :param kd:
+        :param dlog_post:
+        :param derivative_kd:
+        :param step_size:
+
+        phi(zi) = 1/n sum_zj [k(zi, zj) d_zj log p(zj) + d_zj k(zi, zj)]
+
+        :return:
+        """
+        # Apply update to z
+        N = len(self.nns)
+
+        for k, param in enumerate(zi.nn_params):
+            if self.bias:  # If there is a bias term
+                param.weight.data += 1 / N * step_size * (kd * dlog_post[k * 2] + derivative_kd[k * 2])
+                param.bias.data += 1 / N * step_size * (kd * dlog_post[k * 2 + 1] + derivative_kd[k * 2 + 1])
+            else:  # If there is no bias term
+                param.weight.data += 1 / N * step_size * (kd * dlog_post[k] + derivative_kd[k])
+
+    def copy_gradient(self, z):
+        """
+        :param z:
+
+        Copy the gradient from particle z
+        :return:
+        """
+        gradient = []
+
+        for i, param in enumerate(z.nn_params):
+            gradient.append(copy.deepcopy(param.weight.grad))
+            if self.bias:
+                gradient.append(copy.deepcopy(param.bias.grad))
+
+        return gradient
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
         """
@@ -177,7 +311,7 @@ class BNN_SVGD(torch.nn.Module):
 SVGD class for fully connected neural networks
 """
 class FC_SVGD(BNN_SVGD):
-    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
+    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1, step_size=0.01):
         """
 
         :param x_dim: dimension of input
@@ -201,13 +335,16 @@ class FC_SVGD(BNN_SVGD):
             zi = FullyConnectedNet(x_dim, y_dim, network_structure)
             self.nns.append(zi)
 
+        self.step_size = step_size
+        self.svgd_optimizer = optim.SGD(self.parameters(), lr=self.step_size)
 
 
 """
 SVGD class for convolution neural network
+Used for testing on CIFAR-10 and MNIST
 """
 class CovNet_SVGD(BNN_SVGD):
-    def __init__(self, image_set, num_networks=10):
+    def __init__(self, image_set, num_networks=10, step_size=0.01):
         """
 
         :param image_set:
@@ -217,7 +354,6 @@ class CovNet_SVGD(BNN_SVGD):
         self.num_nn = num_networks
         self.nns = ModuleList()
         self.image_set = image_set
-
         self.bias = True
 
         # Initialize all the neural networks
@@ -231,7 +367,8 @@ class CovNet_SVGD(BNN_SVGD):
         self.ll_sigma  = 1
         self.p_sigma   = 1
         self.rbf_sigma = 1
-
+        self.step_size = step_size
+        self.svgd_optimizer = optim.SGD(self.parameters(), lr=self.step_size)
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
         """
@@ -280,18 +417,43 @@ class CovNet_SVGD(BNN_SVGD):
             for layer in [bnn.fc1, bnn.fc2]:
                 lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma**2
                 lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma**2
+        elif self.image_set == "CIFAR-10":
+            for layer in [bnn.fc1, bnn.fc2, bnn.fc3]:
+                lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma**2
+                lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma**2
 
         return lp
 
 
-    def log_likelihood_compute(self, zi, X, y):
+"""
+Simple SVGD class for experimentation
+"""
+class SVGD_simple(BNN_SVGD):
+    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1, step_size=0.01):
         """
-        Compute the derivative of the log likelihood with respect to neural network zi
-        :param zi:
-        :return:
-        """
-        sigma = 1.
-        yhat = zi.forward(X)
 
-        ll = -0.5 * torch.sum((y - yhat) ** 2) / self.ll_sigma**2
-        return ll
+        :param x_dim: dimension of input
+        :param y_dim: dimension of output
+        :param num_networks: number of neural networks (or particles)
+        :param network_structure: hidden layer structure
+        :param ll_sigma: standard deviation of likelihood term
+        :param p_sigma:  standard deviation of prior term
+        :param rbf_sigma: rbf length scale
+        """
+        super(SVGD_simple, self).__init__(ll_sigma, p_sigma, rbf_sigma)
+
+        self.num_nn = num_networks
+        self.nn_arch = network_structure
+        self.nns = ModuleList()
+        self.x_dim = x_dim
+        self.y_dim = y_dim
+
+        # Initialize all the neural networks, note that we use SingleWeightNeuralNet for experimentation
+        # purpose only
+        self.bias = False
+        for _ in range(num_networks):
+            zi = SingleWeightNeuralNet(x_dim, y_dim)
+            self.nns.append(zi)
+
+        self.step_size = step_size
+        self.svgd_optimizer = optim.SGD(self.parameters(), lr=self.step_size)

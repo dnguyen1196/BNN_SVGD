@@ -58,8 +58,7 @@ def make_log_pdf_contour_plot(a_GH, b_GH, log_pdf_GH, name, vmin=-10000):
     plt.show()
 
 
-def estimate_jensen_shannon_divergence_from_numerical_distribution(particles, x_N, y_N, \
-                                    h=0.2, xlimit=[-4, 4], ylimit=[-4, 4], grid_N=100, plot=True):
+def estimate_jensen_shannon_divergence_from_numerical_distribution(particles, x_N, y_N, h=0.2, xlimit=[-4, 4], ylimit=[-4, 4], grid_N=100, plot=True):
     """
     :param particles:
     :param x_N:
@@ -140,3 +139,81 @@ def estimate_jensen_shannon_divergence_from_numerical_distribution(particles, x_
         make_log_pdf_contour_plot(x_grid, y_grid, np.reshape(log_pdf_kde, (grid_N, grid_N)), "kde(particles), jsd = {}".format(jsd), -100)
 
     return jsd
+
+
+
+# Estimate which h length scale is 'best'
+# Generate data
+
+y_sigma = 1
+
+N = 100
+
+x_N = np.linspace(-3, 3, N)
+y_N = x_N + np.random.normal(0, y_sigma, size=(N,))
+
+# The idea is that
+# If we have a distribution P which we think is close to the true distribution
+# And we generate M samples from P, as M -> infinity, JSD(particles|true distribution) goes to 0
+# And we pick a length scale h that satisfies this
+
+
+# What does the posterior distribution looks like
+# a, b ~ N(0, 1)
+# y ~ N(x * a * b, y_sigma)
+# what is P(a, b), if we know P(a)P(b)P(y|x, a, b), we can use MCMC-metropolis hastings
+# So I can do MCMC-MH
+
+def sample_mcmc_mh(x_N, y_N, at, bt, y_sigma, p_sigma):
+    a_prop = np.random.normal(at, 1)
+    b_prop = np.random.normal(bt, 1)
+
+    lik_prop = np.sum(scipy.stats.norm.logpdf(y_N, a_prop * b_prop * x_N, y_sigma))
+    prior_prop = scipy.stats.norm.logpdf(0, a_prop, p_sigma) + scipy.stats.norm.logpdf(0, b_prop, p_sigma)
+
+    lik_t    = np.sum(scipy.stats.norm.logpdf(y_N, at * bt * x_N, y_sigma))
+    prior_t  = scipy.stats.norm.logpdf(0, at, p_sigma) + scipy.stats.norm.logpdf(0, bt, p_sigma)
+
+    a = np.exp(lik_prop + prior_prop - lik_t - prior_t)
+
+    if np.random.rand() < a:
+        return a_prop, b_prop, True
+    return at, bt, False
+
+
+# The simplest is to re-construct the experiment, but that is not the posterior
+
+p_sigma = 1
+
+def generate_particles(M, h, plot=False):
+    acceptances = 0
+    particles = []
+    at = 1.5
+    bt = 1.5
+
+    while acceptances < int(M/2):
+        at, bt, accepted = sample_mcmc_mh(x_N, y_N, at, bt, y_sigma, p_sigma)
+        if accepted:
+            particles.append([at, bt])
+            acceptances += 1
+        # else:
+        #     at = np.random.normal(0, 1)
+        #     bt = np.random.normal(0, 1)
+
+    at = -1.5
+    bt = -1.5
+    while acceptances < M:
+        at, bt, accepted = sample_mcmc_mh(x_N, y_N, at, bt, y_sigma, p_sigma)
+        if accepted:
+            particles.append([at, bt])
+            acceptances += 1
+
+    particles = np.array(particles)
+    jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(particles, x_N, y_N, h=h, plot=plot)
+    print("With h = %.3f, M = %d, jsd = %.4f" % (h, M, jsd))
+
+
+h = 0.1
+
+for h in [0.1, 0.05, 0.025, 0.02, 0.015, 0.01, 0.005, 0.001]:
+    generate_particles(M=5000, h=h, plot=False)

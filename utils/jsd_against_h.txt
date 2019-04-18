@@ -1,0 +1,13 @@
+h = 0.1
+
+for h in [0.1, 0.05, 0.025, 0.02, 0.015, 0.01, 0.005, 0.001]:
+    generate_particles(M=5000, h=h, plot=False)
+
+With h = 0.100, M = 5000, jsd = 0.3376
+With h = 0.050, M = 5000, jsd = 0.1479
+With h = 0.025, M = 5000, jsd = 0.0659
+With h = 0.020, M = 5000, jsd = 0.0539
+With h = 0.015, M = 5000, jsd = 0.0674
+With h = 0.010, M = 5000, jsd = 0.0877
+With h = 0.005, M = 5000, jsd = 0.3075
+With h = 0.001, M = 5000, jsd = 1.8069

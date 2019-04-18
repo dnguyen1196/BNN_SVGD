@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from utils.MiniBatch import CyclicMiniBatch
 from matplotlib.animation import FuncAnimation
 from utils.visualization import plot_weight_distribution, track_position_over_time
-from utils.probability import estimate_kl_divergence_discrete_true_posterior
+from utils.probability import estimate_jensen_shannon_divergence_from_numerical_distribution
 
 # Random seed for reproducibility
 np.random.seed(42)
@@ -39,13 +39,13 @@ train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = SG_HMC_BNN(x_dim, y_dim, num_networks, network_structure, l, p, rbf)
 
-sampled_bnn = model.fit(train_loader=train_loader, num_iterations=100, n_leapfrog_steps=20, step_size=0.001, momentum=0.9925)
+sampled_bnn = model.fit(train_loader=train_loader, num_iterations=100, n_leapfrog_steps=20, step_size=0.001, momentum=0.995)
 
 # track_position_over_time(sampled_bnn)
-
 distribution = plot_weight_distribution(sampled_bnn, data, target)
 
-kl = estimate_kl_divergence_discrete_true_posterior(distribution, Xs, ys)
+kl = estimate_jensen_shannon_divergence_from_numerical_distribution(distribution, Xs, ys, plot=False)
+
+print("JSD(estimated true posterior | KDE(particles stochastic HMC)) = ", kl)
 
 
-print("KL(estimated true posterior | KDE(stochastic HMC)) = ", kl)

@@ -5,6 +5,9 @@ import copy
 import math
 
 
+"""
+Hamiltonian Monte Carlo sampler - used by HMC_BNN only
+"""
 class HMC_sampler(nn.Module):
     def __init__(self):
         return
@@ -104,9 +107,7 @@ class HMC_sampler(nn.Module):
 
 
 """
-
 Hamiltonian Monte Carlo
-
 """
 class HMC_BNN(torch.nn.Module):
     def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
@@ -233,11 +234,8 @@ class HMC_BNN(torch.nn.Module):
         return sampled_bnn, energies_list
 
 
-
 """
-
 Stochastic gradient Hamiltonian Monte Carlo
-
 """
 class SG_HMC_BNN(HMC_BNN):
     def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):

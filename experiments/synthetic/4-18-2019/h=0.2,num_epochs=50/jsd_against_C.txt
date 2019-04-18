@@ -1,0 +1,7 @@
+h = 0.2
+
+With C = 10 neural networks, N = 10, rbf = 0.1, average jsd = 0.43411999999999995
+With C = 20 neural networks, N = 10, rbf = 0.1, average jsd = 0.37289999999999995
+With C = 50 neural networks, N = 10, rbf = 0.1, average jsd = 0.4117
+With C = 80 neural networks, N = 10, rbf = 0.1, average jsd = 0.4577
+With C = 100 neural networks, N = 10, rbf = 0.1, average jsd = 0.48056
