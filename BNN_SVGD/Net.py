@@ -151,6 +151,7 @@ class Cifar10LeNet(nn.Module):
         out = F.relu(self.fc1(out))
         out = F.relu(self.fc2(out))
         out = self.fc3(out)
+        out = F.softmax(out, dim=1)
         return out
 
 
@@ -173,7 +174,8 @@ class MnistCovNet(nn.Module):
         x = x.view(-1, 4*4*50)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
-        return F.log_softmax(x, dim=1)
+        x = F.softmax(x, dim=1)
+        return x
 
 
 """
@@ -199,7 +201,6 @@ class ConvNet(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2)) # This gets us (7,7,32)
 
         self.drop_out = nn.Dropout()
-
         self.fc1 = nn.Linear(7 * 7 * 32, 512)
         self.fc2 = nn.Linear(512, num_classes)
 
