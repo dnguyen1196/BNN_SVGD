@@ -473,7 +473,6 @@ class CovNet_SVGD(BNN_SVGD):
 
         phi(zi) = 1/n sum_zj [k(zi, zj) d_zj log p(zj) + d_zj k(zi, zj)]
 
-
                 param.weight.data += 1 / N * step_size * (kd * dlog_post[k * 2] + derivative_kd[k * 2])
                 param.bias.data += 1 / N * step_size * (kd * dlog_post[k * 2 + 1] + derivative_kd[k * 2 + 1])
 
@@ -490,15 +489,15 @@ class CovNet_SVGD(BNN_SVGD):
                 zi.conv2.weight.data +=1/N * step_size * dlog_post[2]
                 zi.conv2.bias.data +=1/N * step_size * dlog_post[3]
 
-                # zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
-                # zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
-                # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
-                # zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
+                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
+                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
+                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
+                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
 
-                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4])
-                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5]) 
-                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6]) 
-                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7])
+                # zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4])
+                # zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5]) 
+                # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6]) 
+                # zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7])
 
             elif self.image_set == "CIFAR-10":
                 zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
