@@ -148,6 +148,10 @@ class BNN_SVGD(torch.nn.Module):
             dlog_post = derivative_log_posterior[j]           # Derivative of log posterior with respect to zj
             derivative_kd = gradient_discrepancy_matrix[i][j] # Derivative of kd(zi, zj) with respect to zj
 
+            # print("kd", kd)
+            # print("dlog_post", dlog_post)
+            # print("derivative_kd", derivative_kd)
+
             # Apply update: zi = zi + eps * phi(zi)
             self.apply_phi(zi, kd, dlog_post, derivative_kd, step_size)
 
@@ -264,6 +268,7 @@ class BNN_SVGD(torch.nn.Module):
         """
         sigma = 1.
         yhat = zi.forward(X)
+        # print("yhat.shape", yhat.shape)
         ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
         return ll
 
@@ -402,6 +407,18 @@ class CovNet_SVGD(BNN_SVGD):
         kd = torch.exp(norm_diff)
         return kd
 
+    def log_likelihood_compute(self, zi, X, y):
+        """
+        Compute the derivative of the log likelihood with respect to neural network zi
+        :param zi:
+        :return:
+        """
+        sigma = 1.
+        yhat = zi.forward(X) # Shape will be [batch_size, 10]
+        # loss = nn.BCELoss()        
+        # ll   = -loss(yhat, y)
+        ll = -0.5 * torch.mean((yhat - y)**2)
+        return ll
 
     def log_prior_compute(self, bnn):
         """
@@ -413,17 +430,90 @@ class CovNet_SVGD(BNN_SVGD):
         self.fc2 = nn.Linear(500, 10)
         """
         lp = 0.
-        if self.image_set == "MNIST":
-            for layer in [bnn.fc1, bnn.fc2]:
-                lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma**2
-                lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma**2
-        elif self.image_set == "CIFAR-10":
-            for layer in [bnn.fc1, bnn.fc2, bnn.fc3]:
-                lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma**2
-                lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma**2
+        layers = [bnn.fc1, bnn.fc2] if self.image_set == "MNIST" else [bnn.fc1, bnn.fc2, bnn.fc3]
+
+        for layer in layers:
+            lp += -0.5 * torch.sum((layer.weight**2))/self.p_sigma**2
+            lp += -0.5 * torch.sum((layer.bias**2))/self.p_sigma**2
 
         return lp
 
+    def copy_gradient(self, bnn):
+        """
+        :param z:
+        Copy the gradient from particle z
+        Need to copy gradient from the convolution layer as well
+
+        :return:
+        """
+        gradient = []
+
+        if self.image_set == "MNIST":
+            for layer in [bnn.conv1, bnn.conv2, bnn.fc1, bnn.fc2]:
+                gradient.append(copy.deepcopy(layer.weight.grad))
+                gradient.append(copy.deepcopy(layer.bias.grad))
+
+        elif self.image_set == "CIFAR-10":
+            for layer in [bnn.conv1, bnn.conv2, bnn.fc1, bnn.fc2, bnn.fc3]:
+                gradient.append(copy.deepcopy(layer.weight.grad))
+                gradient.append(copy.deepcopy(layer.bias.grad))
+
+        return gradient
+
+    def apply_phi(self, zi, kd, dlog_post, derivative_kd, step_size):
+        """
+
+        :param zi: 
+        :param kd:
+        :param dlog_post: 
+        :param derivative_kd:
+        :param step_size:
+
+        phi(zi) = 1/n sum_zj [k(zi, zj) d_zj log p(zj) + d_zj k(zi, zj)]
+
+
+                param.weight.data += 1 / N * step_size * (kd * dlog_post[k * 2] + derivative_kd[k * 2])
+                param.bias.data += 1 / N * step_size * (kd * dlog_post[k * 2 + 1] + derivative_kd[k * 2 + 1])
+
+        :return:
+        """
+        # Apply update to z
+        N = len(self.nns)
+
+        for j in range(N):
+            if self.image_set == "MNIST":
+                # Note that the convolution layer doesnt have derivative from discrepancy term
+                zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
+                zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
+                zi.conv2.weight.data +=1/N * step_size * dlog_post[2]
+                zi.conv2.bias.data +=1/N * step_size * dlog_post[3]
+                # zi.conv1.weight.data += 1/N * step_size * (kd * dlog_post[0] + derivative_kd[0])
+                # zi.conv1.bias.data += 1/N * step_size * (kd * dlog_post[1] + derivative_kd[1])
+                # zi.conv2.weight.data +=1/N * step_size * (kd * dlog_post[2] + derivative_kd[2])
+                # zi.conv2.bias.data +=1/N * step_size * (kd * dlog_post[3] + derivative_kd[3])
+
+                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
+                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
+                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
+                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
+
+            elif self.image_set == "CIFAR-10":
+                zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
+                zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
+                zi.conv2.weight.data +=1/N * step_size * dlog_post[2]
+                zi.conv2.bias.data +=1/N * step_size * dlog_post[3]
+                # zi.conv1.weight.data += 1/N * step_size * (kd * dlog_post[0] + derivative_kd[0])
+                # zi.conv1.bias.data += 1/N * step_size * (kd * dlog_post[1] + derivative_kd[1])
+                # zi.conv2.weight.data +=1/N * step_size * (kd * dlog_post[2] + derivative_kd[2])
+                # zi.conv2.bias.data +=1/N * step_size * (kd * dlog_post[3] + derivative_kd[3])
+                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
+                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
+                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
+                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])          
+                zi.fc3.weight.data += 1/N * step_size * (kd * dlog_post[8] + derivative_kd[8])
+                zi.fc3.bias.data += 1/N * step_size * (kd * dlog_post[9] + derivative_kd[9])   
+
+        return zi
 
 """
 Simple SVGD class for experimentation

@@ -69,11 +69,9 @@ else:
 
 model = CovNet_SVGD(image_set=dataset, num_networks=num_networks)
 
-optimizer = optim.SGD(model.parameters(), lr=0.001)
-
 count = 1
 
-def train_model(model, optimizer, train_loader, device):
+def train_model(model, train_loader, device):
     total_loss = 0.
     num_batches = 0
     count = 0
@@ -81,34 +79,25 @@ def train_model(model, optimizer, train_loader, device):
     total = 0
 
     for batch_idx, (data, target) in enumerate(train_loader):
+        # print("batch_idx", batch_idx)
         X, y = data.to(device), target.to(device)
 
         y_onehot = torch.FloatTensor(y.shape[0], num_classes)
         y_onehot.zero_()
         y_onehot.scatter_(1, y.view(-1,1), 1.)
 
-        # print(X.shape)
-        # print(y.shape)
-        optimizer.zero_grad()
+        model.step_svgd(X, y_onehot, step_size=0.001)
 
-        loss = model.loss(X, y_onehot)
-        loss.backward()
-
-        outputs = model.predict_average(X)
-        optimizer.step()
-
-        total_loss += loss
         num_batches += 1
 
+        outputs = model.predict_average(X)
         _, predicted = outputs.max(1)
         total += y.size(0)
         correct += predicted.eq(y).sum().item()
 
         count += 1
-        # if loss > 10000:
-        #     print(loss)
 
-    return total_loss/num_batches, correct/total
+    return correct/total
 
 
 def evaluate_test_set(model, train_loader, device):
@@ -126,10 +115,8 @@ def evaluate_test_set(model, train_loader, device):
             y_onehot.zero_()
             y_onehot.scatter_(1, y.view(-1,1), 1.)
 
-            loss = model.loss(X, y_onehot)
             outputs = model.predict_average(X)
 
-            total_loss += loss
             num_batches += 1
 
             _, predicted = outputs.max(1)
@@ -138,17 +125,17 @@ def evaluate_test_set(model, train_loader, device):
 
             count += 1
 
-    return total_loss/num_batches, correct/total
+    return correct/total
 
 
-avg_loss_test, accuracy_test = evaluate_test_set(model, test_loader, device)
-print("Init: test set avg batch loss = {}, test set accuracy = {}".format(avg_loss_test, accuracy_test))
+accuracy_test = evaluate_test_set(model, test_loader, device)
+print("Init: test set accuracy = {}".format(accuracy_test))
 
 for epoch in range(num_epochs):
-    avg_loss_train, accuracy_train = train_model(model, optimizer, train_loader, device)
-    avg_loss_test, accuracy_test = evaluate_test_set(model, test_loader, device)
-    print("epoch {}, train_model-avg-loss = {}, train_model-accuracy = {}, evaluate_test_set-avg-loss = {}, evaluate_test_set-accuracy = {}"\
-        .format(epoch, avg_loss_train, accuracy_train, avg_loss_test, accuracy_test))
+    accuracy_train = train_model(model, train_loader, device)
+    accuracy_test = evaluate_test_set(model, test_loader, device)
+    print("epoch {}, train_model-accuracy = {}, evaluate_test_set-accuracy = {}"\
+        .format(epoch, accuracy_train, accuracy_test))
 
 
 model_file = "data_{}-epochs_{}-numnns_{}-model.pkl".format(dataset, num_epochs, num_networks)
