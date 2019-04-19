@@ -41,7 +41,7 @@ y = torch.FloatTensor(ys)
 
 n_retries = 5
 
-h = 0.2
+h = 0.02
 
 for num_networks in [10, 20, 50, 80, 100]:
     jsd_array = []

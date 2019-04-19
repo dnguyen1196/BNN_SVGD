@@ -59,7 +59,7 @@ def make_log_pdf_contour_plot(a_GH, b_GH, log_pdf_GH, name, vmin=-10000):
 
 
 def estimate_jensen_shannon_divergence_from_numerical_distribution(particles, x_N, y_N, \
-                                    h=0.2, xlimit=[-4, 4], ylimit=[-4, 4], grid_N=100, plot=True):
+                                    h=0.02, xlimit=[-4, 4], ylimit=[-4, 4], grid_N=100, plot=True):
     """
     :param particles:
     :param x_N:

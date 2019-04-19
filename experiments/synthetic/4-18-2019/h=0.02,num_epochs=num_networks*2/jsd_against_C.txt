@@ -1,0 +1,7 @@
+num_epochs = max(50, num_networks * 2)
+
+With C = 10 neural networks, N = 10, rbf = 0.1, h = 0.02, average jsd = 1.97626, std-jsd = 0.03914759762744079
+With C = 20 neural networks, N = 10, rbf = 0.1, h = 0.02, average jsd = 1.7877399999999999, std-jsd = 0.04425555784305516
+With C = 50 neural networks, N = 10, rbf = 0.1, h = 0.02, average jsd = 1.38818, std-jsd = 0.06759663896970024
+With C = 80 neural networks, N = 10, rbf = 0.1, h = 0.02, average jsd = 1.0613000000000001, std-jsd = 0.03599594421598081
+With C = 100 neural networks, N = 10, rbf = 0.1, h = 0.02, average jsd = 0.9054, std-jsd = 0.019028925350633975

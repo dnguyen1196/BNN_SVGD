@@ -38,7 +38,7 @@ batch_size = 10
 train_loader = CyclicMiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l, p, rbf, svgd_step_size=0.01,\
-                          momentum=0.999, hmc_n_leapfrog_steps=20, hmc_step_size=0.001)
+                          momentum=0.999, hmc_n_leapfrog_steps=10, hmc_step_size=0.001)
 
 n_svgd = 300
 n_hmc  = 1001
@@ -62,7 +62,7 @@ for nnid in range(len(sampled_bnn)):
 
 particle_positions = np.array(particle_positions)
 
-jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(particle_positions, Xs, ys, h=0.2, plot=False)
+jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(particle_positions, Xs, ys, plot=False)
 
 print("JSD(kde(particles) | estimated posterior) = ", jsd)
 
