@@ -71,12 +71,20 @@ model = CovNet_SVGD(image_set=dataset, num_networks=num_networks)
 
 count = 1
 
-def train_model(model, train_loader, device):
+def train_model(epoch, model, train_loader, device):
     total_loss = 0.
     num_batches = 0
     count = 0
     correct = 0
     total = 0
+
+    lr0  = 0.01
+    epochs_drop = 1
+    drop = 0.75
+
+    lr = lr0 * drop**int(epoch / epochs_drop)
+
+    print("Epoch %d, lr = %.4f" %(epoch, lr))
 
     for batch_idx, (data, target) in enumerate(train_loader):
         # print("batch_idx", batch_idx)
@@ -86,7 +94,7 @@ def train_model(model, train_loader, device):
         y_onehot.zero_()
         y_onehot.scatter_(1, y.view(-1,1), 1.)
 
-        model.step_svgd(X, y_onehot, step_size=0.001)
+        model.step_svgd(X, y, step_size=0.001)
 
         num_batches += 1
 
@@ -100,7 +108,7 @@ def train_model(model, train_loader, device):
     return correct/total
 
 
-def evaluate_test_set(model, train_loader, device):
+def evaluate_test_set(epoch, model, train_loader, device):
     total_loss = 0.
     num_batches = 0
     count = 0
@@ -127,13 +135,12 @@ def evaluate_test_set(model, train_loader, device):
 
     return correct/total
 
-
-accuracy_test = evaluate_test_set(model, test_loader, device)
+accuracy_test = evaluate_test_set(-1, model, test_loader, device)
 print("Init: test set accuracy = {}".format(accuracy_test))
 
 for epoch in range(num_epochs):
-    accuracy_train = train_model(model, train_loader, device)
-    accuracy_test = evaluate_test_set(model, test_loader, device)
+    accuracy_train = train_model(epoch, model, train_loader, device)
+    accuracy_test = evaluate_test_set(epoch, model, test_loader, device)
     print("epoch {}, train_model-accuracy = {}, evaluate_test_set-accuracy = {}"\
         .format(epoch, accuracy_train, accuracy_test))
 

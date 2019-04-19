@@ -151,8 +151,8 @@ class BNN_SVGD(torch.nn.Module):
             # print("kd", kd)
             # print("dlog_post", dlog_post)
             # print("derivative_kd", derivative_kd)
-
             # Apply update: zi = zi + eps * phi(zi)
+
             self.apply_phi(zi, kd, dlog_post, derivative_kd, step_size)
 
         return zi
@@ -269,8 +269,10 @@ class BNN_SVGD(torch.nn.Module):
         sigma = 1.
         yhat = zi.forward(X)
         # print("yhat.shape", yhat.shape)
-        ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
-        return ll
+        # ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
+        loss = nn.BCELoss()
+        ll = loss(yhat, y, axis=1)
+        return -ll
 
     def evaluate(self, X_train, y_train):
         """
@@ -415,9 +417,9 @@ class CovNet_SVGD(BNN_SVGD):
         """
         sigma = 1.
         yhat = zi.forward(X) # Shape will be [batch_size, 10]
-        # loss = nn.BCELoss()        
+        ll   = -F.nll_loss(yhat, y)        
         # ll   = -loss(yhat, y)
-        ll = -0.5 * torch.mean((yhat - y)**2)
+        # ll = -0.5 * torch.mean((yhat - y)**2)
         return ll
 
     def log_prior_compute(self, bnn):
@@ -487,15 +489,16 @@ class CovNet_SVGD(BNN_SVGD):
                 zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
                 zi.conv2.weight.data +=1/N * step_size * dlog_post[2]
                 zi.conv2.bias.data +=1/N * step_size * dlog_post[3]
-                # zi.conv1.weight.data += 1/N * step_size * (kd * dlog_post[0] + derivative_kd[0])
-                # zi.conv1.bias.data += 1/N * step_size * (kd * dlog_post[1] + derivative_kd[1])
-                # zi.conv2.weight.data +=1/N * step_size * (kd * dlog_post[2] + derivative_kd[2])
-                # zi.conv2.bias.data +=1/N * step_size * (kd * dlog_post[3] + derivative_kd[3])
 
-                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
-                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
-                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
-                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
+                # zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
+                # zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
+                # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
+                # zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
+
+                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4])
+                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5]) 
+                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6]) 
+                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7])
 
             elif self.image_set == "CIFAR-10":
                 zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
