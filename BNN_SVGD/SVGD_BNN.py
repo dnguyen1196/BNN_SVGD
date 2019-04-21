@@ -114,34 +114,33 @@ class BNN_SVGD(torch.nn.Module):
 
         self.svgd_optimizer.zero_grad()
 
-        z = self.nns[0]
+        # z = self.nns[0]
         # log_lik = self.log_likelihood_compute(z, X, y)
-        # log_prior = self.log_prior_compute(z)
+        # log_prior = self.log_prior_compute(z) * 0.1
+        # # log_prior = 0
         # log_posterior = log_lik + log_prior
         # loss     =  - log_posterior
+        # # loss = -self.log_likelihood_compute(z, X, y)
+        # loss.backward()
 
-        yhat = z.forward(X)
-        loss = F.cross_entropy(yhat, y)
-        loss.backward()
+        for i in range(N):
+            z = self.nns[i]
+            log_lik       = self.log_likelihood_compute(z, X, y)
+            log_prior     = self.log_prior_compute(z) * 0.01
+            log_posterior = log_lik + log_prior
+            log_posterior.backward()
+            grad_z        = self.copy_gradient(z)
+            derivative_log_posterior[i] = grad_z
 
-        # for i in range(N):
-        #     z = self.nns[i]
-        #     log_lik       = self.log_likelihood_compute(z, X, y)
-        #     log_prior     = self.log_prior_compute(z)
-        #     log_posterior = log_lik + log_prior
-        #     log_posterior.backward()
-        #     grad_z        = self.copy_gradient(z)
-        #     derivative_log_posterior[i] = grad_z
+        # self.svgd_optimizer.step()
 
-        self.svgd_optimizer.step()
-
-        # self.svgd_optimizer.zero_grad()
+        self.svgd_optimizer.zero_grad()
         # # # Apply svgd update
         # # self.nns[0] = self.apply_svgd_update(0, discrepancy_matrix, gradient_discrepancy_matrix, derivative_log_posterior, step_size)
         #
-        # for i in range(N):
-        #     self.nns[i] = self.apply_svgd_update(i, discrepancy_matrix, gradient_discrepancy_matrix, \
-        #                                          derivative_log_posterior, step_size)
+        for i in range(N):
+            self.nns[i] = self.apply_svgd_update(i, discrepancy_matrix, gradient_discrepancy_matrix, \
+                                                 derivative_log_posterior, step_size)
 
     def apply_svgd_update(self, i, discrepancy_matrix, gradient_discrepancy_matrix, derivative_log_posterior, step_size):
         """
@@ -429,10 +428,10 @@ class CovNet_SVGD(BNN_SVGD):
         """
         sigma = 1.
         yhat = zi.forward(X) # Shape will be [batch_size, 10]
-        if self.dataset == "MNIST":
+        if self.image_set == "MNIST":
             ll   = -F.nll_loss(yhat, y)
         else:
-            return None
+            ll   = -F.cross_entropy(yhat, y)
 
         return ll
 

@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description="Stochastic SVGD test")
 
 parser.add_argument('--batch_size', type=int, help='Batch size', default=128)
 parser.add_argument('--num_epochs', type=int, help='Number of epochs', default=50)
-parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=1)
+parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=5)
 parser.add_argument('--dataset', type=str, help='Dataset', choices=['MNIST', 'CIFAR-10'], default='CIFAR-10')
 parser.add_argument('--outdir', type=str, help='Output directory', default='./')
 
@@ -82,7 +82,7 @@ def train_model(epoch, model, train_loader, device):
     correct = 0
     total = 0
 
-    lr0  = 0.01
+    lr0  = 0.1
     epochs_drop = 1
     drop = 0.9
 
