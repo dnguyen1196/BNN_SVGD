@@ -114,21 +114,31 @@ class BNN_SVGD(torch.nn.Module):
 
         self.svgd_optimizer.zero_grad()
 
-        for i in range(N):
-            z = self.nns[i]
-            log_lik       = self.log_likelihood_compute(z, X, y)
-            log_prior     = self.log_prior_compute(z)
-            log_posterior = log_lik + log_prior
-            log_posterior.backward()
-            grad_z        = self.copy_gradient(z)
-            derivative_log_posterior[i] = grad_z
+        z = self.nns[0]
+        # log_lik = self.log_likelihood_compute(z, X, y)
+        # log_prior = self.log_prior_compute(z)
+        # log_posterior = log_lik + log_prior
+        # loss     =  - log_posterior
 
-        # self.svgd_optimizer.step()
+        yhat = z.forward(X)
+        loss = F.cross_entropy(yhat, y)
+        loss.backward()
 
-        self.svgd_optimizer.zero_grad()
-        # # Apply svgd update
-        self.nns[0] = self.apply_svgd_update(0, discrepancy_matrix, gradient_discrepancy_matrix, derivative_log_posterior, step_size)
+        # for i in range(N):
+        #     z = self.nns[i]
+        #     log_lik       = self.log_likelihood_compute(z, X, y)
+        #     log_prior     = self.log_prior_compute(z)
+        #     log_posterior = log_lik + log_prior
+        #     log_posterior.backward()
+        #     grad_z        = self.copy_gradient(z)
+        #     derivative_log_posterior[i] = grad_z
 
+        self.svgd_optimizer.step()
+
+        # self.svgd_optimizer.zero_grad()
+        # # # Apply svgd update
+        # # self.nns[0] = self.apply_svgd_update(0, discrepancy_matrix, gradient_discrepancy_matrix, derivative_log_posterior, step_size)
+        #
         # for i in range(N):
         #     self.nns[i] = self.apply_svgd_update(i, discrepancy_matrix, gradient_discrepancy_matrix, \
         #                                          derivative_log_posterior, step_size)
@@ -419,7 +429,11 @@ class CovNet_SVGD(BNN_SVGD):
         """
         sigma = 1.
         yhat = zi.forward(X) # Shape will be [batch_size, 10]
-        ll   = -F.nll_loss(yhat, y)
+        if self.dataset == "MNIST":
+            ll   = -F.nll_loss(yhat, y)
+        else:
+            return None
+
         return ll
 
     def log_prior_compute(self, bnn):

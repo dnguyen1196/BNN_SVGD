@@ -59,3 +59,29 @@ epoch 27, train_model-accuracy = 0.9566666666666667, evaluate_test_set-accuracy 
 Epoch 28, lr = 0.0005
 epoch 28, train_model-accuracy = 0.9573333333333334, evaluate_test_set-accuracy = 0.9322
 Epoch 29, lr = 0.0005
+epoch 29, train_model-accuracy = 0.9574333333333334, evaluate_test_set-accuracy = 0.9582
+Epoch 30, lr = 0.0004
+epoch 30, train_model-accuracy = 0.95715, evaluate_test_set-accuracy = 0.9546
+Epoch 31, lr = 0.0004
+epoch 31, train_model-accuracy = 0.9572166666666667, evaluate_test_set-accuracy = 0.9479
+Epoch 32, lr = 0.0003
+epoch 32, train_model-accuracy = 0.9569, evaluate_test_set-accuracy = 0.9534
+Epoch 33, lr = 0.0003
+epoch 33, train_model-accuracy = 0.9571833333333334, evaluate_test_set-accuracy = 0.9492
+Epoch 34, lr = 0.0003
+epoch 34, train_model-accuracy = 0.9565333333333333, evaluate_test_set-accuracy = 0.9546
+Epoch 35, lr = 0.0003
+epoch 35, train_model-accuracy = 0.9559, evaluate_test_set-accuracy = 0.9514
+Epoch 36, lr = 0.0002
+epoch 36, train_model-accuracy = 0.9557666666666667, evaluate_test_set-accuracy = 0.953
+Epoch 37, lr = 0.0002
+epoch 37, train_model-accuracy = 0.9555833333333333, evaluate_test_set-accuracy = 0.9426
+Epoch 38, lr = 0.0002
+epoch 38, train_model-accuracy = 0.9557833333333333, evaluate_test_set-accuracy = 0.9547
+Epoch 39, lr = 0.0002
+epoch 39, train_model-accuracy = 0.9555333333333333, evaluate_test_set-accuracy = 0.9477
+Epoch 40, lr = 0.0001
+epoch 40, train_model-accuracy = 0.9558666666666666, evaluate_test_set-accuracy = 0.9573
+Epoch 41, lr = 0.0001
+epoch 41, train_model-accuracy = 0.95515, evaluate_test_set-accuracy = 0.9554
+Epoch 42, lr = 0.0001
