@@ -34,7 +34,7 @@ batch_size = 10
 train_loader = MiniBatch(xs=Xs, ys=ys, batch_size=batch_size)
 
 num_epochs = 50
-step_size  = 0.1
+step_size  = 0.01
 
 X = torch.FloatTensor(Xs)
 y = torch.FloatTensor(ys)
@@ -43,7 +43,7 @@ n_retries = 5
 
 h = 0.02
 
-for num_networks in [10, 20, 50, 80, 100]:
+for num_networks in [1]:
     jsd_array = []
     num_epochs = max(50, num_networks * 2)
     # Do some sort of average jsd
@@ -62,6 +62,7 @@ for num_networks in [10, 20, 50, 80, 100]:
                 for nnid in range(len(model.nns)):
                     weight1 = model.nns[nnid].nn_params[0].weight.detach().numpy()[0]
                     weight2 = model.nns[nnid].nn_params[1].weight.detach().numpy()[0]
+
                     curr_position.append([weight1[0], weight2[0]])
                 positions_over_time.append((curr_position, True))
 
@@ -84,7 +85,7 @@ for num_networks in [10, 20, 50, 80, 100]:
             plt.xlim(-15, 15)
             plt.xlabel(label)
 
-        jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(np.array(positions_over_time[-1][0]),x_N=X, y_N=y,h=h,plot=False)
+        jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(np.array(positions_over_time[-1][0]),x_N=Xs, y_N=ys,h=h,plot=True)
         jsd = np.around(jsd, decimals=4)
 
         jsd_array.append(jsd)

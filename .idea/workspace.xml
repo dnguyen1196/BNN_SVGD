@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="238e19b0-6e46-4742-a957-1e9392fc21c7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=200_nhmc=1001_total=1000_jsd=1.296.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=200_nhmc=1001_total=500_jsd=1.3247.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=300_nhmc=1001_total=1000_jsd=1.3005.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiments/particles_hybrid_N=100_C=20_bs=10_jsd=1.3247.gif" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/real/mnist/mnist_track.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/svgd_test.py" afterPath="$PROJECT_DIR$/cnn_svgd_test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_MNIST-epochs_50-numnns_1-model.pkl" afterPath="$PROJECT_DIR$/data_MNIST-epochs_50-numnns_1-model.pkl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/experiments/sghmc_svgd_hybrid_test.py" afterPath="$PROJECT_DIR$/experiments/sghmc_svgd_hybrid_test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/Net.py" afterPath="$PROJECT_DIR$/BNN_SVGD/Net.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py" afterPath="$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/experiments/svgd_test.py" afterPath="$PROJECT_DIR$/experiments/svgd_test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/probability.py" afterPath="$PROJECT_DIR$/utils/probability.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,9 +20,10 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/SVGD$HMC_autograd.coverage" NAME="HMC_autograd Coverage Results" MODIFIED="1551041550873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BNN_SVGD" />
     <SUITE FILE_PATH="coverage/SVGD$probability.coverage" NAME="probability Coverage Results" MODIFIED="1554854705531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/SVGD$svgd_test.coverage" NAME="svgd_test Coverage Results" MODIFIED="1555637832287" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiments" />
+    <SUITE FILE_PATH="coverage/SVGD$svgd_test.coverage" NAME="svgd_test Coverage Results" MODIFIED="1555703895318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiments" />
     <SUITE FILE_PATH="coverage/SVGD$hybrid_test.coverage" NAME="hybrid_test Coverage Results" MODIFIED="1554390425084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SVGD$visualization.coverage" NAME="visualization Coverage Results" MODIFIED="1554683114560" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+    <SUITE FILE_PATH="coverage/SVGD$cnn_svgd_test.coverage" NAME="cnn_svgd_test Coverage Results" MODIFIED="1555822447438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SVGD$hmc_test.coverage" NAME="hmc_test Coverage Results" MODIFIED="1555018072715" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiments" />
     <SUITE FILE_PATH="coverage/SVGD$stochastic_hmc_test.coverage" NAME="stochastic_hmc_test Coverage Results" MODIFIED="1555614132241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiments" />
     <SUITE FILE_PATH="coverage/SVGD$Nosetests_in_synthetic_py.coverage" NAME="Nosetests in synthetic.py Coverage Results" MODIFIED="1547998854277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -38,85 +38,70 @@
       <file leaf-file-name="SVGD_BNN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="427" column="3" lean-forward="true" selection-start-line="427" selection-start-column="3" selection-end-line="427" selection-end-column="3" />
+            <state relative-caret-position="94">
+              <caret line="489" column="66" lean-forward="true" selection-start-line="489" selection-start-column="66" selection-end-line="489" selection-end-column="66" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-                <element signature="e#339#10003#0" expanded="false" />
-                <element signature="e#10090#11040#0" expanded="false" />
-                <element signature="e#11165#14268#0" expanded="false" />
-                <element signature="e#14350#15502#0" expanded="false" />
+                <element signature="e#403#620#0" expanded="false" />
+                <element signature="e#656#1821#0" expanded="false" />
+                <element signature="e#1872#2447#0" expanded="false" />
+                <element signature="e#5557#6298#0" expanded="false" />
+                <element signature="e#6340#6681#0" expanded="false" />
+                <element signature="e#6751#7409#0" expanded="false" />
+                <element signature="e#7469#7821#0" expanded="false" />
+                <element signature="e#7891#8280#0" expanded="false" />
+                <element signature="e#8814#9156#0" expanded="false" />
+                <element signature="e#9208#9541#0" expanded="false" />
+                <element signature="e#9582#9904#0" expanded="false" />
+                <element signature="e#9953#10334#0" expanded="false" />
+                <element signature="e#10556#11371#0" expanded="false" />
+                <element signature="e#12342#13885#0" expanded="false" />
+                <element signature="e#19293#20445#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sghmc_svgd_hybrid_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiments/sghmc_svgd_hybrid_test.py">
+      <file leaf-file-name="mnist_example.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnist_example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="64" column="68" lean-forward="false" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="68" />
+            <state relative-caret-position="323">
+              <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#0#37#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jsd_against_h.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/jsd_against_h.txt">
+      <file leaf-file-name="Net.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+            <state relative-caret-position="180">
+              <caret line="164" column="30" lean-forward="false" selection-start-line="164" selection-start-column="24" selection-end-line="164" selection-end-column="30" />
+              <folding>
+                <element signature="e#3209#4337#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cnn_svgd_test.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cnn_svgd_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="86" column="15" lean-forward="false" selection-start-line="86" selection-start-column="15" selection-end-line="86" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="probability.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/probability.py">
+      <file leaf-file-name="mnist_track.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/experiments/real/mnist/mnist_track.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="60" column="66" lean-forward="false" selection-start-line="60" selection-start-column="4" selection-end-line="60" selection-end-column="66" />
-              <folding>
-                <element signature="e#232#979#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="svgd_test.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/experiments/svgd_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-501">
-              <caret line="43" column="7" lean-forward="false" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="visualization.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/visualization.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="66" column="25" lean-forward="false" selection-start-line="66" selection-start-column="17" selection-end-line="66" selection-end-column="25" />
+            <state relative-caret-position="731">
+              <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SVGD_HMC_hybrid.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="167" column="30" lean-forward="false" selection-start-line="167" selection-start-column="30" selection-end-line="167" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-                <element signature="e#612#1662#0" expanded="false" />
-                <element signature="e#7926#8558#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -160,8 +145,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/utils/MiniBatch.py" />
-        <option value="$PROJECT_DIR$/visualize_weights.py" />
         <option value="$PROJECT_DIR$/time_lapse_test.py" />
         <option value="$PROJECT_DIR$/hybrid_test.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/HMC.py" />
@@ -170,7 +153,6 @@
         <option value="$PROJECT_DIR$/hmc_test.py" />
         <option value="$PROJECT_DIR$/hmc_svgd_hybrid_test.py" />
         <option value="$PROJECT_DIR$/mnist_svgd_test.py" />
-        <option value="$PROJECT_DIR$/BNN_SVGD/Net.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/SVGD_naiveHMC_hybrid.py" />
         <option value="$PROJECT_DIR$/experiments/hmc_svgd_hybrid_test.py" />
         <option value="$PROJECT_DIR$/experiments/svgd_synthetic_test.py" />
@@ -203,7 +185,6 @@
         <option value="$PROJECT_DIR$/utils/jsd_against_h.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/4-18-2019/h=0.2/jsd_against_C.txt" />
         <option value="$PROJECT_DIR$/experiments/synthetic/4-18-2019/h=0.2,num_epochs=num_networks*2/jsd_against_C.txt" />
-        <option value="$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py" />
         <option value="$PROJECT_DIR$/experiments/stochastic_hmc_test.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" />
         <option value="$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py" />
@@ -211,6 +192,10 @@
         <option value="$PROJECT_DIR$/experiments/sghmc_svgd_hybrid_test.py" />
         <option value="$PROJECT_DIR$/utils/probability.py" />
         <option value="$PROJECT_DIR$/experiments/svgd_test.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/Net.py" />
+        <option value="$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py" />
+        <option value="$PROJECT_DIR$/experiments/real/mnist/mnist_track.txt" />
+        <option value="$PROJECT_DIR$/cnn_svgd_test.py" />
       </list>
     </option>
   </component>
@@ -241,7 +226,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -268,6 +252,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -296,7 +281,25 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.svgd_test">
+  <component name="RunManager" selected="Python.cnn_svgd_test">
+    <configuration name="cnn_svgd_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SVGD" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cnn_svgd_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <configuration name="estimate_distribution_distance" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -311,24 +314,6 @@
       <module name="SVGD" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/estimate_distribution_distance.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
-    <configuration name="hmc_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/experiments" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="SVGD" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/experiments/hmc_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -389,18 +374,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.stochastic_hmc_test" />
-      <item index="1" class="java.lang.String" itemvalue="Python.hmc_test" />
-      <item index="2" class="java.lang.String" itemvalue="Python.sghmc_svgd_hybrid_test" />
-      <item index="3" class="java.lang.String" itemvalue="Python.svgd_test" />
-      <item index="4" class="java.lang.String" itemvalue="Python.estimate_distribution_distance" />
+      <item index="1" class="java.lang.String" itemvalue="Python.sghmc_svgd_hybrid_test" />
+      <item index="2" class="java.lang.String" itemvalue="Python.svgd_test" />
+      <item index="3" class="java.lang.String" itemvalue="Python.estimate_distribution_distance" />
+      <item index="4" class="java.lang.String" itemvalue="Python.cnn_svgd_test" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.svgd_test" />
-        <item index="1" class="java.lang.String" itemvalue="Python.sghmc_svgd_hybrid_test" />
-        <item index="2" class="java.lang.String" itemvalue="Python.stochastic_hmc_test" />
-        <item index="3" class="java.lang.String" itemvalue="Python.estimate_distribution_distance" />
-        <item index="4" class="java.lang.String" itemvalue="Python.hmc_test" />
+        <item index="0" class="java.lang.String" itemvalue="Python.cnn_svgd_test" />
+        <item index="1" class="java.lang.String" itemvalue="Python.svgd_test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.sghmc_svgd_hybrid_test" />
+        <item index="3" class="java.lang.String" itemvalue="Python.stochastic_hmc_test" />
+        <item index="4" class="java.lang.String" itemvalue="Python.estimate_distribution_distance" />
       </list>
     </recent_temporary>
   </component>
@@ -427,27 +412,28 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="325" y="290" width="1853" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18926397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34282586" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32968238" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29682365" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29572836" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35030437" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858709" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32968238" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29572836" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3483023" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40635267" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982844" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858709" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32968238" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -479,6 +465,23 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py</url>
+          <line>421</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cnn_svgd_test.py</url>
+          <line>107</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py</url>
+          <line>481</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -486,34 +489,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="56" />
+      <option name="time" value="61" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/experiments/real/cifar10_svgd_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="22" lean-forward="true" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/Results.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/synthetic_test.py" />
     <entry file="file://$PROJECT_DIR$/experiments/real/mnist_svgd_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -615,31 +595,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/hmc_svgd_hybrid_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="37" column="28" lean-forward="false" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/hmc_svgd_hybrid_test.py" />
     <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="206">
           <caret line="310" column="0" lean-forward="false" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="723">
-          <caret line="81" column="31" lean-forward="false" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="31" />
-          <folding>
-            <element signature="e#3209#4337#0" expanded="false" />
-            <element signature="e#5103#5624#0" expanded="false" />
-            <element signature="e#5700#6886#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -647,7 +607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="499">
           <caret line="50" column="39" lean-forward="false" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -659,19 +618,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/svgd_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run_test.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -702,14 +652,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/synthetic/4-18-2019/h=0.2/jsd_against_C.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/synthetic/4-18-2019/h=0.2/jsd_against_C.txt" />
     <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/matplotlib/animation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -722,15 +665,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="37" lean-forward="true" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=100_nhmc=1001_jsd=1.3173.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=100_nhmc=1001_jsd=1.3173.png" />
     <entry file="file://$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
@@ -745,13 +683,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
           <caret line="44" column="39" lean-forward="false" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
+        <state relative-caret-position="2295">
           <caret line="167" column="30" lean-forward="false" selection-start-line="167" selection-start-column="30" selection-end-line="167" selection-end-column="30" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
@@ -763,68 +700,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/visualization.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
+        <state relative-caret-position="1020">
           <caret line="66" column="25" lean-forward="false" selection-start-line="66" selection-start-column="17" selection-end-line="66" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/particles_hybrid_N=100_C=20_bs=10_jsd=1.3247.gif">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=200_nhmc=1001_total=500_jsd=1.3247.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=300_nhmc=1001_total=1000_jsd=1.3005.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=200_nhmc=1001_total=1000_jsd=1.296.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/jsd_against_h.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="427" column="3" lean-forward="true" selection-start-line="427" selection-start-column="3" selection-end-line="427" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <element signature="e#339#10003#0" expanded="false" />
-            <element signature="e#10090#11040#0" expanded="false" />
-            <element signature="e#11165#14268#0" expanded="false" />
-            <element signature="e#14350#15502#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/probability.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="60" column="66" lean-forward="false" selection-start-line="60" selection-start-column="4" selection-end-line="60" selection-end-column="66" />
-          <folding>
-            <element signature="e#232#979#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/particles_hybrid_N=100_C=20_bs=10_jsd=1.3247.gif" />
+    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=200_nhmc=1001_total=500_jsd=1.3247.png" />
+    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=300_nhmc=1001_total=1000_jsd=1.3005.png" />
+    <entry file="file://$PROJECT_DIR$/experiments/particle_N=100_C=20_nsvgd=200_nhmc=1001_total=1000_jsd=1.296.png" />
     <entry file="file://$PROJECT_DIR$/experiments/sghmc_svgd_hybrid_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="64" column="68" lean-forward="false" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="68" />
+        <state relative-caret-position="298">
+          <caret line="64" column="107" lean-forward="false" selection-start-line="64" selection-start-column="102" selection-end-line="64" selection-end-column="107" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -833,11 +722,106 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/experiments/svgd_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-501">
-          <caret line="43" column="7" lean-forward="false" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+        <state relative-caret-position="503">
+          <caret line="100" column="94" lean-forward="false" selection-start-line="100" selection-start-column="94" selection-end-line="100" selection-end-column="94" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/probability.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+          <folding>
+            <element signature="e#232#979#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/jsd_against_h.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="38" lean-forward="false" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/torch/nn/parameter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="6" lean-forward="false" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/envs/research/lib/python3.6/site-packages/torch/nn/modules/conv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="28" column="35" lean-forward="false" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/Net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="164" column="30" lean-forward="false" selection-start-line="164" selection-start-column="24" selection-end-line="164" selection-end-column="30" />
+          <folding>
+            <element signature="e#3209#4337#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnist_example.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNN_SVGD/SVGD_BNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="489" column="66" lean-forward="true" selection-start-line="489" selection-start-column="66" selection-end-line="489" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#403#620#0" expanded="false" />
+            <element signature="e#656#1821#0" expanded="false" />
+            <element signature="e#1872#2447#0" expanded="false" />
+            <element signature="e#5557#6298#0" expanded="false" />
+            <element signature="e#6340#6681#0" expanded="false" />
+            <element signature="e#6751#7409#0" expanded="false" />
+            <element signature="e#7469#7821#0" expanded="false" />
+            <element signature="e#7891#8280#0" expanded="false" />
+            <element signature="e#8814#9156#0" expanded="false" />
+            <element signature="e#9208#9541#0" expanded="false" />
+            <element signature="e#9582#9904#0" expanded="false" />
+            <element signature="e#9953#10334#0" expanded="false" />
+            <element signature="e#10556#11371#0" expanded="false" />
+            <element signature="e#12342#13885#0" expanded="false" />
+            <element signature="e#19293#20445#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/real/mnist/mnist_track.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cnn_svgd_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="86" column="15" lean-forward="false" selection-start-line="86" selection-start-column="15" selection-end-line="86" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>

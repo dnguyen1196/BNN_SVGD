@@ -13,8 +13,8 @@ parser = argparse.ArgumentParser(description="Stochastic SVGD test")
 
 parser.add_argument('--batch_size', type=int, help='Batch size', default=128)
 parser.add_argument('--num_epochs', type=int, help='Number of epochs', default=50)
-parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=20)
-parser.add_argument('--dataset', type=str, help='Dataset', choices=['MNIST', 'CIFAR-10'], default='CIFAR-10')
+parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=10)
+parser.add_argument('--dataset', type=str, help='Dataset', choices=['MNIST', 'CIFAR-10'], default='MNIST')
 parser.add_argument('--outdir', type=str, help='Output directory', default='./')
 
 args = parser.parse_args()
@@ -29,8 +29,12 @@ num_networks = args.num_nns
 dataset = args.dataset
 outdir = args.outdir
 
+
+
 # Data
 print('==> Preparing data..')
+
+print("SVGD for CNN, dataset %s, number of epochs %d, number of neural networks %d" %(dataset, num_epochs, num_networks))
 
 if dataset == 'CIFAR-10':
     train_loader = torch.utils.data.DataLoader(
@@ -80,9 +84,11 @@ def train_model(epoch, model, train_loader, device):
 
     lr0  = 0.01
     epochs_drop = 1
-    drop = 0.75
+    drop = 0.95
 
     lr = lr0 * drop**int(epoch / epochs_drop)
+
+    # lr = max(lr, 0.009)
 
     print("Epoch %d, lr = %.4f" %(epoch, lr))
 
@@ -90,18 +96,20 @@ def train_model(epoch, model, train_loader, device):
         # print("batch_idx", batch_idx)
         X, y = data.to(device), target.to(device)
 
+        model.step_svgd(X, y, step_size=lr)
+
+        num_batches += 1
+
+        # Do prediction
         y_onehot = torch.FloatTensor(y.shape[0], num_classes)
         y_onehot.zero_()
         y_onehot.scatter_(1, y.view(-1,1), 1.)
 
-        model.step_svgd(X, y, step_size=0.001)
-
-        num_batches += 1
-
         outputs = model.predict_average(X)
-        _, predicted = outputs.max(1)
+
+        pred = outputs.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+        correct += pred.eq(target.view_as(pred)).sum().item()
         total += y.size(0)
-        correct += predicted.eq(y).sum().item()
 
         count += 1
 
@@ -123,13 +131,12 @@ def evaluate_test_set(epoch, model, train_loader, device):
             y_onehot.zero_()
             y_onehot.scatter_(1, y.view(-1,1), 1.)
 
-            outputs = model.predict_average(X)
-
             num_batches += 1
 
-            _, predicted = outputs.max(1)
+            outputs = model.predict_average(X)
+            pred = outputs.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            correct += pred.eq(target.view_as(pred)).sum().item()
             total += y.size(0)
-            correct += predicted.eq(y).sum().item()
 
             count += 1
 

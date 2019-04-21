@@ -158,6 +158,7 @@ class Cifar10LeNet(nn.Module):
 """
 MnistNet
 """
+
 class MnistCovNet(nn.Module):
     def __init__(self):
         super(MnistCovNet, self).__init__()
@@ -174,7 +175,7 @@ class MnistCovNet(nn.Module):
         x = x.view(-1, 4*4*50)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
-        x = F.softmax(x, dim=1)
+        x = F.log_softmax(x, dim=1)
         return x
 
 

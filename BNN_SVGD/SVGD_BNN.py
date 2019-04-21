@@ -103,15 +103,15 @@ class BNN_SVGD(torch.nn.Module):
                 kd = self.pair_wise_kernel_discrepancy_compute(zi, zj)
 
                 kd.backward()
-
-                discrepancy_matrix[i, j] = kd.detach()
-                discrepancy_matrix[j, i] = kd.detach()
+                discrepancy_matrix[i, j] = kd
+                discrepancy_matrix[j, i] = kd
 
                 gradient_discrepancy_matrix[i][j] = self.copy_gradient(zj)
                 gradient_discrepancy_matrix[j][i] = self.copy_gradient(zi)
 
         # Compute the derivative of log posterior of all the neural networks
         derivative_log_posterior = [None for _ in range(N)]
+
         self.svgd_optimizer.zero_grad()
 
         for i in range(N):
@@ -123,11 +123,15 @@ class BNN_SVGD(torch.nn.Module):
             grad_z        = self.copy_gradient(z)
             derivative_log_posterior[i] = grad_z
 
+        # self.svgd_optimizer.step()
+
         self.svgd_optimizer.zero_grad()
-        # Apply svgd update
-        for i in range(N):
-            self.nns[i] = self.apply_svgd_update(i, discrepancy_matrix, gradient_discrepancy_matrix, \
-                                                 derivative_log_posterior, step_size)
+        # # Apply svgd update
+        self.nns[0] = self.apply_svgd_update(0, discrepancy_matrix, gradient_discrepancy_matrix, derivative_log_posterior, step_size)
+
+        # for i in range(N):
+        #     self.nns[i] = self.apply_svgd_update(i, discrepancy_matrix, gradient_discrepancy_matrix, \
+        #                                          derivative_log_posterior, step_size)
 
     def apply_svgd_update(self, i, discrepancy_matrix, gradient_discrepancy_matrix, derivative_log_posterior, step_size):
         """
@@ -210,7 +214,6 @@ class BNN_SVGD(torch.nn.Module):
         norm_diff = 0.
         for i in range(len(z1.nn_params)):
             norm_diff += torch.sum(-(z1.nn_params[i].weight - z2.nn_params[i].weight) ** 2 / (2 * self.rbf_sigma**2))
-
             if self.bias:
                 norm_diff += torch.sum(-(z1.nn_params[i].bias - z2.nn_params[i].bias) ** 2 / (2 * self.rbf_sigma**2))
 
@@ -269,10 +272,8 @@ class BNN_SVGD(torch.nn.Module):
         sigma = 1.
         yhat = zi.forward(X)
         # print("yhat.shape", yhat.shape)
-        # ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
-        loss = nn.BCELoss()
-        ll = loss(yhat, y, axis=1)
-        return -ll
+        ll = -0.5 * torch.sum((torch.squeeze(y) - torch.squeeze(yhat)) ** 2) / self.ll_sigma**2
+        return ll
 
     def evaluate(self, X_train, y_train):
         """
@@ -375,6 +376,7 @@ class CovNet_SVGD(BNN_SVGD):
         self.p_sigma   = 1
         self.rbf_sigma = 1
         self.step_size = step_size
+
         self.svgd_optimizer = optim.SGD(self.parameters(), lr=self.step_size)
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
@@ -417,9 +419,7 @@ class CovNet_SVGD(BNN_SVGD):
         """
         sigma = 1.
         yhat = zi.forward(X) # Shape will be [batch_size, 10]
-        ll   = -F.nll_loss(yhat, y)        
-        # ll   = -loss(yhat, y)
-        # ll = -0.5 * torch.mean((yhat - y)**2)
+        ll   = -F.nll_loss(yhat, y)
         return ll
 
     def log_prior_compute(self, bnn):
@@ -480,6 +480,19 @@ class CovNet_SVGD(BNN_SVGD):
         """
         # Apply update to z
         N = len(self.nns)
+        # step_size = 0.001
+        # zi = self.nns[0]
+        # conv_step_size = step_size
+        #
+        # zi.conv1.weight.data += 1/N * conv_step_size* dlog_post[0]
+        # zi.conv1.bias.data += 1/N * conv_step_size * dlog_post[1]
+        # zi.conv2.weight.data +=1/N * conv_step_size * dlog_post[2]
+        # zi.conv2.bias.data +=1/N * conv_step_size * dlog_post[3]
+        #
+        # zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
+        # zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
+        # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
+        # zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
 
         for j in range(N):
             if self.image_set == "MNIST":
@@ -495,10 +508,10 @@ class CovNet_SVGD(BNN_SVGD):
                 zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
 
                 # zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4])
-                # zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5]) 
-                # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6]) 
+                # zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5])
+                # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6])
                 # zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7])
-
+        #
             elif self.image_set == "CIFAR-10":
                 zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
                 zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
@@ -511,9 +524,9 @@ class CovNet_SVGD(BNN_SVGD):
                 zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
                 zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
                 zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
-                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])          
+                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
                 zi.fc3.weight.data += 1/N * step_size * (kd * dlog_post[8] + derivative_kd[8])
-                zi.fc3.bias.data += 1/N * step_size * (kd * dlog_post[9] + derivative_kd[9])   
+                zi.fc3.bias.data += 1/N * step_size * (kd * dlog_post[9] + derivative_kd[9])
 
         return zi
 

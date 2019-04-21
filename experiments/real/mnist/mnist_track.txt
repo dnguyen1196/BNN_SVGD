@@ -1,0 +1,61 @@
+SVGD for CNN, dataset MNIST, number of epochs 50, number of neural networks 10
+Init: test set accuracy = 0.1176
+Epoch 0, lr = 0.0100
+epoch 0, train_model-accuracy = 0.16068333333333334, evaluate_test_set-accuracy = 0.2782
+Epoch 1, lr = 0.0090
+epoch 1, train_model-accuracy = 0.4597, evaluate_test_set-accuracy = 0.6736
+Epoch 2, lr = 0.0081
+epoch 2, train_model-accuracy = 0.70145, evaluate_test_set-accuracy = 0.6972
+Epoch 3, lr = 0.0073
+epoch 3, train_model-accuracy = 0.7815, evaluate_test_set-accuracy = 0.7552
+Epoch 4, lr = 0.0066
+epoch 4, train_model-accuracy = 0.8126, evaluate_test_set-accuracy = 0.8571
+Epoch 5, lr = 0.0059
+epoch 5, train_model-accuracy = 0.83335, evaluate_test_set-accuracy = 0.8488
+Epoch 6, lr = 0.0053
+epoch 6, train_model-accuracy = 0.8431, evaluate_test_set-accuracy = 0.8812
+Epoch 7, lr = 0.0048
+epoch 7, train_model-accuracy = 0.8613333333333333, evaluate_test_set-accuracy = 0.6801
+Epoch 8, lr = 0.0043
+epoch 8, train_model-accuracy = 0.8584, evaluate_test_set-accuracy = 0.8953
+Epoch 9, lr = 0.0039
+epoch 9, train_model-accuracy = 0.8798166666666667, evaluate_test_set-accuracy = 0.8432
+Epoch 10, lr = 0.0035
+epoch 10, train_model-accuracy = 0.8956666666666667, evaluate_test_set-accuracy = 0.8711
+Epoch 11, lr = 0.0031
+epoch 11, train_model-accuracy = 0.89125, evaluate_test_set-accuracy = 0.8379
+Epoch 12, lr = 0.0028
+epoch 12, train_model-accuracy = 0.9022166666666667, evaluate_test_set-accuracy = 0.8206
+Epoch 13, lr = 0.0025
+epoch 13, train_model-accuracy = 0.9112666666666667, evaluate_test_set-accuracy = 0.893
+Epoch 14, lr = 0.0023
+epoch 14, train_model-accuracy = 0.9208666666666666, evaluate_test_set-accuracy = 0.9265
+Epoch 15, lr = 0.0021
+epoch 15, train_model-accuracy = 0.9177333333333333, evaluate_test_set-accuracy = 0.9336
+Epoch 16, lr = 0.0019
+epoch 16, train_model-accuracy = 0.9302166666666667, evaluate_test_set-accuracy = 0.9176
+Epoch 17, lr = 0.0017
+epoch 17, train_model-accuracy = 0.9358333333333333, evaluate_test_set-accuracy = 0.7096
+Epoch 18, lr = 0.0015
+epoch 18, train_model-accuracy = 0.9408666666666666, evaluate_test_set-accuracy = 0.927
+Epoch 19, lr = 0.0014
+epoch 19, train_model-accuracy = 0.9442, evaluate_test_set-accuracy = 0.9264
+Epoch 20, lr = 0.0012
+epoch 20, train_model-accuracy = 0.9495333333333333, evaluate_test_set-accuracy = 0.9198
+Epoch 21, lr = 0.0011
+epoch 21, train_model-accuracy = 0.9511, evaluate_test_set-accuracy = 0.9229
+Epoch 22, lr = 0.0010
+epoch 22, train_model-accuracy = 0.9529333333333333, evaluate_test_set-accuracy = 0.9383
+Epoch 23, lr = 0.0009
+epoch 23, train_model-accuracy = 0.9544, evaluate_test_set-accuracy = 0.951
+Epoch 24, lr = 0.0008
+epoch 24, train_model-accuracy = 0.95535, evaluate_test_set-accuracy = 0.9357
+Epoch 25, lr = 0.0007
+epoch 25, train_model-accuracy = 0.9567833333333333, evaluate_test_set-accuracy = 0.9398
+Epoch 26, lr = 0.0006
+epoch 26, train_model-accuracy = 0.9565, evaluate_test_set-accuracy = 0.9329
+Epoch 27, lr = 0.0006
+epoch 27, train_model-accuracy = 0.9566666666666667, evaluate_test_set-accuracy = 0.9545
+Epoch 28, lr = 0.0005
+epoch 28, train_model-accuracy = 0.9573333333333334, evaluate_test_set-accuracy = 0.9322
+Epoch 29, lr = 0.0005
