@@ -35,8 +35,8 @@ network_structure = []
 def plot_particle_positions_hmc(outdir, filename, particles, num_networks, jsd):
     plt.scatter(particles[:, 0], particles[:, 1])
     plt.title("HMC")
-    plt.ylim([-15, 15])
-    plt.xlim([-15, 15])
+    plt.ylim([-4, 4])
+    plt.xlim([-4, 4])
     savefile = os.path.join(outdir, "C={}_jsd={}.png".format(num_networks, jsd))
     plt.savefig(savefile)
     plt.close()
@@ -59,8 +59,8 @@ def track_position_over_time(outdir, positions_over_time, N, num_networks, n_svg
         color = "b" if svgd else "r"
         plt.scatter(xpos, ypos, c=color)
 
-        plt.ylim(-15, 15)
-        plt.xlim(-15, 15)
+        plt.ylim(-4, 4)
+        plt.xlim(-4, 4)
         plt.xlabel(label)
 
     anim = FuncAnimation(fig, update, frames=np.arange(0, len(positions_over_time)), interval=100)
