@@ -24,6 +24,8 @@ def plot_weight_distribution_hmc(sampled_bnn, filename=None, show=True):
 
     plt.plot(refx_neg, refy_neg, "r")
     plt.plot(refx_pos, refy_pos, "r")
+    plt.ylim(-4, 4)
+    plt.xlim(-4, 4)
     plt.scatter(distribution[:, 0], distribution[:, 1])
 
     if filename:
@@ -51,8 +53,8 @@ def track_position_over_time(sampled_bnn):
         w1 = bnn.nn_params[0].weight.detach().numpy()[0][0]
         w2 = bnn.nn_params[1].weight.detach().numpy()[0][0]
         plt.scatter(w1, w2)
-        plt.ylim(-10, 10)
-        plt.xlim(-10, 10)
+        plt.ylim(-4, 4)
+        plt.xlim(-4, 4)
         plt.xlabel(label)
 
     # FuncAnimation will call the 'update' function for each frame; here

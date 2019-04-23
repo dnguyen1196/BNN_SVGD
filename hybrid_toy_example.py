@@ -4,6 +4,7 @@ from BNN_SVGD.SVGD_HMC_hybrid import SVGD_SGHMC_hybrid
 from BNN_SVGD.SVGD_BNN import SVGD_simple
 from BNN_SVGD.HMC_BNN import SG_HMC_BNN
 from utils.probability import generate_toy_data
+from utils.visualization import plot_weight_distribution_hmc
 import torch
 import os
 import matplotlib.pyplot as plt
@@ -36,8 +37,8 @@ def plot_particle_positions(outdir, particles, num_networks, rbf, jsd):
     title = "Hybrid: {} particles, rbf length scale = {}".format(num_networks, rbf)
     print("For {} particles, rbf = {}, jsd = {}".format(num_networks, rbf, jsd))
     plt.title(title)
-    plt.ylim([-15, 15])
-    plt.xlim([-15, 15])
+    plt.ylim([-4, 4])
+    plt.xlim([-4, 4])
     savefile = os.path.join(outdir, "C={}_rbf={}_jsd={}.png".format(num_networks, rbf, jsd))
     plt.savefig(savefile)
     plt.close()
@@ -60,8 +61,8 @@ def track_position_over_time(outdir, positions_over_time, N, num_networks, n_svg
         color = "b" if svgd else "r"
         plt.scatter(xpos, ypos, c=color)
 
-        plt.ylim(-15, 15)
-        plt.xlim(-15, 15)
+        plt.ylim(-4, 4)
+        plt.xlim(-4, 4)
         plt.xlabel(label)
 
     anim = FuncAnimation(fig, update, frames=np.arange(0, len(positions_over_time)), interval=100)
@@ -80,35 +81,46 @@ num_networks = 25
 p_sigma = 1
 l_sigma = 1
 num_epochs = 100
-step_size = 0.01
+step_size = 0.001
 rbf = .1
 
-x_N = x_N_medium
-y_N = y_N_medium
-N = 25
-batch_size = 25
+
+# x_N = x_N_medium
+# y_N = y_N_medium
+# N = 25
+# batch_size = 25
+
+
+x_N = x_N_big
+y_N = y_N_big
+N = 100
+batch_size = 10
 
 # for x_N, y_N, N in [(x_N_small, y_N_small, 3), (x_N_medium, y_N_medium, 25), (x_N_big, y_N_big, 100)]:
 
+n_svgd = 100
+n_hmc = 500
+num_iters = 500
 
 # Initialize train loader 
 # NOTE: it has to be Cyclic
 train_loader = CyclicMiniBatch(xs=x_N, ys=y_N, batch_size=batch_size)
-model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf, svgd_step_size=step_size)
+model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf, \
+                          svgd_step_size=step_size, hmc_step_size=0.01, hmc_n_leapfrog_steps=10)
 
-n_svgd = 200     # Number of svgd iteration
-n_hmc  = 50      # Number of hmc iteration
-num_iters = 300 # Total number of iterations
 model.fit(train_loader=train_loader, num_iterations=num_iters, svgd_iteration=n_svgd, hmc_iteration=n_hmc)
 
 positions_over_time = model.positions_over_time
+sampled_bnn  = model.hmc_sampled_bnn
+
+plot_weight_distribution_hmc(sampled_bnn, show=True)
 
 # After training Compute the jensen shannon divergence
-jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(np.array(positions_over_time[-1][0]),
+jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(np.array(sampled_bnn),
                                                                      x_N=x_N, y_N=y_N, plot=False)
 jsd = np.around(jsd, decimals=4)
 
-particles = np.array(positions_over_time[-1][0])
+particles = np.array(sampled_bnn)
 
 plot_particle_positions(outdir, particles, num_networks, rbf, jsd)
 # track_position_over_time(outdir, positions_over_time, N, num_networks, n_svgd, n_hmc, num_iters ,jsd)
