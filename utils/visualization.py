@@ -6,29 +6,21 @@ from matplotlib.animation import FuncAnimation
 import seaborn as sns
 from matplotlib import colors, ticker
 
-def plot_weight_distribution(sampled_bnn, data, target, filename=None, show=True):
+def plot_weight_distribution_hmc(sampled_bnn, filename=None, show=True):
     distribution = []
-    mse_arr = []
 
     for bnn in sampled_bnn:
-        yhat = bnn.forward(data)
-        mse  = torch.mean((torch.squeeze(yhat) - torch.squeeze(target))** 2).detach().numpy()
-        if np.isnan(mse):
-            continue
-        mse_arr.append(mse)
         weight1 = bnn.nn_params[0].weight.detach().numpy()[0][0]
         weight2 = bnn.nn_params[1].weight.detach().numpy()[0][0]
         distribution.append([weight1, weight2])
 
     distribution = np.array(distribution)
-    print("Average mse: ", np.mean(mse_arr))
 
     # Plot the "correct" distribution
     refx_neg = np.linspace(-10, -0.1, 19)
     refx_pos = np.linspace(0.1, 10, 19)
     refy_neg = 1. / refx_neg
     refy_pos = 1. / refx_pos
-
 
     plt.plot(refx_neg, refy_neg, "r")
     plt.plot(refx_pos, refy_pos, "r")
@@ -38,6 +30,8 @@ def plot_weight_distribution(sampled_bnn, data, target, filename=None, show=True
         plt.savefig(filename)
     if show:
         plt.show()
+
+    plt.close()
 
     return distribution
 

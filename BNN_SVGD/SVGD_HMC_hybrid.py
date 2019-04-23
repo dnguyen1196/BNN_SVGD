@@ -212,6 +212,7 @@ class SVGD_SGHMC_hybrid(SVGD_naive_SHMC_hybrid):
                                                 network_structure, ll_sigma, p_sigma, rbf_sigma, svgd_step_size, \
                                                 hmc_step_size, hmc_n_leapfrog_steps)
         self.momentum = momentum
+        self.prior_factor = 1
 
     def sample_stochastic_hmc(self, zi, X, y):
         """

@@ -110,7 +110,7 @@ class HMC_sampler(nn.Module):
 Hamiltonian Monte Carlo
 """
 class HMC_BNN(torch.nn.Module):
-    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
+    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1):
         """
         :param x_dim:
         :param y_dim:
@@ -130,7 +130,6 @@ class HMC_BNN(torch.nn.Module):
 
         self.ll_sigma = ll_sigma
         self.p_sigma = p_sigma
-        self.rbf_sigma = rbf_sigma
 
         # Initialize all the neural networks
         for _ in range(num_networks):
@@ -139,7 +138,7 @@ class HMC_BNN(torch.nn.Module):
             zi = SingleWeightNeuralNet(x_dim, y_dim)
             self.nns.append(zi)
 
-    def fit(self, train_loader, num_iterations=1000):
+    def fit(self, train_loader, num_iterations=1000, n_leapfrog_steps=25, step_size=0.001):
         optimizer = optim.Adagrad(self.parameters(), lr=1)
         hmc_sampler = HMC_sampler()
         start = time.time()
@@ -198,11 +197,9 @@ class HMC_BNN(torch.nn.Module):
                     layer.weight.data = layer.weight.data + d_bnn[i * 2 + 1] * stepsize
             return bnn
 
-        sampled_bnn = []
-        energies_list = []
+        self.sampled_bnn = []
+        self.energies_list = []
         acceptances = 0
-        n_leapfrog_steps = 25
-        step_size = 0.01
 
         for iteration in range(num_iterations+1):
             optimizer.zero_grad()
@@ -223,22 +220,20 @@ class HMC_BNN(torch.nn.Module):
                                          X_batch=X, y_batch=y)
 
                 if accepted:
-                    sampled_bnn.append(prop_bnn)
-                    energies_list.append(calc_potential_energy(prop_bnn, X, y))
+                    self.sampled_bnn.append(prop_bnn)
+                    self.energies_list.append(calc_potential_energy(prop_bnn, X, y))
                     acceptances += 1
 
                 self.nns[i] = prop_bnn
 
                 # self.nns[i] = prop_bnn
 
-        return sampled_bnn, energies_list
-
 
 """
 Stochastic gradient Hamiltonian Monte Carlo
 """
 class SG_HMC_BNN(HMC_BNN):
-    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1, rbf_sigma=1):
+    def __init__(self, x_dim, y_dim, num_networks=16, network_structure=[32], ll_sigma=1, p_sigma=1):
         """
         :param x_dim:
         :param y_dim:
@@ -246,9 +241,8 @@ class SG_HMC_BNN(HMC_BNN):
         :param network_structure:
         :param ll_sigma:
         :param p_sigma:
-        :param rbf_sigma:
         """
-        super(SG_HMC_BNN, self).__init__(x_dim, y_dim, num_networks, network_structure, ll_sigma, p_sigma, rbf_sigma)
+        super(SG_HMC_BNN, self).__init__(x_dim, y_dim, num_networks, network_structure, ll_sigma, p_sigma)
 
     def leap_frog_step_sgd(self, zi, n_leapfrog_steps, step_size, X, y, momentum=0.99):
         """
@@ -293,7 +287,7 @@ class SG_HMC_BNN(HMC_BNN):
         :param num_iterations:
         :return:
         """
-        sampled_bnn = []
+        self.sampled_bnn = []
 
         for iteration in range(num_iterations+1):
             X_batch, y_batch = next(train_loader)
@@ -305,7 +299,5 @@ class SG_HMC_BNN(HMC_BNN):
                 prop_bnn = self.leap_frog_step_sgd(zi=zi, n_leapfrog_steps=n_leapfrog_steps,
                                          step_size=step_size, X=X, y=y, momentum=momentum)
 
-                sampled_bnn.append(prop_bnn)
+                self.sampled_bnn.append(prop_bnn)
                 self.nns[i] = prop_bnn
-
-        return sampled_bnn
