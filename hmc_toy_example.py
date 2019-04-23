@@ -78,13 +78,13 @@ def track_position_over_time(outdir, positions_over_time, N, num_networks, n_svg
 num_networks = 25
 p_sigma = 1
 l_sigma = 1
-num_epochs = 100
+num_epochs = 1000
 step_size = 0.01
 
 # 
-x_N = x_N_small
-y_N = y_N_small
-N = 10
+x_N = x_N_big
+y_N = y_N_big
+N = 100
 batch_size = 10
 
 n_retries = 10
@@ -98,11 +98,11 @@ for run in range(n_retries):
 
     # NOTE: becareful which HMC version I'm using!!
 
-    # model = SG_HMC_BNN(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma)
-    # model.fit(train_loader=train_loader, num_iterations=num_epochs, n_leapfrog_steps=10, step_size=0.001, momentum=0.99)
+    model = SG_HMC_BNN(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma)
+    model.fit(train_loader=train_loader, num_iterations=num_epochs, n_leapfrog_steps=10, step_size=0.001, momentum=0.99)
 
-    model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma)
-    model.fit(train_loader=train_loader, num_iterations=num_epochs, n_leapfrog_steps=25, step_size=0.01)
+    # model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma)
+    # model.fit(train_loader=train_loader, num_iterations=num_epochs, n_leapfrog_steps=25, step_size=0.01)
 
     sampled_bnn         = model.sampled_bnn
 
