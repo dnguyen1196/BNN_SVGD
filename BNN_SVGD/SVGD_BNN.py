@@ -126,7 +126,7 @@ class BNN_SVGD(torch.nn.Module):
         for i in range(N):
             z = self.nns[i]
             log_lik       = self.log_likelihood_compute(z, X, y)
-            log_prior     = self.log_prior_compute(z) * 0.01
+            log_prior     = self.log_prior_compute(z) * self.prior_factor
             log_posterior = log_lik + log_prior
             log_posterior.backward()
             grad_z        = self.copy_gradient(z)
@@ -150,6 +150,9 @@ class BNN_SVGD(torch.nn.Module):
         :param gradient_discrepancy_matrix:
         :param derivative_log_posterior:
 
+
+        Apply SVGD update for just 1 particle i
+
         :return:
         """
         zi = self.nns[i] # Updating zi
@@ -165,7 +168,6 @@ class BNN_SVGD(torch.nn.Module):
             # print("dlog_post", dlog_post)
             # print("derivative_kd", derivative_kd)
             # Apply update: zi = zi + eps * phi(zi)
-
             self.apply_phi(zi, kd, dlog_post, derivative_kd, step_size)
 
         return zi
@@ -385,7 +387,7 @@ class CovNet_SVGD(BNN_SVGD):
         self.p_sigma   = 1
         self.rbf_sigma = 1
         self.step_size = step_size
-
+        self.prior_factor = 0.01
         self.svgd_optimizer = optim.SGD(self.parameters(), lr=self.step_size)
 
     def pair_wise_kernel_discrepancy_compute(self, z1, z2):
@@ -507,39 +509,30 @@ class CovNet_SVGD(BNN_SVGD):
         # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
         # zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
 
-        for j in range(N):
-            if self.image_set == "MNIST":
-                # Note that the convolution layer doesnt have derivative from discrepancy term
-                zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
-                zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
-                zi.conv2.weight.data +=1/N * step_size * dlog_post[2]
-                zi.conv2.bias.data +=1/N * step_size * dlog_post[3]
+        # for j in range(N):
+        if self.image_set == "MNIST":
+            # Note that the convolution layer doesnt have derivative from discrepancy term
+            zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
+            zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
+            zi.conv2.weight.data += 1/N * step_size * dlog_post[2]
+            zi.conv2.bias.data += 1/N * step_size * dlog_post[3]
 
-                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
-                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
-                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
-                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
+            zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
+            zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
+            zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
+            zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
 
-                # zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4])
-                # zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5])
-                # zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6])
-                # zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7])
-        #
-            elif self.image_set == "CIFAR-10":
-                zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
-                zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
-                zi.conv2.weight.data +=1/N * step_size * dlog_post[2]
-                zi.conv2.bias.data +=1/N * step_size * dlog_post[3]
-                # zi.conv1.weight.data += 1/N * step_size * (kd * dlog_post[0] + derivative_kd[0])
-                # zi.conv1.bias.data += 1/N * step_size * (kd * dlog_post[1] + derivative_kd[1])
-                # zi.conv2.weight.data +=1/N * step_size * (kd * dlog_post[2] + derivative_kd[2])
-                # zi.conv2.bias.data +=1/N * step_size * (kd * dlog_post[3] + derivative_kd[3])
-                zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
-                zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
-                zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
-                zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
-                zi.fc3.weight.data += 1/N * step_size * (kd * dlog_post[8] + derivative_kd[8])
-                zi.fc3.bias.data += 1/N * step_size * (kd * dlog_post[9] + derivative_kd[9])
+        elif self.image_set == "CIFAR-10":
+            zi.conv1.weight.data += 1/N * step_size * dlog_post[0]
+            zi.conv1.bias.data += 1/N * step_size * dlog_post[1]
+            zi.conv2.weight.data +=1/N * step_size * dlog_post[2]
+            zi.conv2.bias.data +=1/N * step_size * dlog_post[3]
+            zi.fc1.weight.data += 1/N * step_size * (kd * dlog_post[4] + derivative_kd[4])
+            zi.fc1.bias.data += 1/N * step_size * (kd * dlog_post[5] + derivative_kd[5])
+            zi.fc2.weight.data += 1/N * step_size * (kd * dlog_post[6] + derivative_kd[6])
+            zi.fc2.bias.data += 1/N * step_size * (kd * dlog_post[7] + derivative_kd[7])
+            zi.fc3.weight.data += 1/N * step_size * (kd * dlog_post[8] + derivative_kd[8])
+            zi.fc3.bias.data += 1/N * step_size * (kd * dlog_post[9] + derivative_kd[9])
 
         return zi
 
@@ -575,3 +568,4 @@ class SVGD_simple(BNN_SVGD):
 
         self.step_size = step_size
         self.svgd_optimizer = optim.SGD(self.parameters(), lr=self.step_size)
+        self.prior_factor = 1

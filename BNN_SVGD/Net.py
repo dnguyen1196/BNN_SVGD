@@ -141,6 +141,7 @@ class Cifar10LeNet(nn.Module):
         self.fc1   = nn.Linear(16*5*5, 120)
         self.fc2   = nn.Linear(120, 84)
         self.fc3   = nn.Linear(84, 10)
+        self.drop_out_p = 0.1
 
     def forward(self, x):
         out = F.relu(self.conv1(x))
@@ -149,7 +150,9 @@ class Cifar10LeNet(nn.Module):
         out = F.max_pool2d(out, 2)
         out = out.view(out.size(0), -1)
         out = F.relu(self.fc1(out))
+        # out = F.dropout(out, p=self.drop_out_p)
         out = F.relu(self.fc2(out))
+        # out = F.dropout(out, p=self.drop_out_p)
         out = self.fc3(out)
         return out
 

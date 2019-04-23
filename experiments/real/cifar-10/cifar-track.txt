@@ -1,0 +1,52 @@
+SVGD for CNN, dataset CIFAR-10, number of epochs 50, number of neural networks 10
+Files already downloaded and verified
+Init: test set accuracy = 0.0976
+Epoch 0, lr = 1.0000
+epoch 0, train_model-accuracy = 0.21, evaluate_test_set-accuracy = 0.2126
+Epoch 1, lr = 0.9000
+epoch 1, train_model-accuracy = 0.30274, evaluate_test_set-accuracy = 0.3046
+Epoch 2, lr = 0.8100
+epoch 2, train_model-accuracy = 0.38262, evaluate_test_set-accuracy = 0.3789
+Epoch 3, lr = 0.7290
+epoch 3, train_model-accuracy = 0.43838, evaluate_test_set-accuracy = 0.3606
+Epoch 4, lr = 0.6561
+epoch 4, train_model-accuracy = 0.45026, evaluate_test_set-accuracy = 0.3234
+Epoch 5, lr = 0.5905
+epoch 5, train_model-accuracy = 0.51262, evaluate_test_set-accuracy = 0.4741
+Epoch 6, lr = 0.5314
+epoch 6, train_model-accuracy = 0.5547, evaluate_test_set-accuracy = 0.4588
+Epoch 7, lr = 0.4783
+epoch 7, train_model-accuracy = 0.59582, evaluate_test_set-accuracy = 0.4684
+Epoch 8, lr = 0.4305
+epoch 8, train_model-accuracy = 0.62648, evaluate_test_set-accuracy = 0.4855
+Epoch 9, lr = 0.3874
+epoch 9, train_model-accuracy = 0.65432, evaluate_test_set-accuracy = 0.547
+Epoch 10, lr = 0.3487
+epoch 10, train_model-accuracy = 0.67874, evaluate_test_set-accuracy = 0.5302
+Epoch 11, lr = 0.3138
+epoch 11, train_model-accuracy = 0.69748, evaluate_test_set-accuracy = 0.51
+Epoch 12, lr = 0.2824
+epoch 12, train_model-accuracy = 0.71842, evaluate_test_set-accuracy = 0.528
+Epoch 13, lr = 0.2542
+epoch 13, train_model-accuracy = 0.73752, evaluate_test_set-accuracy = 0.5907
+Epoch 14, lr = 0.2288
+epoch 14, train_model-accuracy = 0.75198, evaluate_test_set-accuracy = 0.5849
+Epoch 15, lr = 0.2059
+epoch 15, train_model-accuracy = 0.76414, evaluate_test_set-accuracy = 0.6058
+Epoch 16, lr = 0.1853
+epoch 16, train_model-accuracy = 0.77772, evaluate_test_set-accuracy = 0.5983
+Epoch 17, lr = 0.1668
+epoch 17, train_model-accuracy = 0.7903, evaluate_test_set-accuracy = 0.6094
+Epoch 18, lr = 0.1501
+epoch 18, train_model-accuracy = 0.79868, evaluate_test_set-accuracy = 0.5998
+Epoch 19, lr = 0.1351
+epoch 19, train_model-accuracy = 0.8083, evaluate_test_set-accuracy = 0.6309
+Epoch 20, lr = 0.1216
+epoch 20, train_model-accuracy = 0.81622, evaluate_test_set-accuracy = 0.6243
+Epoch 21, lr = 0.1094
+epoch 21, train_model-accuracy = 0.82272, evaluate_test_set-accuracy = 0.627
+Epoch 22, lr = 0.0985
+epoch 22, train_model-accuracy = 0.83124, evaluate_test_set-accuracy = 0.638
+Epoch 23, lr = 0.0886
+epoch 23, train_model-accuracy = 0.83764, evaluate_test_set-accuracy = 0.6315
+Epoch 24, lr = 0.0798

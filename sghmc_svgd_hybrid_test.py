@@ -4,7 +4,7 @@ import torch
 import matplotlib.pyplot as plt
 from utils.MiniBatch import MiniBatch, CyclicMiniBatch
 from matplotlib.animation import FuncAnimation
-from utils.probability import estimate_kl_divergence_discrete_true_posterior
+from utils.probability import estimate_jensen_shannon_divergence_from_numerical_distribution
 
 plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 
@@ -73,6 +73,6 @@ for nnid in range(len(model.nns)):
     particle_positions.append([weight1[0], weight2[0]])
 particle_positions = np.array(particle_positions)
 
-kl = estimate_kl_divergence_discrete_true_posterior(particle_positions, Xs, ys)
+kl = estimate_jensen_shannon_divergence_from_numerical_distribution(particle_positions, Xs, ys)
 
 print("KL(estimated true posterior | KDE(hybrid)) = ", kl)

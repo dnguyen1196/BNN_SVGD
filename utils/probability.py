@@ -5,6 +5,17 @@ import matplotlib.pyplot as plt
 import scipy
 
 
+def generate_toy_data(N, seed=42, y_sigma=1):
+    np.random.seed(seed)
+    Xs = np.linspace(-3, 3, N)
+    ys = 1 * Xs + np.random.normal(0, y_sigma, size=(N,))
+
+    Xs = np.expand_dims(Xs, axis=1)
+    ys = np.expand_dims(ys, axis=1)
+
+    return Xs, ys
+
+
 def estimate_KL_divergence_discrete(Xs1, Xs2, h=0.2, xlimit=[-4, 4], ylimit=[-4, 4]):
     '''
 
