@@ -2,9 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="238e19b0-6e46-4742-a957-1e9392fc21c7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py" afterPath="$PROJECT_DIR$/BNN_SVGD/SVGD_HMC_hybrid.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/C=25_N=100_bs=100_epochs=100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/C=25_N=100_bs=100_epochs=100_jsd=jsd = 0.253.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/C=25_N=10_bs=10_epochs=100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/C=25_N=25_bs=25_epochs=100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/C=25_N=25_bs=25_epochs=100_jsd=,1718.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/HMC/C=25_N=100_bs=10_epochs=100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/HMC/C=25_N=100_bs=10_epochs=100_jsd=2,2256.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=10_rbf=0.1_jsd=2.1495.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=10_rbf=0.1_jsd=2.5051.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=25_jsd=1.3422.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=25_rbf=0.1_jsd=1.6294.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=50_rbf=0.1_jsd=1.9503.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=50_rbf=1_jsd=1.8106.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=50_rbf=1_jsd=2.0309.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=50_rbf=1_jsd=2.0655.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=50_rbf=1_jsd=2.1911.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=50_rbf=1_jsd=2.3687.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/experiments/synthetic/4-22-2019/unused/C=50_rbf=1_jsd=inf.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hmc_toy_example.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" afterPath="$PROJECT_DIR$/BNN_SVGD/HMC_BNN.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hybrid_toy_example.py" afterPath="$PROJECT_DIR$/hybrid_toy_example.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/svgd_toy_example.py" afterPath="$PROJECT_DIR$/svgd_toy_example.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/visualization.py" afterPath="$PROJECT_DIR$/utils/visualization.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -81,12 +100,22 @@
       <file leaf-file-name="hybrid_toy_example.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hybrid_toy_example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+            <state relative-caret-position="435">
+              <caret line="105" column="49" lean-forward="false" selection-start-line="105" selection-start-column="49" selection-end-line="105" selection-end-column="49" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <element signature="e#1180#1586#0" expanded="false" />
-                <element signature="e#1692#2486#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hmc_toy_example.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hmc_toy_example.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1826">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -477,7 +506,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/experiments/synthetic/4-11-2019/svgd-N=50,track,fullbatch.txt" />
     <entry file="file://$PROJECT_DIR$/experiments/synthetic/4-11-2019/svgd-N=100,track,minibatch.txt" />
     <entry file="file://$PROJECT_DIR$/experiments/synthetic/4-11-2019/svgd-N=100,track,fullbatch.txt" />
     <entry file="file://$PROJECT_DIR$/experiments/synthetic/4-11-2019/hmc/hmc,N=3,track.txt">
@@ -828,14 +856,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hybrid_toy_example.py">
+    <entry file="file://$PROJECT_DIR$/hmc_toy_example.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+        <state relative-caret-position="-1826">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#1180#1586#0" expanded="false" />
-            <element signature="e#1692#2486#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hybrid_toy_example.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="105" column="49" lean-forward="false" selection-start-line="105" selection-start-column="49" selection-end-line="105" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
