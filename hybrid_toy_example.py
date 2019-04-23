@@ -85,20 +85,20 @@ batch_size   = 100
 p_sigma = 1
 l_sigma = 1
 num_epochs = 100
-step_size = 0.005
-rbf = 1
+step_size = 0.001
+rbf = .1
 
 
-x_N = x_N_small
-y_N = y_N_small
+x_N = x_N_medium
+y_N = y_N_medium
 
 # Initialize train loader
-train_loader = MiniBatch(xs=x_N, ys=y_N, batch_size=batch_size)
+train_loader = CyclicMiniBatch(xs=x_N, ys=y_N, batch_size=batch_size)
 model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf)
 
-n_svgd = 20
-n_hmc = 10
-num_iters = 100
+n_svgd = 300
+n_hmc = 200
+num_iters = 500
 model.fit(train_loader=train_loader, num_iterations=num_iters, svgd_iteration=n_svgd, hmc_iteration=n_hmc)
 
 positions_over_time = model.positions_over_time

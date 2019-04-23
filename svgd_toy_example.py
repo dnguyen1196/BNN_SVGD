@@ -97,7 +97,7 @@ rbf = 1
 #     plt.savefig(savefile)
 #     plt.close()
 
-for num_networks in [25, 75, 200]:
+for num_networks in [100]:
     # Initialize train loader
     train_loader = MiniBatch(xs=x_N_big, ys=y_N_big, batch_size=batch_size)
     model = SVGD_simple(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf)
