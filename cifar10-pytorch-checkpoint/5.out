@@ -1,0 +1,1012 @@
+==> Preparing data..
+Files already downloaded and verified
+Files already downloaded and verified
+==> Building model..
+
+Epoch: 0
+Epoch 0, train accuracy = 24.178
+test accuracy = 26.21
+Saving..
+Total time since training starts:  73.0623
+
+Epoch: 1
+Epoch 1, train accuracy = 29.232
+test accuracy = 36.2
+Saving..
+Total time since training starts:  147.7126
+
+Epoch: 2
+Epoch 2, train accuracy = 32.904
+test accuracy = 37.66
+Saving..
+Total time since training starts:  216.0577
+
+Epoch: 3
+Epoch 3, train accuracy = 35.138
+test accuracy = 41.34
+Saving..
+Total time since training starts:  281.9207
+
+Epoch: 4
+Epoch 4, train accuracy = 36.242
+test accuracy = 39.62
+Total time since training starts:  356.7393
+
+Epoch: 5
+Epoch 5, train accuracy = 37.636
+test accuracy = 36.55
+Total time since training starts:  431.3603
+
+Epoch: 6
+Epoch 6, train accuracy = 37.65
+test accuracy = 42.48
+Saving..
+Total time since training starts:  497.1549
+
+Epoch: 7
+Epoch 7, train accuracy = 38.862
+test accuracy = 38.61
+Total time since training starts:  562.8074
+
+Epoch: 8
+Epoch 8, train accuracy = 37.894
+test accuracy = 38.95
+Total time since training starts:  628.6571
+
+Epoch: 9
+Epoch 9, train accuracy = 38.146
+test accuracy = 41.63
+Total time since training starts:  694.3391
+
+Epoch: 10
+Epoch 10, train accuracy = 39.058
+test accuracy = 42.21
+Total time since training starts:  764.6798
+
+Epoch: 11
+Epoch 11, train accuracy = 38.744
+test accuracy = 43.58
+Saving..
+Total time since training starts:  837.3502
+
+Epoch: 12
+Epoch 12, train accuracy = 38.79
+test accuracy = 41.65
+Total time since training starts:  911.632
+
+Epoch: 13
+Epoch 13, train accuracy = 38.718
+test accuracy = 40.23
+Total time since training starts:  983.6215
+
+Epoch: 14
+Epoch 14, train accuracy = 39.134
+test accuracy = 42.58
+Total time since training starts:  1057.4847
+
+Epoch: 15
+Epoch 15, train accuracy = 39.166
+test accuracy = 36.99
+Total time since training starts:  1122.8878
+
+Epoch: 16
+Epoch 16, train accuracy = 38.966
+test accuracy = 41.62
+Total time since training starts:  1188.6208
+
+Epoch: 17
+Epoch 17, train accuracy = 39.69
+test accuracy = 41.02
+Total time since training starts:  1254.1408
+
+Epoch: 18
+Epoch 18, train accuracy = 39.418
+test accuracy = 39.43
+Total time since training starts:  1319.8122
+
+Epoch: 19
+Epoch 19, train accuracy = 39.436
+test accuracy = 39.17
+Total time since training starts:  1388.9601
+
+Epoch: 20
+Epoch 20, train accuracy = 39.858
+test accuracy = 42.56
+Total time since training starts:  1463.28
+
+Epoch: 21
+Epoch 21, train accuracy = 39.596
+test accuracy = 42.73
+Total time since training starts:  1528.9179
+
+Epoch: 22
+Epoch 22, train accuracy = 40.17
+test accuracy = 43.51
+Total time since training starts:  1594.3991
+
+Epoch: 23
+Epoch 23, train accuracy = 40.074
+test accuracy = 42.26
+Total time since training starts:  1659.9144
+
+Epoch: 24
+Epoch 24, train accuracy = 40.464
+test accuracy = 44.01
+Saving..
+Total time since training starts:  1725.4148
+
+Epoch: 25
+Epoch 25, train accuracy = 39.57
+test accuracy = 40.22
+Total time since training starts:  1790.921
+
+Epoch: 26
+Epoch 26, train accuracy = 40.384
+test accuracy = 43.1
+Total time since training starts:  1856.491
+
+Epoch: 27
+Epoch 27, train accuracy = 41.236
+test accuracy = 46.18
+Saving..
+Total time since training starts:  1931.1382
+
+Epoch: 28
+Epoch 28, train accuracy = 41.018
+test accuracy = 44.23
+Total time since training starts:  2004.0824
+
+Epoch: 29
+Epoch 29, train accuracy = 41.324
+test accuracy = 41.49
+Total time since training starts:  2074.9311
+
+Epoch: 30
+Epoch 30, train accuracy = 41.454
+test accuracy = 43.58
+Total time since training starts:  2148.5925
+
+Epoch: 31
+Epoch 31, train accuracy = 41.32
+test accuracy = 42.71
+Total time since training starts:  2221.4691
+
+Epoch: 32
+Epoch 32, train accuracy = 41.356
+test accuracy = 43.51
+Total time since training starts:  2287.2153
+
+Epoch: 33
+Epoch 33, train accuracy = 41.876
+test accuracy = 41.29
+Total time since training starts:  2361.643
+
+Epoch: 34
+Epoch 34, train accuracy = 40.042
+test accuracy = 40.54
+Total time since training starts:  2436.1185
+
+Epoch: 35
+Epoch 35, train accuracy = 40.566
+test accuracy = 41.39
+Total time since training starts:  2510.6191
+
+Epoch: 36
+Epoch 36, train accuracy = 40.828
+test accuracy = 41.96
+Total time since training starts:  2585.3105
+
+Epoch: 37
+Epoch 37, train accuracy = 40.588
+test accuracy = 41.02
+Total time since training starts:  2655.9403
+
+Epoch: 38
+Epoch 38, train accuracy = 39.992
+test accuracy = 42.55
+Total time since training starts:  2730.229
+
+Epoch: 39
+Epoch 39, train accuracy = 39.914
+test accuracy = 41.25
+Total time since training starts:  2800.3907
+
+Epoch: 40
+Epoch 40, train accuracy = 39.958
+test accuracy = 40.18
+Total time since training starts:  2871.2694
+
+Epoch: 41
+Epoch 41, train accuracy = 40.34
+test accuracy = 39.71
+Total time since training starts:  2936.9497
+
+Epoch: 42
+Epoch 42, train accuracy = 39.41
+test accuracy = 43.52
+Total time since training starts:  3002.6381
+
+Epoch: 43
+Epoch 43, train accuracy = 40.14
+test accuracy = 40.57
+Total time since training starts:  3068.5546
+
+Epoch: 44
+Epoch 44, train accuracy = 40.304
+test accuracy = 41.37
+Total time since training starts:  3138.7791
+
+Epoch: 45
+Epoch 45, train accuracy = 40.624
+test accuracy = 44.46
+Total time since training starts:  3209.6177
+
+Epoch: 46
+Epoch 46, train accuracy = 40.966
+test accuracy = 44.38
+Total time since training starts:  3276.4079
+
+Epoch: 47
+Epoch 47, train accuracy = 40.378
+test accuracy = 42.32
+Total time since training starts:  3345.7211
+
+Epoch: 48
+Epoch 48, train accuracy = 40.814
+test accuracy = 44.97
+Total time since training starts:  3420.3804
+
+Epoch: 49
+Epoch 49, train accuracy = 39.766
+test accuracy = 38.44
+Total time since training starts:  3486.2423
+
+Epoch: 50
+Epoch 50, train accuracy = 40.49
+test accuracy = 44.15
+Total time since training starts:  3556.1647
+
+Epoch: 51
+Epoch 51, train accuracy = 40.008
+test accuracy = 41.06
+Total time since training starts:  3625.7833
+
+Epoch: 52
+Epoch 52, train accuracy = 38.676
+test accuracy = 37.13
+Total time since training starts:  3692.2203
+
+Epoch: 53
+Epoch 53, train accuracy = 37.388
+test accuracy = 37.59
+Total time since training starts:  3762.0006
+
+Epoch: 54
+Epoch 54, train accuracy = 36.326
+test accuracy = 39.51
+Total time since training starts:  3831.7404
+
+Epoch: 55
+Epoch 55, train accuracy = 35.49
+test accuracy = 36.03
+Total time since training starts:  3902.7542
+
+Epoch: 56
+Epoch 56, train accuracy = 35.376
+test accuracy = 36.52
+Total time since training starts:  3974.3373
+
+Epoch: 57
+Epoch 57, train accuracy = 35.46
+test accuracy = 35.18
+Total time since training starts:  4046.5714
+
+Epoch: 58
+Epoch 58, train accuracy = 35.806
+test accuracy = 36.64
+Total time since training starts:  4121.2523
+
+Epoch: 59
+Epoch 59, train accuracy = 33.966
+test accuracy = 34.9
+Total time since training starts:  4195.7808
+
+Epoch: 60
+Epoch 60, train accuracy = 33.77
+test accuracy = 36.28
+Total time since training starts:  4270.4358
+
+Epoch: 61
+Epoch 61, train accuracy = 32.488
+test accuracy = 31.31
+Total time since training starts:  4335.6783
+
+Epoch: 62
+Epoch 62, train accuracy = 28.222
+test accuracy = 23.33
+Total time since training starts:  4401.2333
+
+Epoch: 63
+Epoch 63, train accuracy = 19.798
+test accuracy = 18.96
+Total time since training starts:  4466.7319
+
+Epoch: 64
+Epoch 64, train accuracy = 18.176
+test accuracy = 18.4
+Total time since training starts:  4532.6448
+
+Epoch: 65
+Epoch 65, train accuracy = 11.794
+test accuracy = 10.05
+Total time since training starts:  4599.3133
+
+Epoch: 66
+Epoch 66, train accuracy = 10.348
+test accuracy = 10.08
+Total time since training starts:  4667.5514
+
+Epoch: 67
+Epoch 67, train accuracy = 11.614
+test accuracy = 13.43
+Total time since training starts:  4745.2718
+
+Epoch: 68
+Epoch 68, train accuracy = 13.794
+test accuracy = 11.83
+Total time since training starts:  4816.7064
+
+Epoch: 69
+Epoch 69, train accuracy = 13.848
+test accuracy = 14.63
+Total time since training starts:  4885.803
+
+Epoch: 70
+Epoch 70, train accuracy = 11.152
+test accuracy = 10.12
+Total time since training starts:  4959.7416
+
+Epoch: 71
+Epoch 71, train accuracy = 10.106
+test accuracy = 10.0
+Total time since training starts:  5030.3938
+
+Epoch: 72
+Epoch 72, train accuracy = 9.872
+test accuracy = 10.0
+Total time since training starts:  5104.678
+
+Epoch: 73
+Epoch 73, train accuracy = 9.652
+test accuracy = 10.0
+Total time since training starts:  5180.2676
+
+Epoch: 74
+Epoch 74, train accuracy = 9.85
+test accuracy = 10.0
+Total time since training starts:  5258.9906
+
+Epoch: 75
+Epoch 75, train accuracy = 9.978
+test accuracy = 10.0
+Total time since training starts:  5336.5104
+
+Epoch: 76
+Epoch 76, train accuracy = 9.8
+test accuracy = 10.0
+Total time since training starts:  5408.3984
+
+Epoch: 77
+Epoch 77, train accuracy = 9.912
+test accuracy = 10.0
+Total time since training starts:  5478.1484
+
+Epoch: 78
+Epoch 78, train accuracy = 9.96
+test accuracy = 10.0
+Total time since training starts:  5553.5833
+
+Epoch: 79
+Epoch 79, train accuracy = 9.908
+test accuracy = 10.0
+Total time since training starts:  5625.978
+
+Epoch: 80
+Epoch 80, train accuracy = 9.886
+test accuracy = 10.0
+Total time since training starts:  5695.5339
+
+Epoch: 81
+Epoch 81, train accuracy = 9.728
+test accuracy = 10.0
+Total time since training starts:  5766.9689
+
+Epoch: 82
+Epoch 82, train accuracy = 9.932
+test accuracy = 10.0
+Total time since training starts:  5846.0618
+
+Epoch: 83
+Epoch 83, train accuracy = 9.852
+test accuracy = 10.0
+Total time since training starts:  5920.4423
+
+Epoch: 84
+Epoch 84, train accuracy = 9.98
+test accuracy = 10.0
+Total time since training starts:  5995.5908
+
+Epoch: 85
+Epoch 85, train accuracy = 9.756
+test accuracy = 10.0
+Total time since training starts:  6071.2231
+
+Epoch: 86
+Epoch 86, train accuracy = 9.986
+test accuracy = 10.0
+Total time since training starts:  6140.8396
+
+Epoch: 87
+Epoch 87, train accuracy = 9.862
+test accuracy = 10.0
+Total time since training starts:  6215.1009
+
+Epoch: 88
+Epoch 88, train accuracy = 9.9
+test accuracy = 10.0
+Total time since training starts:  6284.7911
+
+Epoch: 89
+Epoch 89, train accuracy = 9.888
+test accuracy = 10.0
+Total time since training starts:  6355.4451
+
+Epoch: 90
+Epoch 90, train accuracy = 9.924
+test accuracy = 10.0
+Total time since training starts:  6425.1307
+
+Epoch: 91
+Epoch 91, train accuracy = 9.916
+test accuracy = 10.0
+Total time since training starts:  6496.1934
+
+Epoch: 92
+Epoch 92, train accuracy = 9.918
+test accuracy = 10.0
+Total time since training starts:  6574.0519
+
+Epoch: 93
+Epoch 93, train accuracy = 9.804
+test accuracy = 10.0
+Total time since training starts:  6652.4797
+
+Epoch: 94
+Epoch 94, train accuracy = 10.006
+test accuracy = 10.0
+Total time since training starts:  6728.4325
+
+Epoch: 95
+Epoch 95, train accuracy = 9.888
+test accuracy = 10.0
+Total time since training starts:  6798.0967
+
+Epoch: 96
+Epoch 96, train accuracy = 10.076
+test accuracy = 10.0
+Total time since training starts:  6876.8409
+
+Epoch: 97
+Epoch 97, train accuracy = 10.048
+test accuracy = 10.0
+Total time since training starts:  6946.7892
+
+Epoch: 98
+Epoch 98, train accuracy = 9.932
+test accuracy = 10.0
+Total time since training starts:  7016.4516
+
+Epoch: 99
+Epoch 99, train accuracy = 9.776
+test accuracy = 10.0
+Total time since training starts:  7086.0621
+
+Epoch: 100
+Epoch 100, train accuracy = 10.254
+test accuracy = 10.0
+Total time since training starts:  7164.0029
+
+Epoch: 101
+Epoch 101, train accuracy = 9.908
+test accuracy = 10.0
+Total time since training starts:  7242.7933
+
+Epoch: 102
+Epoch 102, train accuracy = 10.054
+test accuracy = 10.0
+Total time since training starts:  7321.8416
+
+Epoch: 103
+Epoch 103, train accuracy = 9.93
+test accuracy = 10.0
+Total time since training starts:  7391.7594
+
+Epoch: 104
+Epoch 104, train accuracy = 9.99
+test accuracy = 10.0
+Total time since training starts:  7465.967
+
+Epoch: 105
+Epoch 105, train accuracy = 10.084
+test accuracy = 10.0
+Total time since training starts:  7536.2325
+
+Epoch: 106
+Epoch 106, train accuracy = 9.992
+test accuracy = 10.0
+Total time since training starts:  7605.9872
+
+Epoch: 107
+Epoch 107, train accuracy = 10.118
+test accuracy = 10.0
+Total time since training starts:  7675.8896
+
+Epoch: 108
+Epoch 108, train accuracy = 10.054
+test accuracy = 10.0
+Total time since training starts:  7745.6979
+
+Epoch: 109
+Epoch 109, train accuracy = 9.866
+test accuracy = 10.0
+Total time since training starts:  7817.3705
+
+Epoch: 110
+Epoch 110, train accuracy = 9.952
+test accuracy = 10.0
+Total time since training starts:  7887.1919
+
+Epoch: 111
+Epoch 111, train accuracy = 10.326
+test accuracy = 10.0
+Total time since training starts:  7956.9979
+
+Epoch: 112
+Epoch 112, train accuracy = 9.87
+test accuracy = 10.0
+Total time since training starts:  8026.6841
+
+Epoch: 113
+Epoch 113, train accuracy = 9.936
+test accuracy = 10.0
+Total time since training starts:  8096.5305
+
+Epoch: 114
+Epoch 114, train accuracy = 10.05
+test accuracy = 10.0
+Total time since training starts:  8173.4513
+
+Epoch: 115
+Epoch 115, train accuracy = 9.894
+test accuracy = 10.0
+Total time since training starts:  8245.5605
+
+Epoch: 116
+Epoch 116, train accuracy = 9.852
+test accuracy = 10.0
+Total time since training starts:  8323.5695
+
+Epoch: 117
+Epoch 117, train accuracy = 10.072
+test accuracy = 10.0
+Total time since training starts:  8400.7115
+
+Epoch: 118
+Epoch 118, train accuracy = 9.928
+test accuracy = 10.0
+Total time since training starts:  8470.4416
+
+Epoch: 119
+Epoch 119, train accuracy = 9.946
+test accuracy = 10.0
+Total time since training starts:  8548.9913
+
+Epoch: 120
+Epoch 120, train accuracy = 9.848
+test accuracy = 10.0
+Total time since training starts:  8624.8977
+
+Epoch: 121
+Epoch 121, train accuracy = 9.872
+test accuracy = 10.0
+Total time since training starts:  8694.6181
+
+Epoch: 122
+Epoch 122, train accuracy = 9.71
+test accuracy = 10.0
+Total time since training starts:  8763.7594
+
+Epoch: 123
+Epoch 123, train accuracy = 10.21
+test accuracy = 10.0
+Total time since training starts:  8838.4087
+
+Epoch: 124
+Epoch 124, train accuracy = 9.662
+test accuracy = 10.0
+Total time since training starts:  8908.5238
+
+Epoch: 125
+Epoch 125, train accuracy = 9.958
+test accuracy = 10.0
+Total time since training starts:  8977.7534
+
+Epoch: 126
+Epoch 126, train accuracy = 9.936
+test accuracy = 10.0
+Total time since training starts:  9046.9933
+
+Epoch: 127
+Epoch 127, train accuracy = 10.03
+test accuracy = 10.0
+Total time since training starts:  9124.5124
+
+Epoch: 128
+Epoch 128, train accuracy = 10.028
+test accuracy = 10.0
+Total time since training starts:  9193.8614
+
+Epoch: 129
+Epoch 129, train accuracy = 9.916
+test accuracy = 10.0
+Total time since training starts:  9262.9606
+
+Epoch: 130
+Epoch 130, train accuracy = 9.87
+test accuracy = 10.0
+Total time since training starts:  9335.8503
+
+Epoch: 131
+Epoch 131, train accuracy = 9.842
+test accuracy = 10.0
+Total time since training starts:  9406.4099
+
+Epoch: 132
+Epoch 132, train accuracy = 9.912
+test accuracy = 10.0
+Total time since training starts:  9475.6714
+
+Epoch: 133
+Epoch 133, train accuracy = 10.194
+test accuracy = 10.0
+Total time since training starts:  9546.5109
+
+Epoch: 134
+Epoch 134, train accuracy = 9.864
+test accuracy = 10.0
+Total time since training starts:  9623.0267
+
+Epoch: 135
+Epoch 135, train accuracy = 9.874
+test accuracy = 10.0
+Total time since training starts:  9692.1904
+
+Epoch: 136
+Epoch 136, train accuracy = 9.948
+test accuracy = 10.0
+Total time since training starts:  9765.5456
+
+Epoch: 137
+Epoch 137, train accuracy = 9.878
+test accuracy = 10.0
+Total time since training starts:  9834.8535
+
+Epoch: 138
+Epoch 138, train accuracy = 9.684
+test accuracy = 10.0
+Total time since training starts:  9906.6954
+
+Epoch: 139
+Epoch 139, train accuracy = 10.126
+test accuracy = 10.0
+Total time since training starts:  9984.146
+
+Epoch: 140
+Epoch 140, train accuracy = 9.948
+test accuracy = 10.0
+Total time since training starts:  10061.0351
+
+Epoch: 141
+Epoch 141, train accuracy = 10.102
+test accuracy = 10.0
+Total time since training starts:  10138.328
+
+Epoch: 142
+Epoch 142, train accuracy = 10.09
+test accuracy = 10.0
+Total time since training starts:  10215.1302
+
+Epoch: 143
+Epoch 143, train accuracy = 10.024
+test accuracy = 10.0
+Total time since training starts:  10287.654
+
+Epoch: 144
+Epoch 144, train accuracy = 10.104
+test accuracy = 10.0
+Total time since training starts:  10356.8369
+
+Epoch: 145
+Epoch 145, train accuracy = 9.956
+test accuracy = 10.0
+Total time since training starts:  10432.7478
+
+Epoch: 146
+Epoch 146, train accuracy = 10.028
+test accuracy = 10.0
+Total time since training starts:  10510.5295
+
+Epoch: 147
+Epoch 147, train accuracy = 10.082
+test accuracy = 10.0
+Total time since training starts:  10579.7977
+
+Epoch: 148
+Epoch 148, train accuracy = 9.946
+test accuracy = 10.0
+Total time since training starts:  10649.2805
+
+Epoch: 149
+Epoch 149, train accuracy = 9.914
+test accuracy = 10.0
+Total time since training starts:  10718.5407
+
+Epoch: 150
+Epoch 150, train accuracy = 10.166
+test accuracy = 10.0
+Total time since training starts:  10795.3483
+
+Epoch: 151
+Epoch 151, train accuracy = 10.26
+test accuracy = 10.0
+Total time since training starts:  10872.5519
+
+Epoch: 152
+Epoch 152, train accuracy = 9.962
+test accuracy = 10.0
+Total time since training starts:  10946.071
+
+Epoch: 153
+Epoch 153, train accuracy = 9.982
+test accuracy = 10.0
+Total time since training starts:  11023.7003
+
+Epoch: 154
+Epoch 154, train accuracy = 9.87
+test accuracy = 10.0
+Total time since training starts:  11101.6706
+
+Epoch: 155
+Epoch 155, train accuracy = 9.956
+test accuracy = 10.0
+Total time since training starts:  11171.4077
+
+Epoch: 156
+Epoch 156, train accuracy = 10.106
+test accuracy = 10.0
+Total time since training starts:  11242.1305
+
+Epoch: 157
+Epoch 157, train accuracy = 9.91
+test accuracy = 10.0
+Total time since training starts:  11311.3872
+
+Epoch: 158
+Epoch 158, train accuracy = 10.008
+test accuracy = 10.0
+Total time since training starts:  11389.1685
+
+Epoch: 159
+Epoch 159, train accuracy = 9.9
+test accuracy = 10.0
+Total time since training starts:  11466.9138
+
+Epoch: 160
+Epoch 160, train accuracy = 9.91
+test accuracy = 10.0
+Total time since training starts:  11544.4617
+
+Epoch: 161
+Epoch 161, train accuracy = 10.122
+test accuracy = 10.0
+Total time since training starts:  11617.6581
+
+Epoch: 162
+Epoch 162, train accuracy = 9.744
+test accuracy = 10.0
+Total time since training starts:  11692.3907
+
+Epoch: 163
+Epoch 163, train accuracy = 10.122
+test accuracy = 10.0
+Total time since training starts:  11769.7477
+
+Epoch: 164
+Epoch 164, train accuracy = 10.05
+test accuracy = 10.0
+Total time since training starts:  11847.6224
+
+Epoch: 165
+Epoch 165, train accuracy = 9.926
+test accuracy = 10.0
+Total time since training starts:  11924.281
+
+Epoch: 166
+Epoch 166, train accuracy = 9.93
+test accuracy = 10.0
+Total time since training starts:  12001.6793
+
+Epoch: 167
+Epoch 167, train accuracy = 9.928
+test accuracy = 10.0
+Total time since training starts:  12074.2613
+
+Epoch: 168
+Epoch 168, train accuracy = 10.25
+test accuracy = 10.0
+Total time since training starts:  12143.6006
+
+Epoch: 169
+Epoch 169, train accuracy = 9.97
+test accuracy = 10.0
+Total time since training starts:  12212.7127
+
+Epoch: 170
+Epoch 170, train accuracy = 10.018
+test accuracy = 10.0
+Total time since training starts:  12282.2997
+
+Epoch: 171
+Epoch 171, train accuracy = 9.774
+test accuracy = 10.0
+Total time since training starts:  12356.4369
+
+Epoch: 172
+Epoch 172, train accuracy = 9.82
+test accuracy = 10.0
+Total time since training starts:  12433.4705
+
+Epoch: 173
+Epoch 173, train accuracy = 9.552
+test accuracy = 10.0
+Total time since training starts:  12504.6234
+
+Epoch: 174
+Epoch 174, train accuracy = 9.972
+test accuracy = 10.0
+Total time since training starts:  12573.8738
+
+Epoch: 175
+Epoch 175, train accuracy = 10.116
+test accuracy = 10.0
+Total time since training starts:  12643.1853
+
+Epoch: 176
+Epoch 176, train accuracy = 9.92
+test accuracy = 10.0
+Total time since training starts:  12712.502
+
+Epoch: 177
+Epoch 177, train accuracy = 10.002
+test accuracy = 10.0
+Total time since training starts:  12781.7411
+
+Epoch: 178
+Epoch 178, train accuracy = 9.916
+test accuracy = 10.0
+Total time since training starts:  12850.9263
+
+Epoch: 179
+Epoch 179, train accuracy = 10.04
+test accuracy = 10.0
+Total time since training starts:  12929.1484
+
+Epoch: 180
+Epoch 180, train accuracy = 10.2
+test accuracy = 10.0
+Total time since training starts:  13001.5208
+
+Epoch: 181
+Epoch 181, train accuracy = 9.936
+test accuracy = 10.0
+Total time since training starts:  13071.0968
+
+Epoch: 182
+Epoch 182, train accuracy = 9.888
+test accuracy = 10.0
+Total time since training starts:  13148.4798
+
+Epoch: 183
+Epoch 183, train accuracy = 9.7
+test accuracy = 10.0
+Total time since training starts:  13226.0559
+
+Epoch: 184
+Epoch 184, train accuracy = 10.35
+test accuracy = 10.0
+Total time since training starts:  13300.5133
+
+Epoch: 185
+Epoch 185, train accuracy = 9.862
+test accuracy = 10.0
+Total time since training starts:  13372.4308
+
+Epoch: 186
+Epoch 186, train accuracy = 10.072
+test accuracy = 10.0
+Total time since training starts:  13441.8115
+
+Epoch: 187
+Epoch 187, train accuracy = 9.972
+test accuracy = 10.0
+Total time since training starts:  13519.5904
+
+Epoch: 188
+Epoch 188, train accuracy = 10.014
+test accuracy = 10.0
+Total time since training starts:  13592.9136
+
+Epoch: 189
+Epoch 189, train accuracy = 9.788
+test accuracy = 10.0
+Total time since training starts:  13662.8481
+
+Epoch: 190
+Epoch 190, train accuracy = 10.02
+test accuracy = 10.0
+Total time since training starts:  13734.5006
+
+Epoch: 191
+Epoch 191, train accuracy = 9.95
+test accuracy = 10.0
+Total time since training starts:  13805.8377
+
+Epoch: 192
+Epoch 192, train accuracy = 9.998
+test accuracy = 10.0
+Total time since training starts:  13880.0406
+
+Epoch: 193
+Epoch 193, train accuracy = 10.008
+test accuracy = 10.0
+Total time since training starts:  13949.2267
+
+Epoch: 194
+Epoch 194, train accuracy = 9.988
+test accuracy = 10.0
+Total time since training starts:  14023.0621
+
+Epoch: 195
+Epoch 195, train accuracy = 9.96
+test accuracy = 10.0
+Total time since training starts:  14092.357
+
+Epoch: 196
+Epoch 196, train accuracy = 9.9
+test accuracy = 10.0
+Total time since training starts:  14161.5276
+
+Epoch: 197
+Epoch 197, train accuracy = 9.992
+test accuracy = 10.0
+Total time since training starts:  14230.7461
+
+Epoch: 198
+Epoch 198, train accuracy = 10.192
+test accuracy = 10.0
+Total time since training starts:  14308.715
+
+Epoch: 199
+Epoch 199, train accuracy = 9.976
+test accuracy = 10.0
+Total time since training starts:  14379.6534

@@ -16,7 +16,7 @@ import time
 
 import numpy as np
 
-#from utils.visualization import progress_bar
+from utils.visualization import progress_bar
 
 class LeNet(nn.Module):
     def __init__(self):
