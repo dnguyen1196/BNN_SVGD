@@ -154,6 +154,7 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
 
             if svgd:
                 # Do 1 step of svgd
+                self.svgd_step_size *= 0.9 #
                 self.step_svgd(X, y, step_size=self.svgd_step_size)
             else:
                 # Run HMC sampler
