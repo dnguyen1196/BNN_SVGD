@@ -7,6 +7,9 @@ import os
 import torch
 import argparse
 
+import time
+import numpy as np
+
 from torchvision import datasets, transforms
 
 parser = argparse.ArgumentParser(description="Stochastic SVGD test")
@@ -15,7 +18,7 @@ parser.add_argument('--batch_size', type=int, help='Batch size', default=128)
 parser.add_argument('--num_epochs', type=int, help='Number of epochs', default=50)
 parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=10)
 parser.add_argument('--dataset', type=str, help='Dataset', choices=['MNIST', 'CIFAR-10'], default='CIFAR-10')
-parser.add_argument('--outdir', type=str, help='Output directory', default='./')
+parser.add_argument('--outdir', type=str, help='Output directory', default='./cifar10-cnn-svgd-checkpoint')
 
 args = parser.parse_args()
 
@@ -29,6 +32,9 @@ num_networks = args.num_nns
 dataset = args.dataset
 outdir = args.outdir
 
+# If check point directory not available, then create it
+if not os.path.isdir('cifar10-cnn-svgd-checkpoint'):
+    os.mkdir('cifar10-cnn-svgd-checkpoint')
 
 
 # Data
@@ -145,15 +151,22 @@ def evaluate_test_set(epoch, model, train_loader, device):
 accuracy_test = evaluate_test_set(-1, model, test_loader, device)
 print("Init: test set accuracy = {}".format(accuracy_test))
 
+best_accuracy_test = accuracy_test
+
+
+start = time.time()
 for epoch in range(num_epochs):
     accuracy_train = train_model(epoch, model, train_loader, device)
     accuracy_test = evaluate_test_set(epoch, model, test_loader, device)
     print("epoch {}, train_model-accuracy = {}, evaluate_test_set-accuracy = {}"\
         .format(epoch, accuracy_train, accuracy_test))
 
+    print("Total time since training starts: ", np.around(time.time() - start, 4))
 
-model_file = "data_{}-epochs_{}-numnns_{}-model.pkl".format(dataset, num_epochs, num_networks)
-save_dir   = os.path.join(outdir, model_file)
-
-with open(save_dir, "wb") as f:
-    pickle.dump(model, f)
+    # If the current test accuracy is better than the best accuracy, save the model
+    if accuracy_test > best_accuracy_test:
+        model_file = "data_{}-epochs_{}-numnns_{}-model.pkl".format(dataset, num_epochs, num_networks)
+        save_dir   = os.path.join(outdir, model_file)
+        with open(save_dir, "wb") as f:
+            pickle.dump(model, f)
+        best_accuracy_test = accuracy_test
