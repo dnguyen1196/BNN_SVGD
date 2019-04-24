@@ -112,8 +112,8 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
 
-        progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-            % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
+    acc = 100.*correct/total
+    print("Epoch {}, train accuracy = {}".format(epoch, acc), )
 
 def test(epoch):
     global best_acc
@@ -132,11 +132,10 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
 
-            progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-                % (test_loss/(batch_idx+1), 100.*correct/total, correct, total))
-
     # Save checkpoint.
     acc = 100.*correct/total
+    print("test accuracy = {}".format(acc))
+
     if acc > best_acc:
         print('Saving..')
         state = {
