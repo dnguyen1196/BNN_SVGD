@@ -1,0 +1,4 @@
+==> Preparing data..
+Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./data/cifar-10-python.tar.gz
+Init: test set avg batch loss = 69.0916748046875, test set accuracy = 0.1116
+epoch 0, train_model-avg-loss = 54.5343017578125, train_model-accuracy = 0.22962, evaluate_test_set-avg-loss = 50.180397033691406, evaluate_test_set-accuracy = 0.3564

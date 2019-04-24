@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-module load python/3.5.0
+source activate py3.6_torch1.0_pyro0.3
 
 opts="-p batch -c 2 --mem=16000 --time=4-00:00:00 --mail-type=ALL --mail-user=$USER"
 

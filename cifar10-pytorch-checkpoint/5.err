@@ -1,0 +1,7 @@
+stty: standard input: Inappropriate ioctl for device
+Traceback (most recent call last):
+  File "cifar10_pytorch.py", line 19, in <module>
+    from utils.visualization import progress_bar
+  File "/cluster/kappa/90-days-archive/class/comp/150/mnguye16/BNN_SVGD/utils/visualization.py", line 117, in <module>
+    _, term_width = os.popen('stty size', 'r').read().split()
+ValueError: not enough values to unpack (expected 2, got 0)

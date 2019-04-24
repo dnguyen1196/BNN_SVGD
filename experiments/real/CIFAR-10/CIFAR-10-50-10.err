@@ -1,0 +1,3 @@
+slurmstepd: error: Job 37069116 exceeded memory limit (16410080 > 16384000), being killed
+slurmstepd: error: Exceeded job memory limit
+slurmstepd: error: *** JOB 37069116 ON omega020 CANCELLED AT 2019-04-12T21:58:19 ***
