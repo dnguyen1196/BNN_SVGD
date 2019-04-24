@@ -1,6 +1,6 @@
 import argparse
 import numpy as np
-from BNN_SVGD.SVGD_HMC_hybrid import SVGD_SGHMC_hybrid
+from BNN_SVGD.SVGD_HMC_hybrid import SVGD_SGHMC_hybrid, SVGD_naive_SHMC_hybrid
 from BNN_SVGD.SVGD_BNN import SVGD_simple
 from BNN_SVGD.HMC_BNN import SG_HMC_BNN
 from utils.probability import generate_toy_data
@@ -78,7 +78,7 @@ def track_position_over_time(outdir, positions_over_time, N, num_networks, n_svg
 num_networks = 25
 p_sigma = 1
 l_sigma = 1
-step_size = 0.001
+step_size = 0.01
 rbf = .1
 
 
@@ -95,15 +95,20 @@ batch_size = 10
 
 # for x_N, y_N, N in [(x_N_small, y_N_small, 3), (x_N_medium, y_N_medium, 25), (x_N_big, y_N_big, 100)]:
 
-n_svgd = 1001
-n_hmc = 100
-num_iters = 1000
+n_svgd = 50
+n_hmc = 50
+num_iters = 2000
 
 # Initialize train loader 
 # NOTE: it has to be Cyclic
+# NOTE: the type of hybrid algorithm
 train_loader = CyclicMiniBatch(xs=x_N, ys=y_N, batch_size=batch_size)
-model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf, \
-                          svgd_step_size=step_size, hmc_step_size=0.001, hmc_n_leapfrog_steps=15)
+
+# model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf, \
+#                           svgd_step_size=step_size, hmc_step_size=0.001, hmc_n_leapfrog_steps=15)
+
+model = SVGD_naive_SHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf, \
+                          svgd_step_size=step_size, hmc_step_size=0.01, hmc_n_leapfrog_steps=20)
 
 model.fit(train_loader=train_loader, num_iterations=num_iters, svgd_iteration=n_svgd, hmc_iteration=n_hmc)
 

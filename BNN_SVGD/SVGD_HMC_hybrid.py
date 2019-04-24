@@ -49,6 +49,7 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
         self.hmc_step_size  = hmc_step_size
         self.hmc_n_leapfrog_steps = hmc_n_leapfrog_steps
         self.svgd_optimizer = optim.SGD(self.parameters(), lr=self.svgd_step_size)
+        self.prior_factor = 1
 
     def sample_stochastic_hmc(self, zi, X, y):
         """
@@ -112,6 +113,7 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
                     layer.weight.data = layer.weight.data + d_bnn[i * 2 + 1] * stepsize
             return bnn
 
+        hmc_sampler = HMC_sampler()
         # Run 1 iteration of hmc on each chain
         prop_bnn, accepted = hmc_sampler.sample_hmc(init_bnn=zi, n_leapfrog_steps=self.hmc_n_leapfrog_steps,
                                                     step_size=self.hmc_step_size,
@@ -141,10 +143,6 @@ class SVGD_naive_SHMC_hybrid(BNN_SVGD):
         start = time.time()
         self.positions_over_time = []
         self.hmc_sampled_bnn     = []
-
-        # Parameters for HMC
-        n_leapfrog_steps = 10
-        step_size = 0.001
 
         while iteration < num_iterations + 1:
             # Get the next batch
