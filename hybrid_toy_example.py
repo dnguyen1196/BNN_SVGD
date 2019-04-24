@@ -34,12 +34,10 @@ network_structure = []
 
 def plot_particle_positions(outdir, particles, num_networks, rbf, jsd):
     plt.scatter(particles[:, 0], particles[:, 1])
-    title = "Hybrid: {} particles, rbf length scale = {}".format(num_networks, rbf)
     print("For {} particles, rbf = {}, jsd = {}".format(num_networks, rbf, jsd))
-    plt.title(title)
     plt.ylim([-4, 4])
     plt.xlim([-4, 4])
-    savefile = os.path.join(outdir, "C={}_rbf={}_jsd={}.png".format(num_networks, rbf, jsd))
+    savefile = os.path.join(outdir, "Hybrid_C={}_rbf={}_jsd={}.png".format(num_networks, rbf, jsd))
     plt.savefig(savefile)
     plt.close()
 
@@ -80,7 +78,6 @@ def track_position_over_time(outdir, positions_over_time, N, num_networks, n_svg
 num_networks = 25
 p_sigma = 1
 l_sigma = 1
-num_epochs = 100
 step_size = 0.001
 rbf = .1
 
@@ -98,29 +95,27 @@ batch_size = 10
 
 # for x_N, y_N, N in [(x_N_small, y_N_small, 3), (x_N_medium, y_N_medium, 25), (x_N_big, y_N_big, 100)]:
 
-n_svgd = 100
-n_hmc = 500
-num_iters = 500
+n_svgd = 1001
+n_hmc = 100
+num_iters = 1000
 
 # Initialize train loader 
 # NOTE: it has to be Cyclic
 train_loader = CyclicMiniBatch(xs=x_N, ys=y_N, batch_size=batch_size)
 model = SVGD_SGHMC_hybrid(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf, \
-                          svgd_step_size=step_size, hmc_step_size=0.01, hmc_n_leapfrog_steps=10)
+                          svgd_step_size=step_size, hmc_step_size=0.001, hmc_n_leapfrog_steps=15)
 
 model.fit(train_loader=train_loader, num_iterations=num_iters, svgd_iteration=n_svgd, hmc_iteration=n_hmc)
 
 positions_over_time = model.positions_over_time
 sampled_bnn  = model.hmc_sampled_bnn
 
-plot_weight_distribution_hmc(sampled_bnn, show=True)
+particles = plot_weight_distribution_hmc(sampled_bnn, show=False)
 
 # After training Compute the jensen shannon divergence
-jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(np.array(sampled_bnn),
+jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(particles,
                                                                      x_N=x_N, y_N=y_N, plot=False)
 jsd = np.around(jsd, decimals=4)
-
-particles = np.array(sampled_bnn)
 
 plot_particle_positions(outdir, particles, num_networks, rbf, jsd)
 # track_position_over_time(outdir, positions_over_time, N, num_networks, n_svgd, n_hmc, num_iters ,jsd)
