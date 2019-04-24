@@ -98,9 +98,11 @@ for run in range(n_retries):
 
     # NOTE: becareful which HMC version I'm using!!
 
+    # Stochastic HMC
     model = SG_HMC_BNN(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma)
-    model.fit(train_loader=train_loader, num_iterations=num_epochs, n_leapfrog_steps=10, step_size=0.001, momentum=0.99)
+    model.fit(train_loader=train_loader, num_iterations=num_epochs, n_leapfrog_steps=15, step_size=0.001, momentum=0.99)
 
+    # Full batch HMC
     # model = HMC_BNN(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma)
     # model.fit(train_loader=train_loader, num_iterations=num_epochs, n_leapfrog_steps=25, step_size=0.01)
 
