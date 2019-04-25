@@ -12,7 +12,6 @@ from matplotlib.animation import FuncAnimation
 from utils.probability import estimate_jensen_shannon_divergence_from_numerical_distribution
 
 plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
-np.random.seed(42)
 
 parser = argparse.ArgumentParser(description="SVGD toy data test")
 parser.add_argument('--type', type=str, help='Type of test', choices=["SVGD", "hybrid", "hmc"])
@@ -31,14 +30,13 @@ test_type = args.type
 
 x_dim = 1
 y_dim = 1
-num_networks = 100
 network_structure = []
 
 
 def run_svgd_model(model, train_loader, num_epochs, step_size):
     positions_over_time = []
     for epoch in range(num_epochs):
-        step_size *= 0.9
+        step_size *= 0.99
         for X_train, y_train in train_loader:
             data = torch.FloatTensor(X_train)
             target = torch.FloatTensor(y_train)
@@ -52,7 +50,6 @@ def run_svgd_model(model, train_loader, num_epochs, step_size):
             positions_over_time.append((curr_position, True))
     return positions_over_time
 
-
 def plot_particle_positions(outdir, particles, num_networks, rbf, jsd):
     plt.scatter(particles[:, 0], particles[:, 1])
     # title = "{} particles, rbf length scale = {}".format(num_networks, rbf)
@@ -64,14 +61,12 @@ def plot_particle_positions(outdir, particles, num_networks, rbf, jsd):
     plt.savefig(savefile)
     plt.close()
 
-
-
-batch_size = 100
 p_sigma = 1
 l_sigma = 1
 num_epochs = 100
 step_size = 0.01
 rbf = 1
+batch_size = 10
 
 # Experiment on length scale of rbf kernel
 # for rbf in [1, 10, 100, 1000]:
@@ -98,36 +93,42 @@ rbf = 1
 #     plt.savefig(savefile)
 #     plt.close()
 
-n_retries = 10
-num_networks = 25
+n_retries = 5
+num_networks = 50
 jsd_array  = []
+
+N = 100
+
+x_N = x_N_big
+y_N = y_N_big
+
 for i in range(n_retries):
     # Initialize train loader
-    train_loader = MiniBatch(xs=x_N_big, ys=y_N_big, batch_size=batch_size)
+    train_loader = MiniBatch(xs=x_N, ys=y_N, batch_size=batch_size)
     model = SVGD_simple(x_dim, y_dim, num_networks, network_structure, l_sigma, p_sigma, rbf)
-    num_epochs = max(25, num_networks * 4)
+    # num_epochs = max(25, num_networks * 2)
+    num_epochs = 25
     positions_over_time = run_svgd_model(model, train_loader, num_epochs, step_size)
 
     # After training
     # Compute the jensen shannon divergence
     jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(np.array(positions_over_time[-1][0]),
-                                                                         x_N=x_N_big, y_N=y_N_big, plot=False)
+                                                                         x_N=x_N, y_N=y_N, plot=False)
     jsd_array.append(jsd)
+    print(jsd)
 
 
 jsd = estimate_jensen_shannon_divergence_from_numerical_distribution(np.array(positions_over_time[-1][0]),
-                                                                     x_N=x_N_big, y_N=y_N_big, plot=False)
+                                                                     x_N=x_N, y_N=y_N, plot=False)
 jsd_array.append(jsd)
 jsd = np.around(np.mean(jsd_array), 4)
 
 particles = np.array(positions_over_time[-1][0])
 plt.scatter(particles[:, 0], particles[:, 1])
-title = "{} particles".format(num_networks, rbf)
-plt.title(title)
 print("For {} particles, rbf = {}, average jsd = {}".format(num_networks, rbf, jsd))
-plt.ylim([-5, 5])
-plt.xlim([-5, 5])
-savefile = os.path.join(outdir, "SVGD_C={}_rbf={}_jsd={}.png".format(num_networks, rbf, jsd))
+plt.ylim([-4, 4])
+plt.xlim([-4, 4])
+savefile = os.path.join(outdir, "SVGD_C={}_N={}_bs={}_rbf={}_jsd={}.png".format(num_networks, N, batch_size, rbf, jsd))
 plt.savefig(savefile)
 plt.close()
 

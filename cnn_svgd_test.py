@@ -75,8 +75,6 @@ else:
         batch_size=batch_size, shuffle=False)
 
 
-
-
 model = CovNet_SVGD(image_set=dataset, num_networks=num_networks)
 
 count = 1
