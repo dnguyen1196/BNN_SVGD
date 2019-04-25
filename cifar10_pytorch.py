@@ -8,7 +8,7 @@ import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
 
 import torchvision
-import torchvision.transforms as transforms
+from torchvision import datasets, transforms
 
 import os
 import argparse
@@ -56,14 +56,14 @@ trainloader = torch.utils.data.DataLoader(
                        transforms.ToTensor(),
                        transforms.Normalize((0.1307,), (0.3081,))
                    ])),
-    batch_size=batch_size, shuffle=True)
+    batch_size=128, shuffle=True)
 
 testloader = torch.utils.data.DataLoader(
     datasets.CIFAR10('./data', train=False, transform=transforms.Compose([
                        transforms.ToTensor(),
                        transforms.Normalize((0.1307,), (0.3081,))
                    ])),
-    batch_size=batch_size, shuffle=False)
+    batch_size=128, shuffle=False)
 
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
