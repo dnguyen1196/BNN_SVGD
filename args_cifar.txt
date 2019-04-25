@@ -1,1 +1,1 @@
-./cifar10-cnn-svgd-checkpoint1
+./cifar10-cnn-svgd-checkpoint
