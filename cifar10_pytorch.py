@@ -45,7 +45,7 @@ parser.add_argument('--num', type=int, required=True, help="Model number for sav
 args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-best_acc = 0  # best test accuracy
+best_acc = 0  # best test_ensemble accuracy
 start_epoch = 0  # start from epoch 0 or last checkpoint epoch
 model_num = args.num
 
@@ -131,7 +131,7 @@ def test(epoch):
 
     # Save checkpoint.
     acc = 100.*correct/total
-    print("test accuracy = {}".format(acc))
+    print("test_ensemble accuracy = {}".format(acc))
 
     if acc > best_acc:
         print('Saving..')

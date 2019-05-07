@@ -14,8 +14,8 @@ from utils.probability import estimate_jensen_shannon_divergence_from_numerical_
 plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 np.random.seed(42)
 
-parser = argparse.ArgumentParser(description="SVGD toy data test")
-parser.add_argument('--type', type=str, help='Type of test', choices=["SVGD", "hybrid", "hmc"])
+parser = argparse.ArgumentParser(description="SVGD toy data test_ensemble")
+parser.add_argument('--type', type=str, help='Type of test_ensemble', choices=["SVGD", "hybrid", "hmc"])
 parser.add_argument('--outdir', type=str, help="Output directory", required=True)
 args = parser.parse_args()
 
@@ -26,7 +26,7 @@ x_N_small, y_N_small   = generate_toy_data(N=3)
 x_N_medium, y_N_medium = generate_toy_data(N=25)
 x_N_big, y_N_big       = generate_toy_data(N=100)
 
-# Get thet type of test
+# Get thet type of test_ensemble
 test_type = args.type
 
 x_dim = 1

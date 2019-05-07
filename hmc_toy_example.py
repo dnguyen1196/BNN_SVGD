@@ -15,7 +15,7 @@ from utils.probability import estimate_jensen_shannon_divergence_from_numerical_
 plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 np.random.seed(42)
 
-parser = argparse.ArgumentParser(description="Hybrid toy data test")
+parser = argparse.ArgumentParser(description="Hybrid toy data test_ensemble")
 parser.add_argument('--outdir', type=str, help="Output directory", required=True)
 args = parser.parse_args()
 

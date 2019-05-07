@@ -12,7 +12,7 @@ import numpy as np
 
 from torchvision import datasets, transforms
 
-parser = argparse.ArgumentParser(description="Stochastic SVGD test")
+parser = argparse.ArgumentParser(description="Stochastic SVGD test_ensemble")
 
 parser.add_argument('--batch_size', type=int, help='Batch size', default=128)
 parser.add_argument('--num_epochs', type=int, help='Number of epochs', default=100)
@@ -120,7 +120,7 @@ def train_model(epoch, model, train_loader, device):
     return correct/total
 
 
-def evaluate_test_set(epoch, model, train_loader, device):
+def evaluate_test_set(epoch, model, test_loader, device):
     total_loss = 0.
     num_batches = 0
     count = 0
@@ -128,7 +128,7 @@ def evaluate_test_set(epoch, model, train_loader, device):
     total = 0
 
     with torch.no_grad():
-        for batch_idx, (data, target) in enumerate(train_loader):
+        for batch_idx, (data, target) in enumerate(test_loader):
             X, y = data.to(device), target.to(device)
 
             y_onehot = torch.FloatTensor(y.shape[0], num_classes)
@@ -147,7 +147,7 @@ def evaluate_test_set(epoch, model, train_loader, device):
     return correct/total
 
 accuracy_test = evaluate_test_set(-1, model, test_loader, device)
-print("Init: test set accuracy = {}".format(accuracy_test))
+print("Init: test_ensemble set accuracy = {}".format(accuracy_test))
 
 best_accuracy_test = accuracy_test
 
@@ -161,7 +161,7 @@ for epoch in range(num_epochs):
 
     print("Total time since training starts: ", np.around(time.time() - start, 4))
 
-    # If the current test accuracy is better than the best accuracy, save the model
+    # If the current test_ensemble accuracy is better than the best accuracy, save the model
     if accuracy_test > best_accuracy_test:
         model_file = "data_{}-epochs_{}-numnns_{}-model.pkl".format(dataset, num_epochs, num_networks)
         save_dir   = os.path.join(outdir, model_file)
