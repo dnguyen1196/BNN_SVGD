@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(description="Stochastic SVGD test_ensemble")
 
 parser.add_argument('--batch_size', type=int, help='Batch size', default=128)
 parser.add_argument('--num_epochs', type=int, help='Number of epochs', default=100)
-parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=10)
+parser.add_argument('--num_nns', type=int, help='Number of neural networks', default=25)
 parser.add_argument('--dataset', type=str, help='Dataset', choices=['MNIST', 'CIFAR-10'], default='CIFAR-10')
 parser.add_argument('--outdir', type=str, help='Output directory', default='./cifar10-cnn-svgd-checkpoint')
 
