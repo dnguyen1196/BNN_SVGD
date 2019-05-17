@@ -1,304 +1,77 @@
 ==> Preparing data..
-SVGD for CNN, dataset CIFAR-10, number of epochs 100, number of neural networks 25
+SVGD for CNN, dataset CIFAR-10, number of epochs 100, number of neural networks 50
 Files already downloaded and verified
-Init: test_ensemble set accuracy = 0.1126
+Init: test_ensemble set accuracy = 0.1009
 Epoch 0, lr = 1.0000
-epoch 0, train_model-accuracy = 0.21018, evaluate_test_set-accuracy = 0.291
-Total time since training starts:  2851.8052
+epoch 0, train_model-accuracy = 0.17736, evaluate_test_set-accuracy = 0.2099
+Total time since training starts:  5513.3858
 Epoch 1, lr = 0.9000
-epoch 1, train_model-accuracy = 0.40056, evaluate_test_set-accuracy = 0.377
-Total time since training starts:  5707.2736
+epoch 1, train_model-accuracy = 0.3529, evaluate_test_set-accuracy = 0.4143
+Total time since training starts:  11371.7202
 Epoch 2, lr = 0.8100
-epoch 2, train_model-accuracy = 0.50114, evaluate_test_set-accuracy = 0.4742
-Total time since training starts:  8570.4448
+epoch 2, train_model-accuracy = 0.46186, evaluate_test_set-accuracy = 0.4345
+Total time since training starts:  16722.6413
 Epoch 3, lr = 0.7290
-epoch 3, train_model-accuracy = 0.5645, evaluate_test_set-accuracy = 0.4834
-Total time since training starts:  11427.3761
+epoch 3, train_model-accuracy = 0.50992, evaluate_test_set-accuracy = 0.4656
+Total time since training starts:  22015.709
 Epoch 4, lr = 0.6561
-epoch 4, train_model-accuracy = 0.60556, evaluate_test_set-accuracy = 0.5093
-Total time since training starts:  14275.7321
+epoch 4, train_model-accuracy = 0.5481, evaluate_test_set-accuracy = 0.4894
+Total time since training starts:  27318.4725
 Epoch 5, lr = 0.5905
-epoch 5, train_model-accuracy = 0.63752, evaluate_test_set-accuracy = 0.4906
-Total time since training starts:  17161.7539
+epoch 5, train_model-accuracy = 0.57706, evaluate_test_set-accuracy = 0.5056
+Total time since training starts:  32591.1808
 Epoch 6, lr = 0.5314
-epoch 6, train_model-accuracy = 0.66502, evaluate_test_set-accuracy = 0.5473
-Total time since training starts:  19534.7643
+epoch 6, train_model-accuracy = 0.5985, evaluate_test_set-accuracy = 0.5114
+Total time since training starts:  37838.3723
 Epoch 7, lr = 0.4783
-epoch 7, train_model-accuracy = 0.68628, evaluate_test_set-accuracy = 0.5694
-Total time since training starts:  22507.0198
+epoch 7, train_model-accuracy = 0.61704, evaluate_test_set-accuracy = 0.536
+Total time since training starts:  43092.2845
 Epoch 8, lr = 0.4305
-epoch 8, train_model-accuracy = 0.71062, evaluate_test_set-accuracy = 0.5602
-Total time since training starts:  25123.0842
+epoch 8, train_model-accuracy = 0.63374, evaluate_test_set-accuracy = 0.557
+Total time since training starts:  48359.9617
 Epoch 9, lr = 0.3874
-epoch 9, train_model-accuracy = 0.72978, evaluate_test_set-accuracy = 0.5907
-Total time since training starts:  27445.7627
+epoch 9, train_model-accuracy = 0.64498, evaluate_test_set-accuracy = 0.5411
+Total time since training starts:  53617.1703
 Epoch 10, lr = 0.3487
-epoch 10, train_model-accuracy = 0.7463, evaluate_test_set-accuracy = 0.5928
-Total time since training starts:  29471.011
+epoch 10, train_model-accuracy = 0.66144, evaluate_test_set-accuracy = 0.5613
+Total time since training starts:  59794.0701
 Epoch 11, lr = 0.3138
-epoch 11, train_model-accuracy = 0.76062, evaluate_test_set-accuracy = 0.6102
-Total time since training starts:  31532.3934
+epoch 11, train_model-accuracy = 0.67116, evaluate_test_set-accuracy = 0.5741
+Total time since training starts:  66162.2176
 Epoch 12, lr = 0.2824
-epoch 12, train_model-accuracy = 0.77548, evaluate_test_set-accuracy = 0.6299
-Total time since training starts:  33592.843
+epoch 12, train_model-accuracy = 0.67948, evaluate_test_set-accuracy = 0.5735
+Total time since training starts:  72705.6562
 Epoch 13, lr = 0.2542
-epoch 13, train_model-accuracy = 0.78598, evaluate_test_set-accuracy = 0.6207
-Total time since training starts:  35653.4664
+epoch 13, train_model-accuracy = 0.68892, evaluate_test_set-accuracy = 0.582
+Total time since training starts:  79024.3703
 Epoch 14, lr = 0.2288
-epoch 14, train_model-accuracy = 0.79654, evaluate_test_set-accuracy = 0.6144
-Total time since training starts:  38074.9922
+epoch 14, train_model-accuracy = 0.69784, evaluate_test_set-accuracy = 0.5878
+Total time since training starts:  85699.9767
 Epoch 15, lr = 0.2059
-epoch 15, train_model-accuracy = 0.80784, evaluate_test_set-accuracy = 0.6226
-Total time since training starts:  40181.1868
+epoch 15, train_model-accuracy = 0.70316, evaluate_test_set-accuracy = 0.5664
+Total time since training starts:  92357.8267
 Epoch 16, lr = 0.1853
-epoch 16, train_model-accuracy = 0.81348, evaluate_test_set-accuracy = 0.6402
-Total time since training starts:  42285.7218
+epoch 16, train_model-accuracy = 0.70964, evaluate_test_set-accuracy = 0.5697
+Total time since training starts:  98880.0477
 Epoch 17, lr = 0.1668
-epoch 17, train_model-accuracy = 0.82288, evaluate_test_set-accuracy = 0.6372
-Total time since training starts:  44388.192
+epoch 17, train_model-accuracy = 0.714, evaluate_test_set-accuracy = 0.5941
+Total time since training starts:  105357.9691
 Epoch 18, lr = 0.1501
-epoch 18, train_model-accuracy = 0.82954, evaluate_test_set-accuracy = 0.645
-Total time since training starts:  46488.4126
+epoch 18, train_model-accuracy = 0.71776, evaluate_test_set-accuracy = 0.604
+Total time since training starts:  113043.4162
 Epoch 19, lr = 0.1351
-epoch 19, train_model-accuracy = 0.83448, evaluate_test_set-accuracy = 0.6513
-Total time since training starts:  48587.3392
+epoch 19, train_model-accuracy = 0.72146, evaluate_test_set-accuracy = 0.5999
+Total time since training starts:  119567.6829
 Epoch 20, lr = 0.1216
-epoch 20, train_model-accuracy = 0.8404, evaluate_test_set-accuracy = 0.6504
-Total time since training starts:  50649.3071
+epoch 20, train_model-accuracy = 0.72732, evaluate_test_set-accuracy = 0.608
+Total time since training starts:  125966.262
 Epoch 21, lr = 0.1094
-epoch 21, train_model-accuracy = 0.84346, evaluate_test_set-accuracy = 0.6543
-Total time since training starts:  52708.4405
+epoch 21, train_model-accuracy = 0.72978, evaluate_test_set-accuracy = 0.6111
+Total time since training starts:  132382.5886
 Epoch 22, lr = 0.0985
-epoch 22, train_model-accuracy = 0.84784, evaluate_test_set-accuracy = 0.6563
-Total time since training starts:  54768.8796
+epoch 22, train_model-accuracy = 0.73154, evaluate_test_set-accuracy = 0.6145
+Total time since training starts:  138781.3996
 Epoch 23, lr = 0.0886
-epoch 23, train_model-accuracy = 0.85182, evaluate_test_set-accuracy = 0.6572
-Total time since training starts:  56833.134
+epoch 23, train_model-accuracy = 0.73416, evaluate_test_set-accuracy = 0.6138
+Total time since training starts:  145834.0437
 Epoch 24, lr = 0.0798
-epoch 24, train_model-accuracy = 0.85306, evaluate_test_set-accuracy = 0.6551
-Total time since training starts:  58897.5224
-Epoch 25, lr = 0.0718
-epoch 25, train_model-accuracy = 0.85602, evaluate_test_set-accuracy = 0.6624
-Total time since training starts:  60962.1904
-Epoch 26, lr = 0.0646
-epoch 26, train_model-accuracy = 0.85838, evaluate_test_set-accuracy = 0.6636
-Total time since training starts:  63026.7796
-Epoch 27, lr = 0.0581
-epoch 27, train_model-accuracy = 0.86, evaluate_test_set-accuracy = 0.6658
-Total time since training starts:  65092.8793
-Epoch 28, lr = 0.0523
-epoch 28, train_model-accuracy = 0.86176, evaluate_test_set-accuracy = 0.6642
-Total time since training starts:  67682.0142
-Epoch 29, lr = 0.0471
-epoch 29, train_model-accuracy = 0.8623, evaluate_test_set-accuracy = 0.6674
-Total time since training starts:  69765.0226
-Epoch 30, lr = 0.0424
-epoch 30, train_model-accuracy = 0.86284, evaluate_test_set-accuracy = 0.6622
-Total time since training starts:  71831.3527
-Epoch 31, lr = 0.0382
-epoch 31, train_model-accuracy = 0.86468, evaluate_test_set-accuracy = 0.6655
-Total time since training starts:  73895.3126
-Epoch 32, lr = 0.0343
-epoch 32, train_model-accuracy = 0.86478, evaluate_test_set-accuracy = 0.6663
-Total time since training starts:  75962.9364
-Epoch 33, lr = 0.0309
-epoch 33, train_model-accuracy = 0.8649, evaluate_test_set-accuracy = 0.6686
-Total time since training starts:  78027.9544
-Epoch 34, lr = 0.0278
-epoch 34, train_model-accuracy = 0.86598, evaluate_test_set-accuracy = 0.6678
-Total time since training starts:  80096.4123
-Epoch 35, lr = 0.0250
-epoch 35, train_model-accuracy = 0.8658, evaluate_test_set-accuracy = 0.6684
-Total time since training starts:  82154.7129
-Epoch 36, lr = 0.0225
-epoch 36, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6693
-Total time since training starts:  84215.8679
-Epoch 37, lr = 0.0203
-epoch 37, train_model-accuracy = 0.86554, evaluate_test_set-accuracy = 0.6697
-Total time since training starts:  86281.1015
-Epoch 38, lr = 0.0182
-epoch 38, train_model-accuracy = 0.86606, evaluate_test_set-accuracy = 0.6694
-Total time since training starts:  88344.4797
-Epoch 39, lr = 0.0164
-epoch 39, train_model-accuracy = 0.86644, evaluate_test_set-accuracy = 0.671
-Total time since training starts:  90659.7796
-Epoch 40, lr = 0.0148
-epoch 40, train_model-accuracy = 0.86702, evaluate_test_set-accuracy = 0.6719
-Total time since training starts:  93578.5832
-Epoch 41, lr = 0.0133
-epoch 41, train_model-accuracy = 0.86598, evaluate_test_set-accuracy = 0.6727
-Total time since training starts:  96483.8594
-Epoch 42, lr = 0.0120
-epoch 42, train_model-accuracy = 0.8661, evaluate_test_set-accuracy = 0.674
-Total time since training starts:  98870.1792
-Epoch 43, lr = 0.0108
-epoch 43, train_model-accuracy = 0.86642, evaluate_test_set-accuracy = 0.672
-Total time since training starts:  100929.0424
-Epoch 44, lr = 0.0097
-epoch 44, train_model-accuracy = 0.86624, evaluate_test_set-accuracy = 0.6717
-Total time since training starts:  102987.996
-Epoch 45, lr = 0.0087
-epoch 45, train_model-accuracy = 0.8667, evaluate_test_set-accuracy = 0.6718
-Total time since training starts:  105063.7113
-Epoch 46, lr = 0.0079
-epoch 46, train_model-accuracy = 0.86626, evaluate_test_set-accuracy = 0.672
-Total time since training starts:  107152.8306
-Epoch 47, lr = 0.0071
-epoch 47, train_model-accuracy = 0.8665, evaluate_test_set-accuracy = 0.6731
-Total time since training starts:  109213.8614
-Epoch 48, lr = 0.0064
-epoch 48, train_model-accuracy = 0.86656, evaluate_test_set-accuracy = 0.6713
-Total time since training starts:  111265.3706
-Epoch 49, lr = 0.0057
-epoch 49, train_model-accuracy = 0.86608, evaluate_test_set-accuracy = 0.6731
-Total time since training starts:  113317.7432
-Epoch 50, lr = 0.0052
-epoch 50, train_model-accuracy = 0.86614, evaluate_test_set-accuracy = 0.6722
-Total time since training starts:  115365.0898
-Epoch 51, lr = 0.0046
-epoch 51, train_model-accuracy = 0.8663, evaluate_test_set-accuracy = 0.6734
-Total time since training starts:  117412.8496
-Epoch 52, lr = 0.0042
-epoch 52, train_model-accuracy = 0.8664, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  119460.186
-Epoch 53, lr = 0.0038
-epoch 53, train_model-accuracy = 0.86674, evaluate_test_set-accuracy = 0.6733
-Total time since training starts:  121508.747
-Epoch 54, lr = 0.0034
-epoch 54, train_model-accuracy = 0.8661, evaluate_test_set-accuracy = 0.674
-Total time since training starts:  123556.4029
-Epoch 55, lr = 0.0030
-epoch 55, train_model-accuracy = 0.8664, evaluate_test_set-accuracy = 0.6734
-Total time since training starts:  125609.5807
-Epoch 56, lr = 0.0027
-epoch 56, train_model-accuracy = 0.86658, evaluate_test_set-accuracy = 0.6745
-Total time since training starts:  127665.05
-Epoch 57, lr = 0.0025
-epoch 57, train_model-accuracy = 0.86588, evaluate_test_set-accuracy = 0.6735
-Total time since training starts:  129719.3036
-Epoch 58, lr = 0.0022
-epoch 58, train_model-accuracy = 0.86662, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  131771.9931
-Epoch 59, lr = 0.0020
-epoch 59, train_model-accuracy = 0.8662, evaluate_test_set-accuracy = 0.6733
-Total time since training starts:  133823.8392
-Epoch 60, lr = 0.0018
-epoch 60, train_model-accuracy = 0.86564, evaluate_test_set-accuracy = 0.6729
-Total time since training starts:  135871.9459
-Epoch 61, lr = 0.0016
-epoch 61, train_model-accuracy = 0.86596, evaluate_test_set-accuracy = 0.6733
-Total time since training starts:  137921.5305
-Epoch 62, lr = 0.0015
-epoch 62, train_model-accuracy = 0.8661, evaluate_test_set-accuracy = 0.6736
-Total time since training starts:  139971.5316
-Epoch 63, lr = 0.0013
-epoch 63, train_model-accuracy = 0.86636, evaluate_test_set-accuracy = 0.6732
-Total time since training starts:  142021.7517
-Epoch 64, lr = 0.0012
-epoch 64, train_model-accuracy = 0.86612, evaluate_test_set-accuracy = 0.6733
-Total time since training starts:  144074.556
-Epoch 65, lr = 0.0011
-epoch 65, train_model-accuracy = 0.86642, evaluate_test_set-accuracy = 0.6743
-Total time since training starts:  146128.1838
-Epoch 66, lr = 0.0010
-epoch 66, train_model-accuracy = 0.86646, evaluate_test_set-accuracy = 0.6734
-Total time since training starts:  148179.5323
-Epoch 67, lr = 0.0009
-epoch 67, train_model-accuracy = 0.86654, evaluate_test_set-accuracy = 0.6729
-Total time since training starts:  150232.1045
-Epoch 68, lr = 0.0008
-epoch 68, train_model-accuracy = 0.86614, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  152284.8249
-Epoch 69, lr = 0.0007
-epoch 69, train_model-accuracy = 0.86638, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  154358.1278
-Epoch 70, lr = 0.0006
-epoch 70, train_model-accuracy = 0.86614, evaluate_test_set-accuracy = 0.6734
-Total time since training starts:  156520.4952
-Epoch 71, lr = 0.0006
-epoch 71, train_model-accuracy = 0.8665, evaluate_test_set-accuracy = 0.6742
-Total time since training starts:  158866.3028
-Epoch 72, lr = 0.0005
-epoch 72, train_model-accuracy = 0.86638, evaluate_test_set-accuracy = 0.6732
-Total time since training starts:  160954.6547
-Epoch 73, lr = 0.0005
-epoch 73, train_model-accuracy = 0.86622, evaluate_test_set-accuracy = 0.6735
-Total time since training starts:  163003.9897
-Epoch 74, lr = 0.0004
-epoch 74, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  165054.2922
-Epoch 75, lr = 0.0004
-epoch 75, train_model-accuracy = 0.86626, evaluate_test_set-accuracy = 0.6732
-Total time since training starts:  167109.8551
-Epoch 76, lr = 0.0003
-epoch 76, train_model-accuracy = 0.8665, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  169165.6926
-Epoch 77, lr = 0.0003
-epoch 77, train_model-accuracy = 0.86614, evaluate_test_set-accuracy = 0.6735
-Total time since training starts:  171220.6738
-Epoch 78, lr = 0.0003
-epoch 78, train_model-accuracy = 0.86608, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  173276.7308
-Epoch 79, lr = 0.0002
-epoch 79, train_model-accuracy = 0.86618, evaluate_test_set-accuracy = 0.674
-Total time since training starts:  175336.0986
-Epoch 80, lr = 0.0002
-epoch 80, train_model-accuracy = 0.8663, evaluate_test_set-accuracy = 0.6741
-Total time since training starts:  177652.3962
-Epoch 81, lr = 0.0002
-epoch 81, train_model-accuracy = 0.86624, evaluate_test_set-accuracy = 0.674
-Total time since training starts:  179713.4472
-Epoch 82, lr = 0.0002
-epoch 82, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  181760.5333
-Epoch 83, lr = 0.0002
-epoch 83, train_model-accuracy = 0.86636, evaluate_test_set-accuracy = 0.6736
-Total time since training starts:  183819.4477
-Epoch 84, lr = 0.0001
-epoch 84, train_model-accuracy = 0.86614, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  185877.7523
-Epoch 85, lr = 0.0001
-epoch 85, train_model-accuracy = 0.86626, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  187936.3327
-Epoch 86, lr = 0.0001
-epoch 86, train_model-accuracy = 0.8663, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  189995.3784
-Epoch 87, lr = 0.0001
-epoch 87, train_model-accuracy = 0.86624, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  192052.1363
-Epoch 88, lr = 0.0001
-epoch 88, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  194106.2276
-Epoch 89, lr = 0.0001
-epoch 89, train_model-accuracy = 0.8662, evaluate_test_set-accuracy = 0.6737
-Total time since training starts:  196161.9634
-Epoch 90, lr = 0.0001
-epoch 90, train_model-accuracy = 0.8663, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  198218.6534
-Epoch 91, lr = 0.0001
-epoch 91, train_model-accuracy = 0.86624, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  200276.0178
-Epoch 92, lr = 0.0001
-epoch 92, train_model-accuracy = 0.8663, evaluate_test_set-accuracy = 0.6738
-Total time since training starts:  202329.3709
-Epoch 93, lr = 0.0001
-epoch 93, train_model-accuracy = 0.8663, evaluate_test_set-accuracy = 0.6739
-Total time since training starts:  204381.7554
-Epoch 94, lr = 0.0000
-epoch 94, train_model-accuracy = 0.86632, evaluate_test_set-accuracy = 0.6739
-Total time since training starts:  206435.9659
-Epoch 95, lr = 0.0000
-epoch 95, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6739
-Total time since training starts:  208492.0582
-Epoch 96, lr = 0.0000
-epoch 96, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6739
-Total time since training starts:  210542.7669
-Epoch 97, lr = 0.0000
-epoch 97, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6739
-Total time since training starts:  212595.7518
-Epoch 98, lr = 0.0000
-epoch 98, train_model-accuracy = 0.86628, evaluate_test_set-accuracy = 0.6739
-Total time since training starts:  214646.7343
-Epoch 99, lr = 0.0000
-epoch 99, train_model-accuracy = 0.86626, evaluate_test_set-accuracy = 0.6739
-Total time since training starts:  216697.5716
