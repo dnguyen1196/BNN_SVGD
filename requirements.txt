@@ -77,7 +77,7 @@ jupyter-client==5.2.3
 jupyter-console==5.2.0
 jupyter-core==4.4.0
 jupyter-http-over-ws==0.0.1a3
-jupyterlab==0.34.9
+jupyterlab==1.2.21
 jupyterlab-launcher==0.13.1
 keyring==13.2.1
 kiwisolver==1.0.1
